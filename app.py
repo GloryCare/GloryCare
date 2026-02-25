@@ -30,7 +30,7 @@ socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
 # ─────────────────────────────────────────────
 # GEMINI AI CONFIG
 # ─────────────────────────────────────────────
-GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY','AIzaSyCW75v_XxX0Fp8n4wVCQHXNeZ_867zXTKs')
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
 
 if GEMINI_API_KEY:
     gemini_client = genai.Client(api_key=GEMINI_API_KEY)
