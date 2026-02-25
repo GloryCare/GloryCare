@@ -1271,6 +1271,38 @@ const conversationsData = {
                 "id": "relationship_family_comparison_sibling",
                 "userShare": "Cha mẹ so sánh tôi với anh chị",
                 "botResponse": "Điều này đặc biệt khó chịu. Hãy nhớ rằng mỗi người đều có điểm mạnh riêng. Bạn có thể nói với cha mẹ: 'Con biết anh/chị giỏi, nhưng con cũng có những ưu điểm khác. Con mong ba mẹ yêu con vì chính con.'"
+              },
+              {
+                "id": "stress_family_comp_other_child",
+                "userShare": "Cha mẹ luôn so sánh tôi với 'con nhà người ta'",
+                "botResponse": "Bị so sánh với 'con nhà người ta' có thể khiến bạn cảm thấy mình không bao giờ đủ tốt. Điều đó rất mệt mỏi, vì bạn đang bị đặt vào một tiêu chuẩn không do mình lựa chọn. Khi nghe những lời so sánh đó, bạn thường cảm thấy buồn, tức giận hay bất lực hơn?",
+                "children": [
+                  {
+                    "id": "stress_family_comp_other_child_fail",
+                    "userShare": "Tôi cảm thấy mình chẳng làm gì cũng không đủ",
+                    "botResponse": "Khi bị so sánh liên tục, bạn dễ hình thành suy nghĩ rằng 'mình luôn kém'. Nhưng hãy dừng lại và tự hỏi: đó là sự thật tuyệt đối, hay chỉ là cách người khác nhìn nhận? Giá trị của bạn không phụ thuộc vào việc bạn có giống 'con nhà người ta' hay không. Bạn có những điểm mạnh riêng, dù có thể chưa được công nhận."
+                  },
+                  {
+                    "id": "stress_family_comp_other_child_angry",
+                    "userShare": "Tôi rất tức giận mỗi khi nghe câu đó",
+                    "botResponse": "Tức giận là phản ứng tự nhiên khi bạn cảm thấy không được công bằng. Cảm xúc đó không sai. Điều quan trọng là bạn xử lý nó thế nào. Bạn có thể thử nói với cha mẹ: 'Con sẽ cố gắng theo cách của con, nhưng khi bị so sánh con cảm thấy rất áp lực.' Nói về cảm xúc thay vì phản kháng sẽ dễ được lắng nghe hơn."
+                  },
+                  {
+                    "id": "stress_family_comp_other_child_pressure",
+                    "userShare": "Tôi bắt đầu ghét luôn cả người bị đem ra so sánh",
+                    "botResponse": "Việc bạn khó chịu với người đó là điều dễ hiểu, vì họ vô tình trở thành biểu tượng của áp lực. Nhưng thực ra họ không phải nguyên nhân. Vấn đề nằm ở cách so sánh. Nếu có thể, hãy tách người đó ra khỏi cảm xúc của bạn và tập trung vào con đường riêng của mình."
+                  },
+                  {
+                    "id": "stress_family_comp_other_child_giveup",
+                    "userShare": "Tôi muốn bỏ cuộc vì dù sao cũng không bằng họ",
+                    "botResponse": "Khi bạn nghĩ 'mình không bao giờ bằng họ', đó là suy nghĩ mang tính tuyệt đối và dễ khiến bạn mất động lực. Nhưng cuộc sống không phải cuộc đua một đường thẳng. Thành công có nhiều dạng khác nhau. Bạn có thể chưa nổi bật ở lĩnh vực này, nhưng biết đâu bạn sẽ tỏa sáng ở lĩnh vực khác. Điều quan trọng là bạn không từ bỏ chính mình."
+                  },
+                  {
+                    "id": "stress_family_comp_other_child_selfworth",
+                    "userShare": "Tôi bắt đầu nghi ngờ giá trị của bản thân",
+                    "botResponse": "So sánh lâu dài có thể làm lung lay giá trị bản thân. Nhưng giá trị của bạn không phải do thành tích hay lời khen quyết định. Bạn có tính cách, suy nghĩ, cảm xúc và ước mơ riêng — đó là điều không ai thay thế được. Bạn có thể thử viết ra 3 điều bạn làm được trong tuần này, dù nhỏ. Điều đó giúp bạn nhìn thấy sự tiến bộ của chính mình."
+                  }
+                ]
               }
             ]
           },
@@ -1302,136 +1334,260 @@ const conversationsData = {
           {
             "id": "relationship_crush",
             "userShare": "Tôi thích một bạn",
-            "botResponse": "Cảm giác thích ai đó thường khiến tim mình đập nhanh hơn và ngày trở nên thú vị hơn. Điều quan trọng là bạn vẫn cảm thấy thoải mái và là chính mình khi nghĩ về người đó. Bạn đã cảm thấy thế nào?",
+            "botResponse": "Cảm giác thích ai đó thường khiến tim mình đập nhanh hơn và ngày trở nên thú vị hơn. Nhưng đi kèm đó cũng có thể là lo lắng, tự ti hoặc suy nghĩ rất nhiều. Bạn đang cảm thấy điều gì rõ nhất lúc này?",
             "children": [
               {
                 "id": "relationship_crush_confess",
                 "userShare": "Tôi muốn tỏ tình nhưng sợ bị từ chối",
-                "botResponse": "Tỏ tình luôn khiến ta lo lắng. Bạn có thể cân nhắc: nếu không nói, bạn sẽ hối tiếc không? Nếu nói, có thể được đáp lại, hoặc cũng có thể bị từ chối. Nhưng dù thế nào, bạn cũng dũng cảm bày tỏ cảm xúc. Hãy chọn thời điểm và không gian riêng tư, nói một cách chân thành. Bạn đã có ý định tỏ tình thế nào chưa?",
+                "botResponse": "Tỏ tình luôn cần dũng khí. Bạn sợ bị từ chối vì sợ mất người ấy, hay sợ cảm giác xấu hổ?",
                 "children": [
                   {
                     "id": "relationship_crush_confess_afraid_rejection",
                     "userShare": "Tôi sợ bị từ chối rồi mất bạn",
-                    "botResponse": "Đó là nỗi sợ chính đáng. Nhưng nếu bạn và người ấy là bạn, một lời tỏ tình chân thành không nhất thiết làm mất tình bạn. Bạn có thể nói: 'Mình thích bạn, nhưng nếu bạn không có cảm giác, mình vẫn mong chúng ta là bạn tốt.' Điều này cho thấy bạn tôn trọng họ."
+                    "botResponse": "Nỗi sợ đó rất thật. Bạn có thể nói rõ rằng dù câu trả lời thế nào, bạn vẫn trân trọng tình bạn. Nếu họ là người hiểu chuyện, họ sẽ tôn trọng sự chân thành của bạn."
                   },
                   {
                     "id": "relationship_crush_confess_shy",
                     "userShare": "Tôi quá nhút nhát, không dám nói trực tiếp",
-                    "botResponse": "Bạn có thể viết thư tay hoặc nhắn tin. Đôi khi viết ra dễ hơn nói. Hãy viết những lời chân thành, đừng quá cầu kỳ. Nếu người ấy đáp lại, đó là điều tuyệt vời. Nếu không, bạn cũng đã dũng cảm bày tỏ."
+                    "botResponse": "Nếu nói trực tiếp quá khó, bạn có thể viết một tin nhắn chân thành, ngắn gọn. Điều quan trọng không phải là cách hoàn hảo, mà là sự thật lòng."
                   }
                 ]
               },
               {
-                "id": "relationship_crush_like_someone",
-                "userShare": "Tôi thích một bạn nhưng không biết bạn ấy có thích mình không",
-                "botResponse": "Thật khó để đoán. Bạn có thể để ý những dấu hiệu: họ có hay nhìn bạn không? Có chủ động bắt chuyện không? Có nhớ những điều nhỏ về bạn không? Đôi khi chỉ cần một chút tinh ý. Nhưng cách tốt nhất vẫn là tìm cơ hội nói chuyện nhiều hơn, để hiểu nhau hơn.",
+                "id": "relationship_crush_uncertain",
+                "userShare": "Tôi không biết bạn ấy có thích mình không",
+                "botResponse": "Đoán cảm xúc người khác rất dễ khiến ta suy nghĩ nhiều. Bạn đang dựa vào dấu hiệu rõ ràng nào, hay phần lớn là suy đoán của mình?",
                 "children": [
                   {
-                    "id": "relationship_crush_like_someone_signs",
-                    "userShare": "Tôi thấy bạn ấy hay nhìn mình, nhưng không biết có phải mình tưởng tượng không",
-                    "botResponse": "Có thể bạn ấy cũng có tình cảm. Hãy thử tạo tình huống để tiếp xúc, như hỏi bài, rủ đi chơi cùng nhóm. Nếu bạn ấy vui vẻ và tích cực, đó là dấu hiệu tốt. Đừng vội kết luận, hãy để thời gian trả lời."
+                    "id": "relationship_crush_overthinking",
+                    "userShare": "Tôi suy nghĩ về bạn ấy suốt ngày",
+                    "botResponse": "Khi thích ai đó, não mình dễ lặp lại hình ảnh và tin nhắn. Nếu điều đó làm bạn mất tập trung, hãy thử chia nhỏ thời gian học và ghi lại suy nghĩ để xử lý sau."
                   },
                   {
-                    "id": "relationship_crush_like_someone_no_signs",
-                    "userShare": "Mình không thấy có dấu hiệu gì từ bạn ấy cả",
-                    "botResponse": "Không phải lúc nào người khác cũng thể hiện cảm xúc rõ ràng. Có thể bạn ấy chưa có tình cảm, hoặc đơn giản là chưa nhận ra cảm xúc của mình. Điều đó không có nghĩa là bạn không đủ tốt. Thích một người là quyền của bạn, nhưng bạn cũng xứng đáng được đáp lại một cách rõ ràng và chân thành. Bạn muốn tiếp tục tìm hiểu thêm hay giữ cảm xúc này cho riêng mình một thời gian?",
-                    "children": [
-                      {
-                        "id": "relationship_crush_like_someone_no_signs_move_on",
-                        "userShare": "Chắc mình nên quên đi thôi",
-                        "botResponse": "Đôi khi buông xuống không phải vì bạn yếu, mà vì bạn muốn bảo vệ cảm xúc của mình. Hãy cho bản thân thời gian, tập trung vào những điều khiến bạn vui và phát triển bản thân. Cảm xúc rồi cũng sẽ dịu lại."
-                      },
-                      {
-                        "id": "relationship_crush_like_someone_no_signs_wait",
-                        "userShare": "Mình muốn chờ thêm xem sao",
-                        "botResponse": "Chờ đợi cũng là một lựa chọn, miễn là bạn không để nó khiến mình quá hy vọng hay lo lắng. Hãy tiếp tục sống cuộc sống của mình một cách vui vẻ và tự nhiên. Nếu có điều gì phát triển, nó sẽ đến một cách thoải mái."
-                      }
-                    ]
+                    "id": "relationship_crush_message_anxiety",
+                    "userShare": "Bạn ấy không trả lời tin nhắn làm tôi lo lắng",
+                    "botResponse": "Chờ đợi dễ khiến ta tưởng tượng điều xấu. Nhưng có thể họ chỉ bận. Bạn có bằng chứng chắc chắn không, hay chỉ là suy nghĩ của mình?"
                   }
-
                 ]
+              },
+              {
+                "id": "relationship_crush_insecure",
+                "userShare": "Tôi thấy mình không đủ tốt",
+                "botResponse": "Khi thích ai đó, ta hay so sánh bản thân với người khác. Nhưng tình cảm không phải cuộc thi. Điều gì khiến bạn cảm thấy mình thua kém?",
+                "children": [
+                  {
+                    "id": "relationship_crush_insecure_academic",
+                    "userShare": "Bạn ấy học giỏi hơn tôi",
+                    "botResponse": "Học giỏi là một điểm mạnh, nhưng không phải toàn bộ giá trị con người. Bạn cũng có những điểm mạnh riêng. Bạn đã từng được khen về điều gì?"
+                  },
+                  {
+                    "id": "relationship_crush_insecure_appearance",
+                    "userShare": "Tôi tự ti về ngoại hình",
+                    "botResponse": "Nhiều người khi thích ai đó đều nhạy cảm về ngoại hình. Nhưng điều khiến người khác gắn bó lâu dài là sự ấm áp và chân thành của bạn."
+                  }
+                ]
+              },
+              {
+                "id": "relationship_crush_peer_pressure",
+                "userShare": "Tôi sợ bạn bè biết rồi trêu",
+                "botResponse": "Bị trêu có thể khiến bạn xấu hổ. Nhưng việc bạn có tình cảm không phải điều sai. Bạn có thể chọn chỉ chia sẻ với người thật sự tin tưởng."
               },
               {
                 "id": "relationship_crush_unrequited",
                 "userShare": "Tôi thích bạn ấy nhưng bạn ấy không thích mình",
-                "botResponse": "Tình đơn phương có thể rất đau buồn. Bạn có thể cảm thấy thất vọng, buồn bã. Hãy cho phép mình có những cảm xúc đó, nhưng đừng để nó kéo dài. Hãy tập trung vào những điều tích cực khác: bạn bè, sở thích, học tập. Thời gian sẽ làm vơi đi nỗi buồn. Và biết đâu, một người khác phù hợp hơn sẽ đến.",
+                "botResponse": "Bị từ chối rất đau, nhưng điều đó không định nghĩa giá trị của bạn. Bạn đang buồn vì mất người ấy, hay vì bạn cảm thấy mình không đủ tốt?",
                 "children": [
                   {
                     "id": "relationship_crush_unrequited_sad",
                     "userShare": "Tôi buồn quá, không muốn làm gì",
-                    "botResponse": "Buồn là phản ứng tự nhiên. Hãy cho mình thời gian để khóc, để viết ra cảm xúc. Sau đó, hãy thử làm những việc mình thích, gặp gỡ bạn bè. Đừng tự cô lập. Bạn xứng đáng được yêu thương, và sẽ có người yêu bạn đúng nghĩa."
+                    "botResponse": "Buồn là điều tự nhiên. Hãy cho mình thời gian, nhưng đừng tự cô lập. Làm một việc nhỏ bạn thích hôm nay có thể giúp cảm xúc dịu lại."
+                  },
+                  {
+                    "id": "relationship_crush_unrequited_selfworth",
+                    "userShare": "Tôi cảm thấy mình thua kém người khác",
+                    "botResponse": "Tình cảm không phải sự so sánh. Người phù hợp sẽ chọn bạn vì chính bạn. Bạn có thể thử viết ra 3 điều khiến bạn tự hào về bản thân."
+                  },
+                  {
+                    "id": "relationship_crush_friend_after_reject",
+                    "userShare": "Tôi vẫn muốn làm bạn",
+                    "botResponse": "Điều đó rất trưởng thành. Nhưng trước tiên hãy chắc rằng bạn đã ổn và không còn hy vọng âm thầm, nếu không bạn sẽ dễ tổn thương thêm."
                   }
                 ]
-              }
+              },
             ]
           },
           {
             "id": "relationship_being_liked",
             "userShare": "Có bạn thích tôi",
-            "botResponse": "Được người khác thích là một điều tốt, nhưng cũng có thể gây áp lực nếu bạn không có tình cảm. Bạn muốn xử lý thế nào? Có thể bạn đang phân vân không biết nên từ chối ra sao để không làm bạn ấy buồn.",
+            "botResponse": "Được người khác thích có thể khiến bạn vui, ngại ngùng, hoặc áp lực. Quan trọng nhất là cảm xúc của bạn lúc này. Bạn đang thấy thoải mái hay đang bối rối?",
             "children": [
               {
                 "id": "relationship_being_liked_reject",
                 "userShare": "Tôi muốn từ chối nhưng sợ bạn ấy tổn thương",
-                "botResponse": "Từ chối một cách tế nhị là điều nên làm. Bạn có thể nói: 'Mình cảm ơn tình cảm của bạn, nhưng mình chỉ coi bạn là bạn thôi. Mong bạn hiểu.' Hãy chân thành và nhẹ nhàng. Đừng kéo dài vì càng lâu càng khó. Nếu bạn ấy buồn, đó là điều khó tránh, nhưng thời gian sẽ chữa lành.",
+                "botResponse": "Bạn đang nghĩ cho cảm xúc của người khác, điều đó rất tử tế. Nhưng kéo dài sự im lặng có thể khiến họ hy vọng nhiều hơn. Bạn sợ điều gì nhất khi nói lời từ chối?",
                 "children": [
                   {
                     "id": "relationship_being_liked_reject_guilt",
                     "userShare": "Tôi cảm thấy có lỗi",
-                    "botResponse": "Có lỗi là cảm giác tự nhiên khi ta làm người khác buồn. Nhưng bạn không có lỗi vì không thể ép trái tim mình. Tốt nhất là thành thật, còn hơn giả vờ. Hãy đối xử với họ bằng sự tôn trọng."
+                    "botResponse": "Cảm giác có lỗi xuất hiện khi ta làm người khác buồn. Nhưng bạn không có trách nhiệm phải đáp lại tình cảm nếu trái tim bạn không có cảm xúc tương tự. Thành thật là cách tôn trọng cả hai."
+                  },
+                  {
+                    "id": "relationship_being_liked_reject_awkward",
+                    "userShare": "Tôi sợ sau này gặp lại sẽ ngại",
+                    "botResponse": "Có thể sẽ có chút ngại lúc đầu, nhưng sự rõ ràng giúp mọi thứ nhẹ nhàng hơn về lâu dài. Nếu cả hai cư xử trưởng thành, sự ngại ngùng sẽ giảm dần."
+                  },
+                  {
+                    "id": "relationship_being_liked_reject_script",
+                    "userShare": "Tôi không biết phải nói thế nào",
+                    "botResponse": "Bạn có thể nói đơn giản: 'Mình trân trọng tình cảm của bạn, nhưng mình chưa có cảm xúc như vậy. Mình mong bạn hiểu.' Ngắn gọn, rõ ràng và chân thành là đủ."
                   }
                 ]
               },
               {
                 "id": "relationship_being_liked_unsure",
                 "userShare": "Tôi không chắc mình có thích lại không",
-                "botResponse": "Bạn có thể dành thời gian để tìm hiểu thêm về người đó, xem có điểm gì khiến bạn rung động không. Đừng vội vàng. Hãy cứ là bạn trước, nếu có duyên sẽ tự nhiên phát triển. Đừng tạo áp lực cho bản thân."
+                "botResponse": "Không chắc chắn là điều bình thường. Bạn có thấy rung động tự nhiên khi ở gần họ, hay chỉ là cảm giác 'mình nên thử'?",
+                "children": [
+                  {
+                    "id": "relationship_being_liked_unsure_pressure",
+                    "userShare": "Tôi thấy áp lực vì bạn ấy thích mình nhiều quá",
+                    "botResponse": "Khi người khác thể hiện tình cảm quá mạnh, bạn có thể cảm thấy nặng nề. Tình cảm là tự nhiên, không phải vì người ta thích nhiều thì mình phải đáp lại."
+                  },
+                  {
+                    "id": "relationship_being_liked_unsure_lonely",
+                    "userShare": "Tôi sợ cô đơn nên muốn thử quen",
+                    "botResponse": "Quen ai đó chỉ để lấp khoảng trống có thể khiến cả hai tổn thương sau này. Bạn xứng đáng bước vào mối quan hệ vì thật sự muốn, không phải vì sợ cô đơn."
+                  },
+                  {
+                    "id": "relationship_being_liked_unsure_time",
+                    "userShare": "Tôi muốn thêm thời gian suy nghĩ",
+                    "botResponse": "Bạn hoàn toàn có quyền xin thời gian. Bạn có thể nói: 'Mình cần thêm thời gian để hiểu rõ cảm xúc của mình.' Người tôn trọng bạn sẽ chấp nhận điều đó."
+                  }
+                ]
+              },
+              {
+                "id": "relationship_being_liked_pressure",
+                "userShare": "Bạn ấy nhắn tin liên tục làm tôi mệt",
+                "botResponse": "Nếu bạn cảm thấy mệt, đó là dấu hiệu bạn cần đặt ranh giới. Bạn có thể nói rõ thời gian bạn rảnh và không rảnh. Tình cảm không nên khiến bạn cảm thấy bị ép buộc.",
+                "children": [
+                  {
+                    "id": "relationship_being_liked_boundary",
+                    "userShare": "Tôi không biết đặt ranh giới thế nào",
+                    "botResponse": "Bạn có thể nói: 'Mình không thoải mái khi nhắn tin quá nhiều. Mong bạn tôn trọng.' Ranh giới không phải sự lạnh lùng, mà là bảo vệ cảm xúc của bạn."
+                  },
+                  {
+                    "id": "relationship_being_liked_ignore",
+                    "userShare": "Tôi định phớt lờ luôn",
+                    "botResponse": "Phớt lờ có thể khiến người kia bối rối và tổn thương hơn. Nếu có thể, hãy nói rõ một lần. Sự rõ ràng giúp cả hai đỡ mệt mỏi."
+                  }
+                ]
+              },
+              {
+                "id": "relationship_being_liked_rumors",
+                "userShare": "Bạn bè bắt đầu đồn thổi về chuyện này",
+                "botResponse": "Tin đồn có thể khiến bạn khó chịu. Nhưng bạn không kiểm soát được lời người khác nói, bạn chỉ kiểm soát được cách mình phản ứng. Bạn muốn giữ im lặng hay nói rõ mọi chuyện?",
+                "children": [
+                  {
+                    "id": "relationship_being_liked_embarrassed",
+                    "userShare": "Tôi rất xấu hổ",
+                    "botResponse": "Cảm giác xấu hổ thường đến khi ta sợ bị đánh giá. Nhưng việc ai đó thích bạn không phải điều sai. Bạn không làm gì sai cả."
+                  }
+                ]
+              },
+              {
+                "id": "relationship_being_liked_scared",
+                "userShare": "Tôi thấy hơi sợ vì bạn ấy quá theo đuổi",
+                "botResponse": "Nếu bạn cảm thấy sợ, hãy lắng nghe cảm giác đó. Tình cảm lành mạnh không khiến bạn bất an. Nếu hành vi của bạn ấy làm bạn khó chịu, bạn nên nói rõ hoặc tìm người lớn đáng tin cậy để chia sẻ."
               }
             ]
           },
           {
             "id": "relationship_dating",
             "userShare": "Tôi và bạn ấy đang có tình cảm với nhau",
-            "botResponse": "Thật tuyệt khi có một mối quan hệ tình cảm ở tuổi học trò. Nhưng tình yêu cũng đi kèm nhiều cung bậc cảm xúc. Bạn muốn chia sẻ điều gì? Niềm vui, lo lắng, hay những khúc mắc?",
+            "botResponse": "Có tình cảm ở tuổi học trò thường rất mãnh liệt và trong sáng, nhưng cũng dễ khiến cảm xúc lên xuống thất thường. Bạn có thể đang hạnh phúc, nhưng cũng có thể lo lắng, sợ mất nhau, hoặc áp lực vì tương lai. Bạn đang cảm thấy điều gì mạnh nhất lúc này?",
             "children": [
               {
                 "id": "relationship_dating_communication",
                 "userShare": "Chúng tôi hay hiểu lầm nhau",
-                "botResponse": "Hiểu lầm là chuyện thường trong tình yêu. Quan trọng là hai bạn có chịu nói chuyện thẳng thắn không. Hãy dành thời gian lắng nghe nhau, chia sẻ cảm xúc mà không trách móc. Nếu cần, hãy viết ra những điều muốn nói để tránh nóng giận.",
+                "botResponse": "Hiểu lầm thường không đến từ việc không yêu, mà đến từ việc kỳ vọng nhưng không nói ra. Bạn có mong người kia tự hiểu cảm xúc của mình không? Khi kỳ vọng không được đáp lại, ta dễ buồn và thất vọng.",
                 "children": [
                   {
                     "id": "relationship_dating_communication_misunderstanding",
                     "userShare": "Tôi hay giận dỗi, bạn ấy không hiểu",
-                    "botResponse": "Giận dỗi đôi khi là cách thể hiện, nhưng không hiệu quả. Thay vì im lặng, hãy nói: 'Mình đang buồn vì điều này.' Đối phương sẽ dễ dàng hiểu và tìm cách khắc phục. Học cách giao tiếp là kỹ năng quan trọng trong tình yêu."
+                    "botResponse": "Giận dỗi thường là cách gián tiếp nói 'Hãy quan tâm mình hơn'. Nhưng nếu người kia không nhận ra tín hiệu đó, khoảng cách sẽ lớn dần. Thay vì im lặng, bạn có thể nói thẳng cảm xúc: 'Mình buồn vì cảm thấy không được quan tâm.' Khi nói về cảm xúc thay vì đổ lỗi, mối quan hệ sẽ an toàn hơn."
+                  },
+                  {
+                    "id": "relationship_dating_overthinking",
+                    "userShare": "Tôi suy nghĩ rất nhiều, sợ bạn ấy hết yêu",
+                    "botResponse": "Lo sợ bị bỏ rơi là cảm giác rất mạnh trong tình yêu đầu đời. Bạn có thể để ý từng tin nhắn, từng thay đổi nhỏ. Nhưng không phải mọi sự im lặng đều là dấu hiệu hết yêu. Khi bạn nhận ra mình đang suy diễn, hãy tạm dừng và tự hỏi: 'Mình có bằng chứng thật sự không, hay chỉ là nỗi sợ?'"
+                  }
+                ]
+              },
+              {
+                "id": "relationship_dating_dependency",
+                "userShare": "Tôi cảm thấy mình phụ thuộc vào bạn ấy quá nhiều",
+                "botResponse": "Khi yêu, bạn dễ xem người kia là trung tâm cảm xúc. Nếu họ vui, bạn vui. Nếu họ lạnh nhạt, bạn hoảng sợ. Điều đó cho thấy bạn rất trân trọng mối quan hệ, nhưng nếu quá phụ thuộc, bạn sẽ đánh mất chính mình.",
+                "children": [
+                  {
+                    "id": "relationship_dating_dependency_identity",
+                    "userShare": "Tôi gần như bỏ hết bạn bè vì người yêu",
+                    "botResponse": "Khi bạn thu hẹp thế giới của mình chỉ còn một người, áp lực lên mối quan hệ sẽ rất lớn. Tình yêu là một phần cuộc sống, không phải toàn bộ. Hãy từng bước kết nối lại với bạn bè, sở thích cũ. Một mối quan hệ lành mạnh cần hai người độc lập nhưng đồng hành."
+                  },
+                  {
+                    "id": "relationship_dating_dependency_fear",
+                    "userShare": "Tôi sợ nếu không chiều theo, bạn ấy sẽ rời đi",
+                    "botResponse": "Nếu bạn luôn phải chiều theo để giữ người kia ở lại, đó không còn là yêu bình đẳng. Tình yêu không nên khiến bạn phải đánh đổi giá trị bản thân. Người thực sự trân trọng bạn sẽ không rời đi chỉ vì bạn nói ra nhu cầu của mình."
+                  }
+                ]
+              },
+              {
+                "id": "relationship_dating_jealousy",
+                "userShare": "Tôi rất hay ghen",
+                "botResponse": "Ghen xuất phát từ nỗi sợ mất mát. Ở tuổi này, cảm xúc thường rất mạnh và khó kiểm soát. Nhưng ghen nếu không được xử lý sẽ làm cả hai mệt mỏi.",
+                "children": [
+                  {
+                    "id": "relationship_dating_jealousy_control",
+                    "userShare": "Tôi muốn kiểm soát bạn ấy để đỡ lo",
+                    "botResponse": "Kiểm soát có thể giúp bạn bớt lo tạm thời, nhưng về lâu dài sẽ khiến mối quan hệ ngột ngạt. Sự tin tưởng không đến từ việc kiểm tra, mà từ việc cả hai minh bạch và tôn trọng nhau. Bạn có thể chia sẻ nỗi lo thay vì kiểm soát hành vi."
+                  },
+                  {
+                    "id": "relationship_dating_jealousy_selfesteem",
+                    "userShare": "Tôi sợ mình không đủ tốt",
+                    "botResponse": "Ghen nhiều khi không phải vì người kia, mà vì bạn nghi ngờ giá trị của mình. Hãy nhớ: bạn được yêu không phải vì bạn hoàn hảo, mà vì bạn là chính bạn. Tự tin không đến từ việc so sánh, mà từ việc chấp nhận bản thân."
                   }
                 ]
               },
               {
                 "id": "relationship_dating_parents",
-                "userShare": "Cha mẹ phát hiện tôi có người yêu và cấm cản",
-                "botResponse": "Cha mẹ thường lo lắng con cái yêu sớm ảnh hưởng học hành. Bạn có thể nói chuyện nghiêm túc với cha mẹ, cam kết giữ cân bằng. Ví dụ: 'Tụi con chỉ gặp nhau cuối tuần, không ảnh hưởng việc học. Con mong ba mẹ tin tưởng.' Nếu cha mẹ vẫn phản đối, hãy tạm thời giữ kín và chứng minh bằng hành động.",
+                "userShare": "Cha mẹ cấm cản",
+                "botResponse": "Sự cấm cản có thể khiến tình yêu trở nên căng thẳng và bí mật. Bạn vừa muốn giữ người yêu, vừa muốn không làm cha mẹ thất vọng. Điều đó tạo ra xung đột nội tâm.",
                 "children": [
                   {
-                    "id": "relationship_dating_parents_hide",
-                    "userShare": "Tôi phải giấu cha mẹ, rất mệt",
-                    "botResponse": "Giấu giếm lâu dài sẽ mệt mỏi. Hãy cân nhắc thời điểm thích hợp để nói với cha mẹ, có thể khi họ vui vẻ. Nếu chưa thể, hãy cố gắng giữ mối quan hệ lành mạnh và tập trung học. Khi cha mẹ thấy bạn trưởng thành, họ sẽ dễ chấp nhận hơn."
+                    "id": "relationship_dating_parents_conflict",
+                    "userShare": "Tôi cảm thấy bị mắc kẹt giữa hai bên",
+                    "botResponse": "Cảm giác bị mắc kẹt rất nặng nề. Bạn có thể thử nhìn lại: điều cha mẹ sợ nhất là gì? Thường là học hành sa sút hoặc bạn bị tổn thương. Nếu bạn chứng minh được sự trưởng thành và cân bằng, niềm tin sẽ dần được xây dựng."
                   }
                 ]
               },
               {
                 "id": "relationship_dating_breakup",
-                "userShare": "Chúng tôi vừa chia tay, tôi rất đau khổ",
-                "botResponse": "Chia tay ở tuổi học trò thực sự rất đau lòng, như thể cả thế giới sụp đổ. Bạn có quyền buồn, khóc, viết nhật ký. Hãy cho mình thời gian để chữa lành. Đừng cô lập bản thân, hãy ở bên bạn bè, gia đình. Rồi mọi chuyện sẽ qua, và bạn sẽ mạnh mẽ hơn.",
+                "userShare": "Chúng tôi vừa chia tay",
+                "botResponse": "Chia tay ở tuổi học trò thường rất đau vì đó có thể là lần đầu bạn gắn bó sâu sắc với ai đó. Bạn có thể cảm thấy trống rỗng, mất phương hướng, hoặc tự trách bản thân.",
                 "children": [
                   {
-                    "id": "relationship_dating_breakup_sad",
-                    "userShare": "Tôi không thể tập trung học được",
-                    "botResponse": "Điều đó dễ hiểu. Hãy tạm thời giảm tải việc học, cho phép mình nghỉ ngơi. Nói chuyện với giáo viên nếu cần. Dần dần, khi nỗi đau nguôi ngoai, bạn sẽ lấy lại cân bằng. Hãy nhớ rằng bạn còn cả tương lai phía trước."
+                    "id": "relationship_dating_breakup_identity",
+                    "userShare": "Tôi cảm thấy như mất đi một phần của mình",
+                    "botResponse": "Khi yêu sâu, bạn gắn một phần bản sắc của mình vào mối quan hệ đó. Sau chia tay, bạn có thể thấy hụt hẫng. Hãy nhớ rằng bạn vẫn là bạn — trước khi yêu và sau khi yêu. Hãy từng bước tìm lại những điều từng làm bạn vui."
                   },
                   {
-                    "id": "relationship_dating_breakup_regret",
-                    "userShare": "Tôi hối hận vì đã yêu",
-                    "botResponse": "Đừng hối hận vì đã yêu, vì đó là trải nghiệm quý giá. Nó dạy bạn hiểu hơn về bản thân và về người khác. Mỗi cuộc tình đều để lại bài học. Hãy trân trọng những kỷ niệm đẹp và bước tiếp."
+                    "id": "relationship_dating_breakup_selfblame",
+                    "userShare": "Tôi nghĩ tất cả là lỗi của tôi",
+                    "botResponse": "Sau chia tay, não bộ có xu hướng tìm một 'người có lỗi' để dễ chấp nhận. Nhưng hiếm khi mối quan hệ tan vỡ chỉ vì một người. Hãy nhìn lại một cách công bằng: bạn đã cố gắng như thế nào? Bạn có thể học được điều gì cho lần sau?"
+                  },
+                  {
+                    "id": "relationship_dating_breakup_empty",
+                    "userShare": "Tôi cảm thấy trống rỗng và không còn động lực",
+                    "botResponse": "Trống rỗng là dấu hiệu bạn đang mất đi một nguồn cảm xúc quen thuộc. Đừng vội ép mình phải vui lại. Hãy cho bản thân thời gian. Chăm sóc những điều cơ bản như ngủ đủ, ăn uống, vận động nhẹ cũng giúp cảm xúc ổn định dần."
                   }
                 ]
               }
