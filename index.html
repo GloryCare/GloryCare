@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GloryCare — Tâm Lý Học Sinh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+    /* ══════════════════════════════
+       FREE CHAT / FULL WIDTH
+    ══════════════════════════════ */
+    #panelRight.hidden { display: none; }
+    #panelLeft.full-width { width: 100%; border-right: none; }
+    #panelLeft.full-width .messages-area { padding: 30px 80px; }
+    #panelLeft.full-width .msg-bubble { max-width: 58%; }
+
+    @media (max-width: 900px) {
+        #panelLeft.full-width .messages-area { padding: 20px 24px; }
+        #panelLeft.full-width .msg-bubble { max-width: 80%; }
+    }
+
+    /* ══════════════════════════════
+       AI CHAT INPUT BAR
+    ══════════════════════════════ */
+    #chatInputArea {
+        display: none;
+        padding: 14px 80px 18px;
+        border-top: 1px solid var(--border);
+        background: var(--bg-card);
+        backdrop-filter: blur(14px);
+        flex-direction: column;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) { #chatInputArea { padding: 12px 16px 16px; } }
+
+    .chat-input-row { display: flex; align-items: flex-end; gap: 10px; }
+
+    .chat-input-wrapper {
+        flex: 1;
+        background: var(--bg-primary);
+        border: 1.5px solid var(--border-accent);
+        border-radius: 20px;
+        padding: 10px 18px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .chat-input-wrapper:focus-within {
+        border-color: var(--accent-rose);
+        box-shadow: 0 0 0 3px rgba(200, 114, 104, 0.1);
+    }
+
+    #chatInput {
+        width: 100%; background: none; border: none; outline: none;
+        font-family: 'DM Sans', sans-serif; font-size: 15px;
+        color: var(--text-primary); line-height: 1.55; resize: none;
+        height: 24px; min-height: 24px; max-height: 120px; overflow-y: auto; display: block;
+    }
+
+    #chatInput::placeholder { color: var(--text-muted); }
+    #chatInput::-webkit-scrollbar { width: 4px; }
+    #chatInput::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 4px; }
+
+    #chatSendBtn {
+        width: 44px; height: 44px; border-radius: 50%; border: none;
+        background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+        color: white; cursor: pointer; display: flex; align-items: center;
+        justify-content: center; font-size: 15px; flex-shrink: 0;
+        transition: all 0.25s cubic-bezier(0.34,1.4,0.64,1);
+        box-shadow: 0 4px 14px rgba(200, 114, 104, 0.35);
+    }
+
+    #chatSendBtn:hover:not(:disabled) { transform: scale(1.1); box-shadow: 0 6px 22px rgba(200, 114, 104, 0.5); }
+    #chatSendBtn:active:not(:disabled) { transform: scale(0.94); }
+    #chatSendBtn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .chat-input-hint {
+        text-align: center; font-size: 11.5px; color: var(--text-muted); letter-spacing: 0.3px;
+    }
+
+    /* Clickable bot bubble */
+    .msg-bubble.clickable { cursor: pointer; }
+
+    /* ══════════════════════════════
+       PEER CHAT SETUP SCREEN
+    ══════════════════════════════ */
+    #peerChatSetup {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        padding: 40px 32px;
+        background: var(--bg-primary);
+        overflow-y: auto;
+    }
+
+    .peer-setup-card {
+        width: 100%;
+        max-width: 480px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        padding: 44px 40px;
+        backdrop-filter: blur(20px);
+        box-shadow: var(--shadow-md);
+        animation: fadeUp 0.6s ease-out;
+    }
+
+    .peer-setup-icon {
+        width: 72px; height: 72px;
+        background: linear-gradient(135deg, var(--accent-lavender), var(--accent-rose));
+        border-radius: 22px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 30px; color: white;
+        margin: 0 auto 24px;
+        box-shadow: 0 8px 28px rgba(139,124,168,0.35);
+    }
+
+    .peer-setup-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 28px; font-weight: 500;
+        color: var(--text-primary);
+        text-align: center; margin-bottom: 8px;
+    }
+
+    .peer-setup-subtitle {
+        font-size: 14px; color: var(--text-secondary);
+        text-align: center; line-height: 1.65;
+        margin-bottom: 32px; font-weight: 300;
+    }
+
+    .peer-setup-form { display: flex; flex-direction: column; gap: 16px; }
+
+    .peer-form-label {
+        font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+        color: var(--text-secondary); font-weight: 500; margin-bottom: 6px; display: block;
+    }
+
+    .peer-form-input {
+        width: 100%;
+        padding: 12px 16px;
+        background: var(--bg-primary);
+        border: 1.5px solid var(--border-accent);
+        border-radius: 14px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        color: var(--text-primary);
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        box-sizing: border-box;
+    }
+
+    .peer-form-input:focus {
+        border-color: var(--accent-lavender);
+        box-shadow: 0 0 0 3px rgba(139,124,168,0.12);
+    }
+
+    .peer-form-input::placeholder { color: var(--text-muted); }
+
+    .peer-topic-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .peer-topic-btn {
+        padding: 10px 12px;
+        background: var(--bg-primary);
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12.5px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.2s cubic-bezier(0.34,1.2,0.64,1);
+    }
+
+    .peer-topic-btn:hover, .peer-topic-btn.selected {
+        border-color: var(--accent-lavender);
+        color: var(--accent-lavender);
+        background: rgba(139,124,168,0.08);
+        transform: translateY(-2px);
+    }
+
+    .peer-topic-btn.selected {
+        box-shadow: 0 2px 12px rgba(139,124,168,0.2);
+    }
+
+    .peer-find-btn {
+        width: 100%; padding: 14px;
+        background: linear-gradient(135deg, var(--accent-lavender), var(--accent-rose));
+        border: none; border-radius: 16px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 15px; font-weight: 500; color: white;
+        cursor: pointer; margin-top: 8px;
+        transition: all 0.25s cubic-bezier(0.34,1.4,0.64,1);
+        box-shadow: 0 6px 22px rgba(139,124,168,0.35);
+    }
+
+    .peer-find-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 30px rgba(139,124,168,0.45); }
+    .peer-find-btn:active { transform: scale(0.98); }
+
+    .peer-privacy-note {
+        text-align: center; font-size: 11.5px;
+        color: var(--text-muted); margin-top: 12px;
+        display: flex; align-items: center; justify-content: center; gap: 5px;
+    }
+
+    /* ══════════════════════════════
+       WAITING INDICATOR
+    ══════════════════════════════ */
+    .waiting-indicator {
+        display: flex; flex-direction: column;
+        align-items: center; padding: 40px 20px; gap: 16px;
+    }
+
+    .waiting-pulse {
+        position: relative; width: 80px; height: 80px;
+        display: flex; align-items: center; justify-content: center;
+    }
+
+    .pulse-ring {
+        position: absolute; inset: 0; border-radius: 50%;
+        border: 2px solid var(--accent-lavender);
+        animation: pulseRing 1.8s ease-out infinite;
+    }
+
+    .pulse-ring::before {
+        content: ''; position: absolute; inset: -14px; border-radius: 50%;
+        border: 1.5px solid var(--accent-lavender);
+        animation: pulseRing 1.8s ease-out infinite 0.4s;
+        opacity: 0.5;
+    }
+
+    @keyframes pulseRing {
+        0% { transform: scale(0.7); opacity: 1; }
+        100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    .pulse-dot {
+        width: 50px; height: 50px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent-lavender), var(--accent-rose));
+        display: flex; align-items: center; justify-content: center;
+        font-size: 20px; color: white;
+        box-shadow: 0 4px 18px rgba(139,124,168,0.4);
+        position: relative; z-index: 1;
+    }
+
+    .waiting-text {
+        font-size: 14px; color: var(--text-secondary);
+        font-style: italic; text-align: center;
+    }
+
+    .cancel-wait-btn {
+        background: none; border: 1px solid var(--border);
+        color: var(--text-secondary); border-radius: 10px;
+        padding: 8px 20px; cursor: pointer; font-size: 13px;
+        font-family: 'DM Sans', sans-serif;
+        transition: all 0.2s;
+    }
+
+    .cancel-wait-btn:hover { border-color: var(--accent-rose); color: var(--accent-rose); }
+
+    /* ══════════════════════════════
+       PEER CHAT ACTIVE BAR
+    ══════════════════════════════ */
+    #peerChatActive {
+        display: none;
+        align-items: center; justify-content: space-between;
+        padding: 12px 80px;
+        background: var(--bg-card);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(10px);
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) { #peerChatActive { padding: 10px 16px; } }
+
+    .peer-active-info {
+        display: flex; align-items: center; gap: 10px;
+    }
+
+    .peer-status-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: #5cb85c;
+        box-shadow: 0 0 8px rgba(92,184,92,0.6);
+        animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .peer-partner-name {
+        font-size: 14px; font-weight: 500; color: var(--text-primary);
+    }
+
+    .peer-partner-label {
+        font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px;
+    }
+
+    .peer-leave-btn {
+        background: none; border: 1px solid var(--border);
+        color: var(--text-secondary); border-radius: 10px;
+        padding: 7px 14px; cursor: pointer; font-size: 12px;
+        font-family: 'DM Sans', sans-serif;
+        display: flex; align-items: center; gap: 6px;
+        transition: all 0.2s;
+    }
+
+    .peer-leave-btn:hover { border-color: var(--accent-rose); color: var(--accent-rose); }
+
+    /* ══════════════════════════════
+       PEER CHAT INPUT
+    ══════════════════════════════ */
+    #peerChatInputArea {
+        display: none;
+        padding: 14px 80px 18px;
+        border-top: 1px solid var(--border);
+        background: var(--bg-card);
+        backdrop-filter: blur(14px);
+        flex-direction: column;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) { #peerChatInputArea { padding: 12px 16px 16px; } }
+
+    #peerChatInput {
+        width: 100%; background: none; border: none; outline: none;
+        font-family: 'DM Sans', sans-serif; font-size: 15px;
+        color: var(--text-primary); line-height: 1.55; resize: none;
+        height: 24px; min-height: 24px; max-height: 120px; overflow-y: auto; display: block;
+    }
+
+    #peerChatInput::placeholder { color: var(--text-muted); }
+
+    #peerSendBtn {
+        width: 44px; height: 44px; border-radius: 50%; border: none;
+        background: linear-gradient(135deg, var(--accent-lavender), var(--accent-rose));
+        color: white; cursor: pointer; display: flex; align-items: center;
+        justify-content: center; font-size: 15px; flex-shrink: 0;
+        transition: all 0.25s cubic-bezier(0.34,1.4,0.64,1);
+        box-shadow: 0 4px 14px rgba(139,124,168,0.35);
+    }
+
+    #peerSendBtn:hover:not(:disabled) { transform: scale(1.1); }
+    #peerSendBtn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* ══════════════════════════════
+       SYSTEM & PEER MESSAGES
+    ══════════════════════════════ */
+    .system-msg {
+        display: flex; justify-content: center;
+        animation: msgIn 0.4s ease-out;
+    }
+
+    .system-msg span {
+        font-size: 12px; color: var(--text-muted);
+        background: var(--toggle-bg);
+        padding: 5px 14px; border-radius: 20px;
+        font-style: italic;
+    }
+
+    .peer-avatar {
+        background: linear-gradient(135deg, var(--accent-lavender), #a8c0e8) !important;
+    }
+
+    .peer-bubble {
+        background: rgba(139,124,168,0.08) !important;
+        border-color: rgba(139,124,168,0.2) !important;
+    }
+
+    .peer-bubble:hover {
+        transform: none !important;
+        border-color: rgba(139,124,168,0.35) !important;
+    }
+
+    /* ══════════════════════════════
+       RECONNECT & OFFLINE UI
+    ══════════════════════════════ */
+    .reconnect-prompt {
+        text-align: center; padding: 24px;
+        animation: msgIn 0.4s ease-out;
+    }
+
+    .reconnect-prompt p {
+        font-size: 14px; color: var(--text-secondary); margin-bottom: 12px;
+    }
+
+    .reconnect-btn {
+        background: linear-gradient(135deg, var(--accent-lavender), var(--accent-rose));
+        border: none; border-radius: 14px;
+        padding: 11px 24px; color: white;
+        font-family: 'DM Sans', sans-serif; font-size: 14px;
+        cursor: pointer; transition: all 0.25s;
+        box-shadow: 0 4px 16px rgba(139,124,168,0.3);
+    }
+
+    .reconnect-btn:hover { transform: translateY(-2px); }
+
+    .server-offline-notice {
+        display: flex; flex-direction: column;
+        align-items: center; padding: 32px 24px; gap: 12px;
+        text-align: center;
+        animation: msgIn 0.4s ease-out;
+    }
+
+    .offline-icon { font-size: 36px; opacity: 0.4; }
+
+    .offline-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 20px; color: var(--text-primary);
+    }
+
+    .offline-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; max-width: 340px; }
+
+    .offline-cmd {
+        background: var(--bg-secondary); padding: 8px 16px; border-radius: 8px;
+        font-family: monospace; font-size: 13px; color: var(--accent-rose);
+        border: 1px solid var(--border);
+    }
+
+    .offline-back-btn {
+        background: none; border: 1px solid var(--border);
+        color: var(--text-secondary); border-radius: 10px;
+        padding: 8px 18px; cursor: pointer; font-size: 13px;
+        font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-top: 8px;
+    }
+
+    .offline-back-btn:hover { border-color: var(--accent-lavender); color: var(--accent-lavender); }
+    </style>
+</head>
+<body>
+    <canvas id="sakura-canvas"></canvas>
+
+    <div class="app">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo-area">
+                <div class="logo-icon">✿</div>
+                <div class="logo-text">
+                    <span class="logo-name">GloryCare</span>
+                    <span class="logo-tagline">Bạn đồng hành tâm lý học sinh</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="header-status">
+                    <div class="status-dot"></div>
+                    <span>Sẵn sàng lắng nghe</span>
+                </div>
+                <div class="theme-toggle" id="themeToggle" title="Chuyển giao diện">
+                    <span class="theme-icon sun">☀</span>
+                    <span class="theme-icon moon">☾</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+            <!-- WELCOME SCREEN -->
+            <div class="welcome-screen" id="welcomeScreen">
+                <div class="welcome-inner">
+                    <div class="welcome-hero">
+                        <div class="welcome-ornament">✿</div>
+                        <h1 class="welcome-title">Bạn <em>không cô đơn</em><br>trong hành trình này</h1>
+                        <p class="welcome-subtitle">Một không gian an toàn để bạn chia sẻ, được lắng nghe và tìm lại sự bình yên trong tâm hồn.</p>
+                    </div>
+                    <div class="welcome-divider">
+                        <div class="divider-line"></div>
+                        <span class="divider-flower">❀</span>
+                        <div class="divider-line"></div>
+                    </div>
+                    <p class="topics-label">Hôm nay bạn muốn tâm sự về điều gì?</p>
+                    <div class="topics-grid">
+                        <div class="topic-card" onclick="selectTopic('stress')">
+                            <div class="topic-icon"><i class="fas fa-cloud-rain"></i></div>
+                            <div class="topic-name">Lo lắng & Căng thẳng</div>
+                            <div class="topic-desc">Áp lực thi cử, gia đình, tương lai</div>
+                        </div>
+                        <div class="topic-card" onclick="selectTopic('sleep')">
+                            <div class="topic-icon"><i class="fas fa-moon"></i></div>
+                            <div class="topic-name">Mất ngủ</div>
+                            <div class="topic-desc">Khó ngủ, ác mộng, suy nghĩ đêm khuya</div>
+                        </div>
+                        <div class="topic-card" onclick="selectTopic('relationship')">
+                            <div class="topic-icon"><i class="fas fa-heart"></i></div>
+                            <div class="topic-name">Mối quan hệ</div>
+                            <div class="topic-desc">Bạn bè, gia đình, tình cảm</div>
+                        </div>
+                        <div class="topic-card" onclick="selectTopic('study')">
+                            <div class="topic-icon"><i class="fas fa-book-open"></i></div>
+                            <div class="topic-name">Học tập</div>
+                            <div class="topic-desc">Động lực, phương pháp, trì hoãn</div>
+                        </div>
+                        <div class="topic-card" onclick="selectTopic('chat')">
+                            <div class="topic-icon"><i class="fas fa-robot"></i></div>
+                            <div class="topic-name">Trò chuyện AI</div>
+                            <div class="topic-desc">Chat với AI, 24/7</div>
+                        </div>
+                        <div class="topic-card" onclick="selectTopic('general')">
+                            <div class="topic-icon"><i class="fas fa-users"></i></div>
+                            <div class="topic-name">Kết nối bạn bè</div>
+                            <div class="topic-desc">Nói chuyện ẩn danh với người thật</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHAT LAYOUT -->
+            <div class="chat-layout" id="chatLayout">
+                <!-- LEFT: messages panel -->
+                <div class="panel-left" id="panelLeft">
+                    <div class="panel-left-header">
+                        <div class="panel-left-title">
+                            <button class="panel-back-btn" onclick="goHome()" title="Về trang chủ"><i class="fas fa-arrow-left"></i></button>
+                            <div class="chat-topic-badge" id="topicBadge">—</div>
+                        </div>
+                        <button class="panel-reset-btn" onclick="resetChat()" title="Làm mới cuộc trò chuyện"><i class="fas fa-redo-alt"></i></button>
+                    </div>
+
+                    <!-- PEER CHAT: Active status bar -->
+                    <div id="peerChatActive">
+                        <div class="peer-active-info">
+                            <div class="peer-status-dot"></div>
+                            <div>
+                                <div class="peer-partner-name" id="peerPartnerName">—</div>
+                                <div class="peer-partner-label">Đang kết nối</div>
+                            </div>
+                        </div>
+                        <button class="peer-leave-btn" onclick="leavePeerChat()">
+                            <i class="fas fa-sign-out-alt" style="font-size:11px"></i> Rời phòng
+                        </button>
+                    </div>
+
+                    <!-- Messages area -->
+                    <div class="messages-area" id="messagesArea"></div>
+
+                    <!-- PEER CHAT: Setup screen (inside panel) -->
+                    <div id="peerChatSetup">
+                        <div class="peer-setup-card">
+                            <div class="peer-setup-icon">🫂</div>
+                            <h2 class="peer-setup-title">Kết nối với người bạn</h2>
+                            <p class="peer-setup-subtitle">Chia sẻ với người lạ — đôi khi nói chuyện với người không quen lại dễ hơn. Hoàn toàn ẩn danh.</p>
+
+                            <div class="peer-setup-form">
+                                <div>
+                                    <label class="peer-form-label">Tên hiển thị (ẩn danh)</label>
+                                    <input
+                                        type="text"
+                                        id="peerNicknameInput"
+                                        class="peer-form-input"
+                                        placeholder="VD: MâyNhỏ, Soul, Glory"
+                                        maxlength="20"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label class="peer-form-label">Muốn nói về…</label>
+                                    <div class="peer-topic-grid" id="peerTopicGrid">
+                                        <button class="peer-topic-btn selected" data-value="any" onclick="selectPeerTopic(this)">✨ Bất kỳ</button>
+                                        <button class="peer-topic-btn" data-value="study" onclick="selectPeerTopic(this)">📚 Học tập</button>
+                                        <button class="peer-topic-btn" data-value="family" onclick="selectPeerTopic(this)">🏡 Gia đình</button>
+                                        <button class="peer-topic-btn" data-value="love" onclick="selectPeerTopic(this)">💌 Tình cảm</button>
+                                        <button class="peer-topic-btn" data-value="lonely" onclick="selectPeerTopic(this)">🫂 Cô đơn</button>
+                                        <button class="peer-topic-btn" data-value="bro" onclick="selectPeerTopic(this)">💙 Tán gẫu</button>
+                                    </div>
+                                    <input type="hidden" id="peerTopicSelect" value="any" />
+                                </div>
+
+                                <button class="peer-find-btn" onclick="startFindingPeer()">
+                                    <i class="fas fa-search" style="margin-right:8px;font-size:13px"></i>
+                                    Tìm người lắng nghe
+                                </button>
+
+                                <p class="peer-privacy-note">
+                                    <i class="fas fa-lock" style="font-size:10px"></i>
+                                    Hoàn toàn ẩn danh · Không lưu lịch sử
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI CHAT INPUT BAR -->
+                    <div id="chatInputArea">
+                        <div class="chat-input-row">
+                            <div class="chat-input-wrapper">
+                                <textarea
+                                    id="chatInput"
+                                    placeholder="Nhắn gì cho mình đi…"
+                                    rows="1"
+                                    oninput="autoResizeTextarea(this)"
+                                    onkeydown="handleChatKeydown(event)"
+                                ></textarea>
+                            </div>
+                            <button id="chatSendBtn" onclick="sendMessage()" title="Gửi">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div class="chat-input-hint">Enter để gửi &nbsp;·&nbsp; Shift+Enter xuống dòng</div>
+                    </div>
+
+                    <!-- PEER CHAT INPUT BAR -->
+                    <div id="peerChatInputArea">
+                        <div class="chat-input-row">
+                            <div class="chat-input-wrapper">
+                                <textarea
+                                    id="peerChatInput"
+                                    placeholder="Nhắn cho người bạn…"
+                                    rows="1"
+                                    oninput="autoResizeTextarea(this); handlePeerTyping();"
+                                    onkeydown="handlePeerKeydown(event)"
+                                ></textarea>
+                            </div>
+                            <button id="peerSendBtn" onclick="sendPeerMessage()" title="Gửi">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div class="chat-input-hint">Enter để gửi &nbsp;·&nbsp; Shift+Enter xuống dòng</div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: options (hidden for free-chat topics) -->
+                <div class="panel-right" id="panelRight">
+                    <div class="panel-right-header">
+                        <span class="panel-right-label">Xin hãy chia sẻ</span>
+                        <span class="option-count" id="optionCount">0 lựa chọn</span>
+                    </div>
+                    <div class="options-scroll" id="optionsScroll"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box">
+            <button class="modal-close-btn" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            <div class="modal-header-label">✿ Phản hồi đầy đủ</div>
+            <div class="modal-text" id="modalText"></div>
+        </div>
+    </div>
+
+    <script src="conversations.js"></script>
+    <script src="script.js"></script>
+    <script>
+    /* ═══════════════════════════════════════════
+       PEER TOPIC SELECTOR
+    ═══════════════════════════════════════════ */
+    function selectPeerTopic(btn) {
+        document.querySelectorAll('.peer-topic-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('peerTopicSelect').value = btn.dataset.value;
+    }
+
+    /* ═══════════════════════════════════════════
+       SAKURA PARTICLE SYSTEM
+    ═══════════════════════════════════════════ */
+    (function() {
+        const canvas = document.getElementById('sakura-canvas');
+        const ctx = canvas.getContext('2d');
+        let W, H, petals = [];
+        const MAX = 38;
+
+        function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function createPetal() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const colors = isDark
+                ? ['rgba(220,130,110,0.45)', 'rgba(240,160,140,0.35)', 'rgba(255,185,165,0.28)', 'rgba(200,110,90,0.4)']
+                : ['rgba(240,170,165,0.55)', 'rgba(255,200,195,0.45)', 'rgba(245,185,180,0.5)', 'rgba(230,150,145,0.4)', 'rgba(255,220,215,0.4)'];
+            return {
+                x: Math.random() * W, y: -20 - Math.random() * 100,
+                size: 6 + Math.random() * 9, speedY: 0.6 + Math.random() * 1.2,
+                speedX: (Math.random() - 0.5) * 0.8, rot: Math.random() * Math.PI * 2,
+                rotSpeed: (Math.random() - 0.5) * 0.035, sway: Math.random() * Math.PI * 2,
+                swaySpeed: 0.008 + Math.random() * 0.012, swayAmp: 0.5 + Math.random() * 1.5,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                opacity: 0.3 + Math.random() * 0.5, type: Math.floor(Math.random() * 3)
+            };
+        }
+
+        function drawPetal(p) {
+            ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.globalAlpha = p.opacity;
+            ctx.beginPath();
+            if (p.type === 0) { ctx.ellipse(0, 0, p.size * 0.45, p.size * 0.8, 0, 0, Math.PI * 2); }
+            else if (p.type === 1) {
+                ctx.moveTo(0, -p.size * 0.8);
+                ctx.bezierCurveTo(p.size * 0.6, -p.size * 0.3, p.size * 0.4, p.size * 0.5, 0, p.size * 0.6);
+                ctx.bezierCurveTo(-p.size * 0.4, p.size * 0.5, -p.size * 0.6, -p.size * 0.3, 0, -p.size * 0.8);
+            } else {
+                ctx.moveTo(0, -p.size * 0.7);
+                ctx.bezierCurveTo(p.size * 0.5, -p.size * 0.2, p.size * 0.5, p.size * 0.5, 0, p.size * 0.5);
+                ctx.bezierCurveTo(-p.size * 0.5, p.size * 0.5, -p.size * 0.5, -p.size * 0.2, 0, -p.size * 0.7);
+            }
+            const grad = ctx.createRadialGradient(0, -p.size * 0.1, 0, 0, 0, p.size);
+            grad.addColorStop(0, p.color.replace(/[\d.]+\)$/, '0.9)'));
+            grad.addColorStop(1, p.color);
+            ctx.fillStyle = grad; ctx.fill();
+            ctx.beginPath(); ctx.moveTo(0, -p.size * 0.6); ctx.lineTo(0, p.size * 0.4);
+            ctx.strokeStyle = p.color.replace(/[\d.]+\)$/, '0.3)'); ctx.lineWidth = 0.5; ctx.stroke();
+            ctx.restore();
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, W, H);
+            if (petals.length < MAX && Math.random() < 0.06) petals.push(createPetal());
+            petals = petals.filter(p => p.y < H + 40);
+            for (const p of petals) {
+                p.sway += p.swaySpeed; p.x += p.speedX + Math.sin(p.sway) * p.swayAmp;
+                p.y += p.speedY; p.rot += p.rotSpeed; drawPetal(p);
+            }
+            requestAnimationFrame(update);
+        }
+        update();
+
+        window.__updatePetalColors = function() {
+            petals.forEach(p => {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                const colors = isDark
+                    ? ['rgba(220,130,110,0.45)', 'rgba(240,160,140,0.35)', 'rgba(255,185,165,0.28)']
+                    : ['rgba(240,170,165,0.55)', 'rgba(255,200,195,0.45)', 'rgba(245,185,180,0.5)'];
+                p.color = colors[Math.floor(Math.random() * colors.length)];
+            });
+        };
+    })();
+
+    /* ═══════════════════════════════════════════
+       THEME TOGGLE
+    ═══════════════════════════════════════════ */
+    document.getElementById('themeToggle').addEventListener('click', function() {
+        const html = document.documentElement;
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        if (window.__updatePetalColors) window.__updatePetalColors();
+    });
+    </script>
+</body>
+</html>
