@@ -548,6 +548,22 @@ function renderOptions(options) {
         });
     }
 
+    // "Khác" button — always shown in structured topics
+    if (options && options.length > 0) {
+        const otherBtn = document.createElement('button');
+        otherBtn.className = 'opt-btn opt-btn-other';
+        otherBtn.innerHTML = `
+            <span class="other-btn-inner">
+                <span class="other-btn-icon"><i class="fas fa-ellipsis-h"></i></span>
+                <span class="other-btn-text">Không phù hợp với bạn? Khác…</span>
+                <span class="other-btn-sub">Điều gì đó khác hơn</span>
+            </span>`;
+        otherBtn.style.animation = 'msgIn 0.35s cubic-bezier(0.34,1.2,0.64,1) both';
+        otherBtn.style.animationDelay = ((options ? options.length : 0) * 50 + 60) + 'ms';
+        otherBtn.onclick = openOtherPanel;
+        container.appendChild(otherBtn);
+    }
+
     if (conversationStack.length > 1) {
         const backBtn = document.createElement('button');
         backBtn.className = 'opt-btn back-btn';
@@ -564,6 +580,101 @@ function renderOptions(options) {
         note.innerHTML = `<div style="font-size:28px;opacity:0.25;margin-bottom:10px">❀</div><p style="font-size:13px;color:var(--text-muted);font-style:italic;line-height:1.6">Cuộc trò chuyện này đã đi đến điểm dừng.<br>Bạn có thể quay lại để tiếp tục chia sẻ.</p>`;
         container.appendChild(note);
     }
+}
+
+// ─────────────────────────────────────────────
+// "KHÁC" PANEL — free AI chat or peer connect
+// ─────────────────────────────────────────────
+function openOtherPanel() {
+    let panel = document.getElementById('otherPanel');
+    if (!panel) {
+        panel = document.createElement('div');
+        panel.id = 'otherPanel';
+        panel.className = 'other-panel-overlay';
+        panel.innerHTML = `
+        <div class="other-panel-card" id="otherPanelCard">
+            <button class="other-panel-close" onclick="closeOtherPanel()"><i class="fas fa-times"></i></button>
+            <div class="other-panel-header">
+                <div class="other-panel-ornament">❀</div>
+                <h3 class="other-panel-title">Bạn muốn chia sẻ theo cách nào?</h3>
+                <p class="other-panel-sub">Đôi khi những lựa chọn có sẵn chưa diễn đạt đúng cảm xúc của bạn — hoàn toàn bình thường.</p>
+            </div>
+            <div class="other-panel-choices">
+                <button class="other-choice-card" onclick="chooseOtherAI()">
+                    <div class="other-choice-glow other-choice-glow-ai"></div>
+                    <div class="other-choice-icon-wrap other-choice-icon-ai">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="other-choice-content">
+                        <div class="other-choice-title">Chia sẻ tự do với AI</div>
+                        <div class="other-choice-desc">Nói bất cứ điều gì bạn muốn. AI sẽ lắng nghe không phán xét, 24/7, luôn ở đây cho bạn.</div>
+                    </div>
+                    <div class="other-choice-arrow"><i class="fas fa-arrow-right"></i></div>
+                </button>
+                <div class="other-choices-divider"><span>hoặc</span></div>
+                <button class="other-choice-card" onclick="chooseOtherPeer()">
+                    <div class="other-choice-glow other-choice-glow-peer"></div>
+                    <div class="other-choice-icon-wrap other-choice-icon-peer">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <div class="other-choice-content">
+                        <div class="other-choice-title">Kết nối với người thật</div>
+                        <div class="other-choice-desc">Trò chuyện ẩn danh với một người bạn đồng hành. Đôi khi một trái tim người thật sẽ giúp bạn hơn.</div>
+                    </div>
+                    <div class="other-choice-arrow"><i class="fas fa-arrow-right"></i></div>
+                </button>
+            </div>
+            <p class="other-panel-footer"><i class="fas fa-lock" style="font-size:10px;margin-right:4px"></i>Hoàn toàn ẩn danh · Không lưu dữ liệu cá nhân</p>
+        </div>`;
+        panel.addEventListener('click', (e) => {
+            if (e.target === panel) closeOtherPanel();
+        });
+        document.body.appendChild(panel);
+    }
+    requestAnimationFrame(() => {
+        panel.classList.add('other-panel-show');
+    });
+}
+
+function closeOtherPanel() {
+    const panel = document.getElementById('otherPanel');
+    if (!panel) return;
+    panel.classList.remove('other-panel-show');
+    panel.classList.add('other-panel-hide');
+    setTimeout(() => {
+        panel.classList.remove('other-panel-hide');
+    }, 350);
+}
+
+function chooseOtherAI() {
+    closeOtherPanel();
+    // Switch to free AI chat mode while keeping topic context
+    isFreeChat = true;
+    document.getElementById('panelRight').classList.add('hidden');
+    document.getElementById('panelLeft').classList.add('full-width');
+    document.getElementById('chatInputArea').style.display = 'flex';
+    document.getElementById('messagesArea').style.display = 'flex';
+    // Add a transition message
+    addBotMessage('Mình đang lắng nghe bạn đây 🌸 Hãy chia sẻ bất cứ điều gì bạn muốn nói — không có câu trả lời đúng hay sai ở đây.');
+    freeChatHistory = [];
+    setTimeout(() => document.getElementById('chatInput').focus(), 300);
+}
+
+function chooseOtherPeer() {
+    closeOtherPanel();
+    // Switch to peer chat setup
+    if (socket) { socket.emit('leave_chat'); socket.disconnect(); socket = null; }
+    isInPeerChat = false;
+    peerRoom = null;
+    document.getElementById('panelRight').classList.add('hidden');
+    document.getElementById('panelLeft').classList.add('full-width');
+    document.getElementById('chatInputArea').style.display = 'none';
+    document.getElementById('messagesArea').style.display = 'none';
+    document.getElementById('peerChatActive').style.display = 'none';
+    document.getElementById('peerChatInputArea').style.display = 'none';
+    document.getElementById('peerChatSetup').style.display = 'flex';
+    // Update topic badge
+    document.getElementById('topicBadge').textContent = 'Kết Nối Bạn Bè';
 }
 
 // ─────────────────────────────────────────────
