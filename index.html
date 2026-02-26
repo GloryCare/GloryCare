@@ -163,34 +163,22 @@
 
     .peer-form-input::placeholder { color: var(--text-muted); }
 
-    .peer-topic-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-    }
-
-    .peer-topic-btn {
-        padding: 10px 12px;
-        background: var(--bg-primary);
-        border: 1.5px solid var(--border);
-        border-radius: 12px;
-        font-family: 'DM Sans', sans-serif;
-        font-size: 12.5px;
-        color: var(--text-secondary);
+    /* Dropdown chủ đề — thay thế grid nút */
+    .peer-topic-select {
+        appearance: none;
+        -webkit-appearance: none;
         cursor: pointer;
-        text-align: center;
-        transition: all 0.2s cubic-bezier(0.34,1.2,0.64,1);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239A7060' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        padding-right: 36px;
     }
 
-    .peer-topic-btn:hover, .peer-topic-btn.selected {
-        border-color: var(--accent-lavender);
-        color: var(--accent-lavender);
-        background: rgba(139,124,168,0.08);
-        transform: translateY(-2px);
-    }
-
-    .peer-topic-btn.selected {
-        box-shadow: 0 2px 12px rgba(139,124,168,0.2);
+    .peer-topic-select option {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
     }
 
     .peer-find-btn {
@@ -559,15 +547,14 @@
 
                                 <div>
                                     <label class="peer-form-label">Muốn nói về…</label>
-                                    <div class="peer-topic-grid" id="peerTopicGrid">
-                                        <button class="peer-topic-btn selected" data-value="any" onclick="selectPeerTopic(this)">✨ Bất kỳ</button>
-                                        <button class="peer-topic-btn" data-value="study" onclick="selectPeerTopic(this)">📚 Học tập</button>
-                                        <button class="peer-topic-btn" data-value="family" onclick="selectPeerTopic(this)">🏡 Gia đình</button>
-                                        <button class="peer-topic-btn" data-value="love" onclick="selectPeerTopic(this)">💌 Tình cảm</button>
-                                        <button class="peer-topic-btn" data-value="lonely" onclick="selectPeerTopic(this)">🫂 Cô đơn</button>
-                                        <button class="peer-topic-btn" data-value="bro" onclick="selectPeerTopic(this)">💙 Tán gẫu</button>
-                                    </div>
-                                    <input type="hidden" id="peerTopicSelect" value="any" />
+                                    <select id="peerTopicSelect" class="peer-form-input peer-topic-select">
+                                        <option value="any">✨ Bất kỳ</option>
+                                        <option value="study">📚 Học tập</option>
+                                        <option value="family">🏡 Gia đình</option>
+                                        <option value="love">💌 Tình cảm</option>
+                                        <option value="lonely">🫂 Cô đơn</option>
+                                        <option value="bro">💙 Tán gẫu</option>
+                                    </select>
                                 </div>
 
                                 <button class="peer-find-btn" onclick="startFindingPeer()">
@@ -647,13 +634,8 @@
     <script src="script.js"></script>
     <script>
     /* ═══════════════════════════════════════════
-       PEER TOPIC SELECTOR
+       PEER TOPIC SELECTOR — dùng native <select>, không cần JS riêng
     ═══════════════════════════════════════════ */
-    function selectPeerTopic(btn) {
-        document.querySelectorAll('.peer-topic-btn').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        document.getElementById('peerTopicSelect').value = btn.dataset.value;
-    }
 
     /* ═══════════════════════════════════════════
        SAKURA PARTICLE SYSTEM
