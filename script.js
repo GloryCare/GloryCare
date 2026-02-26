@@ -655,7 +655,7 @@ function chooseOtherAI() {
     document.getElementById('chatInputArea').style.display = 'flex';
     document.getElementById('messagesArea').style.display = 'flex';
     // Add a transition message
-    addBotMessage('Mình đang lắng nghe bạn đây 🌸 Hãy chia sẻ bất cứ điều gì bạn muốn nói — không có câu trả lời đúng hay sai ở đây.');
+    addBotMessage('Mình đang lắng nghe bạn đây 🌸 Hãy chia sẻ bất cứ điều gì bạn muốn nói, những tâm tư trong lòng.');
     freeChatHistory = [];
     setTimeout(() => document.getElementById('chatInput').focus(), 300);
 }
