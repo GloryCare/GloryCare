@@ -111,7 +111,7 @@ def ai_chat():
         conversation += "GloryCare:"
 
         response = gemini_client.models.generate_content(
-            model="gemma-3-27b",
+            model="gemma-3-27b-it",  # Add "-it" for chat optimization
             contents=conversation
         )
         reply = response.text.strip()
