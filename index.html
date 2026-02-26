@@ -660,6 +660,1239 @@
         text-align: center; font-size: 11px;
         color: var(--text-muted); margin-top: 20px;
     }
+
+    /* ══════════════════════════════
+       MAIN NAV TABS
+    ══════════════════════════════ */
+    .main-nav {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 32px 0;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg-card);
+        backdrop-filter: blur(14px);
+        position: relative;
+        z-index: 10;
+        flex-shrink: 0;
+    }
+
+    .nav-tab {
+        display: flex; align-items: center; gap: 7px;
+        padding: 10px 20px;
+        background: none; border: none; border-radius: 12px 12px 0 0;
+        font-family: 'DM Sans', sans-serif; font-size: 14px;
+        color: var(--text-secondary); cursor: pointer;
+        transition: all 0.22s;
+        position: relative;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+        font-weight: 400;
+    }
+
+    .nav-tab:hover { color: var(--text-primary); background: var(--toggle-bg); }
+
+    .nav-tab.active {
+        color: var(--accent-rose);
+        font-weight: 500;
+        border-bottom: 2px solid var(--accent-rose);
+        background: none;
+    }
+
+    .nav-tab i { font-size: 13px; }
+
+    /* ══════════════════════════════
+       GÓC BÌNH YÊN LAYOUT
+    ══════════════════════════════ */
+    .peaceful-tab {
+        flex: 1; overflow-y: auto;
+        padding: 36px 40px 60px;
+        background: var(--bg-primary);
+        animation: fadeUp 0.5s ease-out;
+    }
+
+    @media (max-width: 700px) { .peaceful-tab { padding: 20px 16px 40px; } }
+
+    .py-section { margin-bottom: 0; }
+
+    .py-section-header {
+        display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+    }
+
+    .py-section-icon {
+        width: 48px; height: 48px; border-radius: 15px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 18px; color: white; flex-shrink: 0;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .py-section-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 24px; font-weight: 500;
+        color: var(--text-primary); margin: 0 0 3px;
+    }
+
+    .py-section-sub {
+        font-size: 13px; color: var(--text-secondary);
+        font-weight: 300; margin: 0;
+    }
+
+    .py-divider {
+        text-align: center; position: relative;
+        margin: 40px 0;
+    }
+
+    .py-divider::before {
+        content: ''; position: absolute; top: 50%; left: 0; right: 0;
+        height: 1px; background: var(--border);
+    }
+
+    .py-divider span {
+        background: var(--bg-primary);
+        padding: 0 16px; position: relative;
+        font-size: 16px; opacity: 0.4;
+    }
+
+    /* ══════════════════════════════
+       MUSIC GRID & PLAYER
+    ══════════════════════════════ */
+    .py-music-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 14px; margin-bottom: 20px;
+    }
+
+    .py-music-card {
+        background: var(--bg-card);
+        border: 1.5px solid var(--border);
+        border-radius: 18px;
+        padding: 18px 18px 14px;
+        cursor: pointer;
+        transition: all 0.28s cubic-bezier(0.34,1.2,0.64,1);
+        position: relative; overflow: hidden;
+    }
+
+    .py-music-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.1); }
+
+    .py-music-card.playing {
+        border-color: var(--accent-rose);
+        box-shadow: 0 0 0 3px rgba(200,114,104,0.12);
+    }
+
+    .py-music-thumb {
+        font-size: 36px; margin-bottom: 10px; display: block;
+        line-height: 1;
+    }
+
+    .py-music-name {
+        font-size: 14px; font-weight: 500; color: var(--text-primary);
+        margin-bottom: 3px;
+    }
+
+    .py-music-mood {
+        font-size: 11.5px; color: var(--text-muted);
+    }
+
+    .py-music-playing-dot {
+        position: absolute; top: 12px; right: 12px;
+        width: 8px; height: 8px; border-radius: 50%;
+        background: var(--accent-rose);
+        box-shadow: 0 0 8px rgba(200,114,104,0.6);
+        animation: pulse-dot 1.5s ease-in-out infinite;
+        display: none;
+    }
+
+    .py-music-card.playing .py-music-playing-dot { display: block; }
+
+    .py-player {
+        background: var(--bg-card);
+        border: 1.5px solid var(--border-accent);
+        border-radius: 20px;
+        padding: 16px 22px;
+        display: flex; align-items: center; gap: 18px;
+        flex-wrap: wrap;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .py-player-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 160px; }
+
+    .py-player-thumb {
+        width: 44px; height: 44px; border-radius: 12px;
+        background: var(--bg-secondary);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px; flex-shrink: 0;
+    }
+
+    .py-player-name { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+    .py-player-artist { font-size: 12px; color: var(--text-muted); }
+
+    .py-player-controls { display: flex; align-items: center; gap: 10px; }
+
+    .py-ctrl-btn {
+        width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border);
+        background: var(--bg-primary); color: var(--text-secondary);
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        font-size: 12px; transition: all 0.2s;
+    }
+
+    .py-ctrl-btn:hover { border-color: var(--accent-rose); color: var(--accent-rose); }
+
+    .py-ctrl-main {
+        width: 44px; height: 44px;
+        background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+        border: none; color: white; font-size: 14px;
+        box-shadow: 0 4px 14px rgba(200,114,104,0.35);
+    }
+
+    .py-ctrl-main:hover { transform: scale(1.1) !important; color: white !important; }
+
+    .py-player-vol { display: flex; align-items: center; gap: 8px; }
+
+    .py-vol-slider {
+        -webkit-appearance: none; width: 90px; height: 4px;
+        background: var(--border); border-radius: 4px; outline: none; cursor: pointer;
+    }
+
+    .py-vol-slider::-webkit-slider-thumb {
+        -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%;
+        background: var(--accent-rose); cursor: pointer;
+        box-shadow: 0 2px 8px rgba(200,114,104,0.4);
+    }
+
+    /* ══════════════════════════════
+       SOUNDS GRID
+    ══════════════════════════════ */
+    .py-sounds-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 12px; margin-bottom: 16px;
+    }
+
+    .py-sound-card {
+        background: var(--bg-card); border: 1.5px solid var(--border);
+        border-radius: 16px; padding: 18px 12px;
+        text-align: center; cursor: pointer;
+        transition: all 0.25s cubic-bezier(0.34,1.2,0.64,1);
+        position: relative; overflow: hidden;
+    }
+
+    .py-sound-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.09); }
+
+    .py-sound-card.active {
+        border-color: #5b9ea0;
+        background: rgba(91,158,160,0.08);
+        box-shadow: 0 0 0 3px rgba(91,158,160,0.12);
+    }
+
+    .py-sound-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
+    .py-sound-name { font-size: 12px; color: var(--text-secondary); font-weight: 400; }
+
+    .py-sound-vol {
+        width: 100%; margin-top: 8px;
+        -webkit-appearance: none; height: 3px;
+        background: var(--border); border-radius: 3px; cursor: pointer; outline: none;
+        display: none;
+    }
+
+    .py-sound-card.active .py-sound-vol { display: block; }
+
+    .py-sound-vol::-webkit-slider-thumb {
+        -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%;
+        background: #5b9ea0; cursor: pointer;
+    }
+
+    .py-mix-bar {
+        background: var(--bg-card); border: 1px solid var(--border);
+        border-radius: 14px; padding: 12px 18px;
+        display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+
+    .py-mix-label { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+
+    .py-mix-chips { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
+
+    .py-mix-chip {
+        background: rgba(91,158,160,0.12); border: 1px solid rgba(91,158,160,0.3);
+        border-radius: 20px; padding: 4px 10px;
+        font-size: 11.5px; color: var(--text-secondary);
+    }
+
+    .py-mix-empty { font-size: 12px; color: var(--text-muted); font-style: italic; }
+
+    .py-mix-stop {
+        background: none; border: 1px solid var(--border);
+        color: var(--text-muted); border-radius: 10px;
+        padding: 6px 12px; cursor: pointer; font-size: 12px;
+        font-family: 'DM Sans', sans-serif; white-space: nowrap;
+        transition: all 0.2s;
+    }
+
+    .py-mix-stop:hover { border-color: #5b9ea0; color: #5b9ea0; }
+
+    /* ══════════════════════════════
+       MINI GAMES GRID
+    ══════════════════════════════ */
+    .py-games-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 18px;
+    }
+
+    .py-game-card {
+        background: var(--bg-card); border: 1.5px solid var(--border);
+        border-radius: 22px; padding: 22px;
+        display: flex; flex-direction: column; gap: 16px;
+        transition: box-shadow 0.2s;
+    }
+
+    .py-game-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+
+    .py-game-header {
+        display: flex; align-items: flex-start; gap: 12px;
+    }
+
+    .py-game-emoji { font-size: 28px; line-height: 1; flex-shrink: 0; }
+
+    .py-game-title {
+        font-size: 15px; font-weight: 500; color: var(--text-primary); margin-bottom: 3px;
+    }
+
+    .py-game-desc { font-size: 12.5px; color: var(--text-muted); font-weight: 300; }
+
+    .py-game-btn {
+        background: linear-gradient(135deg, var(--accent-lavender), var(--accent-rose));
+        border: none; border-radius: 12px; color: white;
+        font-family: 'DM Sans', sans-serif; font-size: 14px;
+        padding: 10px 20px; cursor: pointer; width: 100%;
+        transition: all 0.25s cubic-bezier(0.34,1.4,0.64,1);
+        display: flex; align-items: center; justify-content: center; gap: 7px;
+    }
+
+    .py-game-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(139,124,168,0.35); }
+
+    .py-game-btn-sm {
+        background: none; border: 1px solid var(--border);
+        border-radius: 10px; color: var(--text-secondary);
+        font-family: 'DM Sans', sans-serif; font-size: 12px;
+        padding: 6px 12px; cursor: pointer;
+        display: inline-flex; align-items: center; gap: 5px;
+        transition: all 0.2s;
+    }
+
+    .py-game-btn-sm:hover { border-color: var(--accent-lavender); color: var(--accent-lavender); }
+
+    /* ── BREATH GAME ── */
+    .py-breath-circle-wrap {
+        display: flex; align-items: center; justify-content: center;
+        padding: 8px 0;
+    }
+
+    .py-breath-ring {
+        width: 140px; height: 140px; border-radius: 50%;
+        border: 3px solid var(--accent-lavender);
+        display: flex; align-items: center; justify-content: center;
+        transition: transform 0.1s linear;
+        background: radial-gradient(circle, rgba(139,124,168,0.06), transparent 70%);
+    }
+
+    .py-breath-inner {
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 4px;
+    }
+
+    #pyBreathText {
+        font-size: 14px; color: var(--accent-lavender);
+        font-weight: 500; text-align: center;
+    }
+
+    .py-breath-count { font-size: 22px; font-weight: 600; color: var(--text-primary); }
+
+    /* ── BUBBLE GAME ── */
+    .py-bubble-arena {
+        height: 140px; position: relative;
+        overflow: hidden; border-radius: 14px;
+        background: rgba(139,124,168,0.04);
+        border: 1px dashed var(--border);
+    }
+
+    .py-bubble {
+        position: absolute; border-radius: 50%;
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        font-size: 18px; user-select: none;
+        transition: transform 0.1s;
+        animation: floatBubble 4s ease-in-out infinite;
+    }
+
+    @keyframes floatBubble {
+        0%,100% { transform: translateY(0) scale(1); }
+        50% { transform: translateY(-8px) scale(1.05); }
+    }
+
+    .py-bubble:hover { transform: scale(1.2) !important; }
+
+    .py-bubble.popped {
+        animation: popBubble 0.4s ease-out forwards !important;
+    }
+
+    @keyframes popBubble {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: 0.8; }
+        100% { transform: scale(0); opacity: 0; }
+    }
+
+    .py-game-stats {
+        display: flex; align-items: center; justify-content: space-between;
+        font-size: 13px; color: var(--text-secondary);
+    }
+
+    /* ── MOOD GAME ── */
+    .py-mood-emojis {
+        display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    }
+
+    .py-mood-btn {
+        width: 44px; height: 44px; border-radius: 12px;
+        background: var(--bg-primary); border: 1.5px solid var(--border);
+        font-size: 22px; cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.34,1.4,0.64,1);
+        display: flex; align-items: center; justify-content: center;
+    }
+
+    .py-mood-btn:hover { transform: scale(1.2); border-color: var(--accent-lavender); }
+    .py-mood-btn.selected { transform: scale(1.2); border-color: var(--accent-rose); box-shadow: 0 4px 14px rgba(200,114,104,0.25); }
+
+    .py-mood-result { animation: fadeUp 0.4s ease-out; }
+
+    .py-mood-selected {
+        text-align: center; font-size: 36px;
+        margin-bottom: 8px; animation: bounceIn 0.4s ease-out;
+    }
+
+    @keyframes bounceIn {
+        0% { transform: scale(0.5); opacity: 0; }
+        70% { transform: scale(1.15); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .py-mood-affirmation {
+        text-align: center; font-size: 13px; color: var(--text-secondary);
+        line-height: 1.6; margin-bottom: 10px; font-style: italic; font-weight: 300;
+    }
+
+    .py-mood-note {
+        width: 100%; background: var(--bg-primary); border: 1px solid var(--border);
+        border-radius: 10px; padding: 8px 12px; font-family: 'DM Sans', sans-serif;
+        font-size: 13px; color: var(--text-primary); outline: none; resize: none;
+        box-sizing: border-box;
+    }
+
+    .py-mood-note:focus { border-color: var(--accent-lavender); }
+
+    .py-mood-history {
+        display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px;
+    }
+
+    .py-mood-entry {
+        background: var(--bg-secondary); border-radius: 10px;
+        padding: 4px 10px; font-size: 11.5px; color: var(--text-muted);
+        display: flex; align-items: center; gap: 5px;
+    }
+
+    /* ── MANDALA GAME ── */
+    .py-mandala-wrap {
+        display: flex; align-items: center; justify-content: center;
+        background: var(--bg-secondary); border-radius: 14px; padding: 10px;
+        border: 1px solid var(--border);
+    }
+
+    #pyMandalaCanvas {
+        border-radius: 8px; cursor: crosshair; display: block;
+        max-width: 100%; height: auto;
+    }
+
+    .py-color-palette {
+        display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    }
+
+    .py-color-swatch {
+        width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+        border: 2px solid transparent; transition: all 0.18s;
+        flex-shrink: 0;
+    }
+
+    .py-color-swatch:hover { transform: scale(1.2); }
+    .py-color-swatch.active { border-color: var(--text-primary); transform: scale(1.25); }
+
+    .py-mandala-actions { display: flex; gap: 8px; justify-content: center; }
+
+    /* ══════════════════════════════
+       TÂM SỰ TAB
+    ══════════════════════════════ */
+    .tamsu-tab {
+        flex: 1; overflow-y: auto;
+        background: var(--bg-primary);
+        animation: fadeUp 0.5s ease-out;
+    }
+
+ 
+    .ts-share-trigger-btn {
+        display: inline-flex; align-items: center; gap: 9px;
+        background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+        border: none; border-radius: 50px;
+        padding: 13px 30px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 15px; font-weight: 500; color: white;
+        cursor: pointer;
+        box-shadow: 0 8px 28px rgba(200,114,104,0.38);
+        transition: all 0.3s cubic-bezier(0.34,1.4,0.64,1);
+    }
+
+    .ts-share-trigger-btn:hover {
+        transform: translateY(-3px) scale(1.03);
+        box-shadow: 0 14px 40px rgba(200,114,104,0.5);
+    }
+
+    .ts-hero-petals {
+        position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+
+    .ts-petal {
+        position: absolute; font-size: 20px; opacity: 0.18;
+        animation: floatBubble 6s ease-in-out infinite;
+    }
+
+    .ts-petal-1 { top: 15%; left: 8%; animation-delay: 0s; animation-duration: 7s; }
+    .ts-petal-2 { top: 25%; right: 10%; animation-delay: 1.2s; animation-duration: 5.5s; }
+    .ts-petal-3 { bottom: 20%; left: 15%; animation-delay: 2.4s; animation-duration: 6.5s; }
+    .ts-petal-4 { top: 10%; left: 40%; animation-delay: 0.8s; animation-duration: 8s; }
+    .ts-petal-5 { bottom: 15%; right: 20%; animation-delay: 1.6s; animation-duration: 6s; }
+
+    /* WALL TITLE BAR */
+    .ts-wall-title-bar {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 22px 40px 10px;
+    }
+
+    @media (max-width: 700px) { .ts-wall-title-bar { padding: 16px 16px 8px; } }
+
+    .ts-wall-title-left {
+        display: flex; align-items: center; gap: 10px;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 22px; font-weight: 500;
+        color: var(--text-primary);
+    }
+
+    .ts-wall-title-left i { font-size: 16px; }
+
+    .ts-wall-title-right { display: flex; align-items: center; gap: 10px; }
+
+    .ts-count-badge {
+        font-size: 12px; color: var(--text-muted);
+        background: var(--toggle-bg);
+        padding: 4px 12px; border-radius: 20px;
+        border: 1px solid var(--border);
+    }
+
+    .ts-refresh-btn {
+        width: 32px; height: 32px; border-radius: 50%;
+        background: var(--bg-primary); border: 1px solid var(--border);
+        color: var(--text-muted); cursor: pointer; font-size: 13px;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.2s;
+    }
+
+    .ts-refresh-btn:hover { border-color: var(--accent-rose); color: var(--accent-rose); transform: rotate(180deg); }
+    .ts-refresh-btn.spinning i { animation: spinOnce 0.6s ease-out; }
+
+    @keyframes spinOnce {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    /* WALL */
+    .ts-wall {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 28px 40px 60px;
+    }
+
+    @media (max-width: 700px) { .ts-wall { padding: 16px 16px 40px; grid-template-columns: 1fr; gap: 14px; } }
+
+    /* CARD */
+    .ts-card {
+        background: var(--bg-card);
+        border: 1.5px solid var(--border);
+        border-radius: 24px;
+        padding: 26px 24px 22px;
+        position: relative; overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.34,1.1,0.64,1);
+        animation: fadeUp 0.5s ease-out both;
+    }
+
+    .ts-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+        border-color: var(--border-accent);
+    }
+
+    .ts-card-glow {
+        position: absolute; top: 0; left: 0; right: 0; height: 3px;
+        background: linear-gradient(90deg, var(--accent-rose), var(--accent-lavender));
+        opacity: 0; transition: opacity 0.3s;
+    }
+
+    .ts-card:hover .ts-card-glow { opacity: 1; }
+
+    .ts-card-quote {
+        position: absolute; top: 18px; right: 20px;
+        font-size: 52px; color: var(--accent-rose);
+        opacity: 0.07; font-family: Georgia, serif;
+        line-height: 1; pointer-events: none;
+        user-select: none;
+    }
+
+    .ts-card-header {
+        display: flex; align-items: center; gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    .ts-card-avatar {
+        width: 38px; height: 38px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+        display: flex; align-items: center; justify-content: center;
+        font-size: 15px; color: white; font-weight: 500;
+        flex-shrink: 0;
+        box-shadow: 0 3px 10px rgba(200,114,104,0.25);
+    }
+
+    .ts-card-nickname {
+        font-size: 14px; font-weight: 500;
+        color: var(--text-primary);
+    }
+
+    .ts-card-time {
+        font-size: 11.5px; color: var(--text-muted);
+        margin-top: 1px;
+    }
+
+    .ts-card-content {
+        font-size: 14.5px; color: var(--text-secondary);
+        line-height: 1.78; font-weight: 300;
+        font-style: italic;
+        position: relative; z-index: 1;
+    }
+
+    .ts-card-footer {
+        display: flex; align-items: center; justify-content: flex-end;
+        margin-top: 16px; padding-top: 12px;
+        border-top: 1px solid var(--border);
+    }
+
+    .ts-card-heart {
+        display: flex; align-items: center; gap: 5px;
+        color: var(--text-muted); font-size: 12px;
+    }
+
+    .ts-card-heart i { color: rgba(200,114,104,0.4); font-size: 13px; }
+
+    /* LOADING */
+    .ts-loading {
+        grid-column: 1 / -1;
+        display: flex; flex-direction: column;
+        align-items: center; gap: 14px;
+        padding: 60px 20px;
+        color: var(--text-muted); font-size: 13.5px;
+    }
+
+    .ts-loading-dots { display: flex; gap: 7px; }
+
+    .ts-loading-dots span {
+        width: 10px; height: 10px; border-radius: 50%;
+        background: var(--accent-rose);
+        opacity: 0.3;
+        animation: tsDotPulse 1.4s ease-in-out infinite;
+    }
+
+    .ts-loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .ts-loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes tsDotPulse {
+        0%, 100% { opacity: 0.2; transform: scale(0.85); }
+        50% { opacity: 1; transform: scale(1.15); background: var(--accent-lavender); }
+    }
+
+    /* EMPTY */
+    .ts-empty {
+        text-align: center; padding: 60px 20px;
+    }
+
+    .ts-empty-icon { font-size: 52px; margin-bottom: 14px; opacity: 0.5; }
+    .ts-empty-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--text-primary); margin-bottom: 8px; }
+    .ts-empty-sub { font-size: 13.5px; color: var(--text-muted); }
+
+    /* MODAL */
+    .ts-modal-overlay {
+        position: fixed; inset: 0; z-index: 10000;
+        background: rgba(0,0,0,0.45);
+        backdrop-filter: blur(8px);
+        display: flex; align-items: flex-end; justify-content: center;
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.35s ease;
+    }
+
+    .ts-modal-overlay.ts-modal-show {
+        opacity: 1; pointer-events: all;
+    }
+
+    .ts-modal-card {
+        width: 100%; max-width: 560px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 32px 32px 0 0;
+        padding: 36px 36px 44px;
+        position: relative;
+        backdrop-filter: blur(24px);
+        box-shadow: 0 -12px 60px rgba(0,0,0,0.18);
+        transform: translateY(60px);
+        transition: transform 0.45s cubic-bezier(0.34,1.2,0.64,1);
+        max-height: 92vh; overflow-y: auto;
+    }
+
+    .ts-modal-overlay.ts-modal-show .ts-modal-card { transform: translateY(0); }
+
+    @media (min-width: 600px) {
+        .ts-modal-overlay { align-items: center; }
+        .ts-modal-card { border-radius: 32px; margin: 0 16px; max-width: 520px; }
+    }
+
+    .ts-modal-close {
+        position: absolute; top: 18px; right: 20px;
+        width: 36px; height: 36px; border-radius: 50%;
+        background: var(--bg-secondary); border: 1px solid var(--border);
+        color: var(--text-muted); cursor: pointer; font-size: 14px;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.2s;
+    }
+
+    .ts-modal-close:hover { transform: rotate(90deg); color: var(--accent-rose); }
+
+    .ts-modal-header { text-align: center; margin-bottom: 28px; }
+    .ts-modal-icon { font-size: 36px; margin-bottom: 10px; animation: float 4s ease-in-out infinite; }
+    .ts-modal-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 500; color: var(--text-primary); margin: 0 0 8px; }
+    .ts-modal-sub { font-size: 13px; color: var(--text-secondary); line-height: 1.65; font-weight: 300; max-width: 380px; margin: 0 auto; }
+
+    .ts-modal-form { display: flex; flex-direction: column; gap: 18px; }
+
+    .ts-form-group { display: flex; flex-direction: column; gap: 7px; }
+
+    .ts-form-label {
+        font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+        color: var(--text-secondary); font-weight: 500;
+    }
+
+    .ts-optional { text-transform: none; font-size: 11px; opacity: 0.6; letter-spacing: 0; font-weight: 400; }
+    .ts-required { color: var(--accent-rose); }
+
+    .ts-form-input, .ts-form-textarea {
+        width: 100%;
+        padding: 13px 16px;
+        background: var(--bg-primary);
+        border: 1.5px solid var(--border-accent);
+        border-radius: 16px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px; color: var(--text-primary);
+        outline: none; resize: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        box-sizing: border-box;
+    }
+
+    .ts-form-input:focus, .ts-form-textarea:focus {
+        border-color: var(--accent-rose);
+        box-shadow: 0 0 0 3px rgba(200,114,104,0.1);
+    }
+
+    .ts-form-input::placeholder, .ts-form-textarea::placeholder { color: var(--text-muted); }
+    .ts-form-textarea { line-height: 1.65; }
+
+    .ts-char-count {
+        text-align: right; font-size: 11.5px; color: var(--text-muted);
+    }
+
+    .ts-form-note {
+        font-size: 12px; color: var(--text-muted);
+        display: flex; align-items: center; gap: 6px;
+        background: var(--toggle-bg); border-radius: 12px;
+        padding: 10px 14px; border: 1px solid var(--border);
+    }
+
+    .ts-submit-status {
+        padding: 12px 16px; border-radius: 14px;
+        font-size: 13.5px; text-align: center; font-weight: 400;
+    }
+
+    .ts-submit-status.success {
+        background: rgba(95,214,130,0.12);
+        color: #3aaa60; border: 1px solid rgba(95,214,130,0.3);
+    }
+
+    .ts-submit-status.error {
+        background: rgba(200,114,104,0.12);
+        color: var(--accent-rose); border: 1px solid rgba(200,114,104,0.3);
+    }
+
+    .ts-submit-btn {
+        width: 100%; padding: 15px;
+        background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+        border: none; border-radius: 18px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 15px; font-weight: 500; color: white;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center; gap: 9px;
+        box-shadow: 0 6px 24px rgba(200,114,104,0.38);
+        transition: all 0.25s cubic-bezier(0.34,1.4,0.64,1);
+    }
+
+    .ts-submit-btn:hover:not(:disabled) { transform: translateY(-3px) scale(1.01); box-shadow: 0 12px 32px rgba(200,114,104,0.5); }
+    .ts-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* FAB — Floating Action Button */
+    .ts-fab {
+        position: fixed;
+        bottom: 32px; left: 32px;
+        z-index: 200;
+        display: flex; align-items: center; gap: 10px;
+        background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+        border: none; border-radius: 50px;
+        padding: 13px 20px 13px 16px;
+        cursor: pointer;
+        box-shadow: 0 8px 28px rgba(200,114,104,0.42);
+        transition: all 0.3s cubic-bezier(0.34,1.4,0.64,1);
+        animation: fadeUp 0.4s ease-out;
+    }
+
+    .ts-fab:hover {
+        transform: translateY(-4px) scale(1.04);
+        box-shadow: 0 14px 40px rgba(200,114,104,0.55);
+    }
+
+    .ts-fab:active { transform: scale(0.97); }
+
+    .ts-fab-icon {
+        width: 30px; height: 30px; border-radius: 50%;
+        background: rgba(255,255,255,0.22);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 15px; color: white; flex-shrink: 0;
+    }
+
+    .ts-fab-label {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13.5px; font-weight: 500;
+        color: white; white-space: nowrap;
+    }
+
+    @media (max-width: 700px) {
+        .ts-fab { bottom: 20px; left: 16px; padding: 11px 16px 11px 13px; }
+        .ts-fab-label { font-size: 12.5px; }
+    }
+
+    /* ══════════════════════════════
+       KIẾN THỨC TAB
+    ══════════════════════════════ */
+    .kt-tab {
+        flex: 1; overflow-y: auto; background: var(--bg-primary);
+        animation: fadeUp 0.5s ease-out;
+        display: flex; flex-direction: column;
+    }
+
+    /* HERO — compact bar */
+    .kt-hero {
+        background: var(--bg-card);
+        border-bottom: 1px solid var(--border);
+        padding: 14px 40px;
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 700px) { .kt-hero { padding: 10px 16px; } }
+
+    .kt-hero-inner {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        max-width: 100%;
+    }
+
+    .kt-hero-icon {
+        font-size: 20px;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+
+    .kt-hero-text {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        flex-shrink: 0;
+    }
+
+    .kt-hero-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 18px; font-weight: 600;
+        color: var(--text-primary); margin: 0;
+        line-height: 1.2;
+    }
+
+    .kt-hero-sub {
+        font-size: 11.5px; color: var(--text-muted);
+        font-weight: 300; line-height: 1.3; margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 320px;
+    }
+
+    @media (max-width: 700px) { .kt-hero-sub { display: none; } }
+
+    .kt-hero-divider {
+        width: 1px; height: 28px;
+        background: var(--border);
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 700px) { .kt-hero-divider { display: none; } }
+
+    .kt-search-wrap {
+        position: relative;
+        flex: 1;
+        max-width: 340px;
+        margin-left: auto;
+    }
+
+    .kt-search-icon {
+        position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+        color: var(--text-muted); font-size: 12px;
+    }
+
+    .kt-search {
+        width: 100%; padding: 8px 14px 8px 32px;
+        background: var(--bg-primary);
+        border: 1.5px solid var(--border-accent);
+        border-radius: 20px;
+        font-family: 'DM Sans', sans-serif; font-size: 13.5px;
+        color: var(--text-primary); outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        box-sizing: border-box;
+    }
+
+    .kt-search:focus {
+        border-color: var(--accent-rose);
+        box-shadow: 0 0 0 3px rgba(200,114,104,0.1);
+    }
+
+    .kt-search::placeholder { color: var(--text-muted); }
+
+    /* FILTER BAR */
+    .kt-filter-wrap {
+        flex-shrink: 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .kt-filter-bar {
+        display: flex; align-items: center;
+        flex-wrap: wrap;
+        gap: 7px;
+        padding: 10px 40px 12px;
+    }
+
+    @media (max-width: 700px) {
+        .kt-filter-bar {
+            padding: 8px 16px 10px;
+            gap: 6px;
+        }
+    }
+
+    .kt-filter-btn {
+        padding: 5px 13px; border-radius: 20px;
+        border: 1.5px solid var(--border);
+        background: var(--bg-card); color: var(--text-secondary);
+        font-family: 'DM Sans', sans-serif; font-size: 13px;
+        cursor: pointer; white-space: nowrap;
+        transition: all 0.22s;
+    }
+
+    @media (max-width: 700px) {
+        .kt-filter-btn { font-size: 12px; padding: 5px 11px; }
+    }
+
+    .kt-filter-btn:hover { border-color: var(--accent-rose); color: var(--accent-rose); }
+
+    .kt-filter-btn.active {
+        background: var(--accent-rose); border-color: var(--accent-rose);
+        color: white; font-weight: 500;
+    }
+
+    /* CONTENT AREA */
+    .kt-content {
+        flex: 1; padding: 28px 40px 60px;
+        overflow-y: auto;
+    }
+
+    @media (max-width: 700px) { .kt-content { padding: 16px 16px 40px; } }
+
+    /* GROUP */
+    .kt-group { margin-bottom: 44px; }
+
+    .kt-group-header {
+        display: flex; align-items: center; gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .kt-group-icon {
+        width: 42px; height: 42px; border-radius: 13px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 18px; flex-shrink: 0;
+    }
+
+    .kt-group-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 22px; font-weight: 500;
+        color: var(--text-primary); margin: 0 0 2px;
+    }
+
+    .kt-group-sub {
+        font-size: 12.5px; color: var(--text-secondary); font-weight: 300;
+    }
+
+    .kt-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 16px;
+    }
+
+    /* CARD */
+    .kt-card {
+        background: var(--bg-card);
+        border: 1.5px solid var(--border);
+        border-radius: 22px;
+        padding: 22px 20px 18px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.34,1.15,0.64,1);
+        position: relative; overflow: hidden;
+        display: flex; flex-direction: column; gap: 10px;
+    }
+
+    .kt-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 40px rgba(0,0,0,0.1);
+        border-color: var(--border-accent);
+    }
+
+    .kt-card-stripe {
+        position: absolute; top: 0; left: 0; right: 0; height: 4px;
+        border-radius: 22px 22px 0 0;
+        opacity: 0.8;
+    }
+
+    .kt-card-emoji { font-size: 28px; line-height: 1; }
+
+    .kt-card-title {
+        font-size: 15.5px; font-weight: 500;
+        color: var(--text-primary); line-height: 1.4;
+    }
+
+    .kt-card-preview {
+        font-size: 13px; color: var(--text-secondary);
+        font-weight: 300; line-height: 1.6;
+        display: -webkit-box; -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical; overflow: hidden;
+    }
+
+    .kt-card-meta {
+        display: flex; align-items: center; gap: 8px;
+        flex-wrap: wrap; margin-top: 4px;
+    }
+
+    .kt-meta-time {
+        display: flex; align-items: center; gap: 4px;
+        font-size: 11.5px; color: var(--text-muted);
+    }
+
+    .kt-meta-time i { font-size: 10px; }
+
+    .kt-level-badge {
+        font-size: 11px; padding: 2px 9px; border-radius: 10px;
+        font-weight: 500; letter-spacing: 0.3px;
+    }
+
+    .kt-level-basic {
+        background: rgba(149,213,178,0.2); color: #3aaa60;
+        border: 1px solid rgba(149,213,178,0.4);
+    }
+
+    .kt-level-advanced {
+        background: rgba(200,114,104,0.12); color: var(--accent-rose);
+        border: 1px solid rgba(200,114,104,0.3);
+    }
+
+    .kt-tag {
+        font-size: 11px; color: var(--text-muted);
+        background: var(--toggle-bg); padding: 2px 8px;
+        border-radius: 8px; border: 1px solid var(--border);
+    }
+
+    .kt-card-read-arrow {
+        display: flex; align-items: center; gap: 5px;
+        font-size: 12px; color: var(--accent-rose); font-weight: 500;
+        margin-top: auto; opacity: 0; transform: translateX(-4px);
+        transition: all 0.2s;
+    }
+
+    .kt-card:hover .kt-card-read-arrow { opacity: 1; transform: translateX(0); }
+
+    /* PASTEL BACKGROUNDS */
+    .kt-card-camxuc { background: rgba(255,228,225,0.35); }
+    [data-theme="dark"] .kt-card-camxuc { background: rgba(200,114,104,0.07); }
+    .kt-card-hoctap { background: rgba(220,240,255,0.4); }
+    [data-theme="dark"] .kt-card-hoctap { background: rgba(100,160,220,0.07); }
+    .kt-card-quanhe { background: rgba(255,250,215,0.5); }
+    [data-theme="dark"] .kt-card-quanhe { background: rgba(220,180,60,0.07); }
+    .kt-card-suckhoe { background: rgba(215,245,225,0.45); }
+    [data-theme="dark"] .kt-card-suckhoe { background: rgba(80,180,120,0.07); }
+    .kt-card-kynang { background: rgba(235,225,255,0.45); }
+    [data-theme="dark"] .kt-card-kynang { background: rgba(139,124,168,0.1); }
+
+    /* EMPTY */
+    .kt-empty {
+        text-align: center; padding: 60px 20px;
+        color: var(--text-muted); font-size: 14px;
+    }
+
+    .kt-empty-icon { font-size: 42px; margin-bottom: 12px; opacity: 0.4; }
+
+    /* ARTICLE MODAL */
+    .kt-article-overlay {
+        position: fixed; inset: 0; z-index: 9999;
+        background: rgba(0,0,0,0.48);
+        backdrop-filter: blur(10px);
+        display: flex; align-items: flex-end; justify-content: center;
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.35s ease;
+    }
+
+    .kt-article-overlay.open {
+        opacity: 1; pointer-events: all;
+    }
+
+    .kt-article-modal {
+        width: 100%; max-width: 640px;
+        max-height: 92vh;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 32px 32px 0 0;
+        overflow-y: auto;
+        position: relative;
+        transform: translateY(80px);
+        transition: transform 0.45s cubic-bezier(0.34,1.2,0.64,1);
+        box-shadow: 0 -16px 60px rgba(0,0,0,0.2);
+    }
+
+    @media (min-width: 640px) {
+        .kt-article-overlay { align-items: center; }
+        .kt-article-modal { border-radius: 32px; margin: 16px; max-height: 90vh; }
+    }
+
+    .kt-article-overlay.open .kt-article-modal { transform: translateY(0); }
+
+    .kt-article-close {
+        position: absolute; top: 18px; right: 20px; z-index: 2;
+        width: 36px; height: 36px; border-radius: 50%;
+        background: var(--bg-secondary); border: 1px solid var(--border);
+        color: var(--text-muted); cursor: pointer; font-size: 14px;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.2s;
+    }
+
+    .kt-article-close:hover { transform: rotate(90deg); color: var(--accent-rose); }
+
+    .kt-article-body {
+        padding: 36px 36px 44px;
+    }
+
+    @media (max-width: 600px) { .kt-article-body { padding: 28px 20px 36px; } }
+
+    /* Article inner styles */
+    .kt-art-top { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+
+    .kt-art-emoji { font-size: 40px; flex-shrink: 0; }
+
+    .kt-art-meta-col { display: flex; flex-direction: column; gap: 6px; }
+
+    .kt-art-metas { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+
+    .kt-art-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 26px; font-weight: 500;
+        color: var(--text-primary); line-height: 1.35; margin: 0 0 12px;
+    }
+
+    .kt-art-hook {
+        font-size: 15px; color: var(--accent-rose);
+        font-style: italic; line-height: 1.65;
+        border-left: 3px solid var(--accent-rose);
+        padding: 10px 16px; margin: 0 0 22px;
+        background: rgba(200,114,104,0.06);
+        border-radius: 0 12px 12px 0;
+    }
+
+    .kt-art-section-title {
+        font-size: 12px; text-transform: uppercase; letter-spacing: 2px;
+        color: var(--text-secondary); font-weight: 500; margin: 24px 0 10px;
+    }
+
+    .kt-art-bullets { list-style: none; padding: 0; margin: 0 0 20px; }
+
+    .kt-art-bullets li {
+        display: flex; align-items: flex-start; gap: 10px;
+        font-size: 14.5px; color: var(--text-secondary);
+        line-height: 1.65; padding: 6px 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .kt-art-bullets li:last-child { border-bottom: none; }
+
+    .kt-art-bullet-dot {
+        width: 7px; height: 7px; border-radius: 50%;
+        background: var(--accent-rose); flex-shrink: 0; margin-top: 8px;
+    }
+
+    .kt-art-steps { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-direction: column; gap: 12px; }
+
+    .kt-art-step {
+        display: flex; align-items: flex-start; gap: 14px;
+        background: var(--bg-primary); border: 1.5px solid var(--border);
+        border-radius: 16px; padding: 14px 16px;
+    }
+
+    .kt-art-step-num {
+        width: 30px; height: 30px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+        color: white; font-size: 13px; font-weight: 600;
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .kt-art-step-text {
+        font-size: 14.5px; color: var(--text-secondary); line-height: 1.6; padding-top: 4px;
+    }
+
+    .kt-art-close-quote {
+        font-size: 15px; text-align: center;
+        color: var(--accent-lavender); font-style: italic;
+        background: rgba(139,124,168,0.08); border-radius: 16px;
+        padding: 16px 20px; margin-top: 24px; line-height: 1.65;
+        border: 1px solid rgba(139,124,168,0.2);
+    }
+
     </style>
 </head>
 <body>
@@ -686,6 +1919,26 @@
                 </div>
             </div>
         </header>
+
+        <!-- NAVIGATION TABS -->
+        <nav class="main-nav" id="mainNav">
+            <button class="nav-tab active" id="navHome" onclick="switchTab('home')">
+                <i class="fas fa-home"></i>
+                <span>Trang chủ</span>
+            </button>
+            <button class="nav-tab" id="navPeaceful" onclick="switchTab('peaceful')">
+                <i class="fas fa-leaf"></i>
+                <span>Góc Bình Yên</span>
+            </button>
+            <button class="nav-tab" id="navTamSu" onclick="switchTab('tamsu')">
+                <i class="fas fa-feather-alt"></i>
+                <span>Tâm Sự</span>
+            </button>
+            <button class="nav-tab" id="navKienThuc" onclick="switchTab('kienthuc')">
+                <i class="fas fa-book-open"></i>
+                <span>Kiến Thức</span>
+            </button>
+        </nav>
 
         <main class="main">
             <!-- WELCOME SCREEN -->
@@ -858,7 +2111,298 @@
                     <div class="options-scroll" id="optionsScroll"></div>
                 </div>
             </div>
+        <!-- GÓC BÌNH YÊN TAB -->
+        <div id="peacefulTab" class="peaceful-tab" style="display:none">
+
+            <!-- SECTION: NHẠC CHỮA LÀNH -->
+            <section class="py-section">
+                <div class="py-section-header">
+                    <div class="py-section-icon" style="background: linear-gradient(135deg,#c87268,#d4897f)"><i class="fas fa-music"></i></div>
+                    <div>
+                        <h2 class="py-section-title">Nhạc Chữa Lành</h2>
+                        <p class="py-section-sub">Những giai điệu nhẹ nhàng giúp tâm hồn nghỉ ngơi</p>
+                    </div>
+                </div>
+                <div class="py-music-grid" id="pyMusicGrid">
+                    <!-- cards injected by JS -->
+                </div>
+                <!-- Hidden YouTube IFrame API container -->
+                <div id="pyYTEmbed" style="display:none;width:0;height:0;position:absolute;pointer-events:none;"></div>
+                <!-- Player bar -->
+                <div class="py-player" id="pyPlayer">
+                    <div class="py-player-info">
+                        <div class="py-player-thumb" id="pyPlayerThumb">🎵</div>
+                        <div>
+                            <div class="py-player-name" id="pyPlayerName">—</div>
+                            <div class="py-player-artist" id="pyPlayerArtist">—</div>
+                        </div>
+                    </div>
+                    <div class="py-player-controls">
+                        <button class="py-ctrl-btn" onclick="pyPrev()" title="Trước"><i class="fas fa-step-backward"></i></button>
+                        <button class="py-ctrl-btn py-ctrl-main" id="pyPlayBtn" onclick="pyTogglePlay()"><i class="fas fa-play"></i></button>
+                        <button class="py-ctrl-btn" onclick="pyNext()" title="Tiếp"><i class="fas fa-step-forward"></i></button>
+                    </div>
+                    <div class="py-player-vol">
+                        <i class="fas fa-volume-up" style="color:var(--text-muted);font-size:12px"></i>
+                        <input type="range" class="py-vol-slider" id="pyVolSlider" min="0" max="100" value="70" oninput="pySetVol(this.value)">
+                    </div>
+                </div>
+            </section>
+
+            <div class="py-divider"><span>❀</span></div>
+
+            <!-- SECTION: ÂM THANH THIÊN NHIÊN -->
+            <section class="py-section">
+                <div class="py-section-header">
+                    <div class="py-section-icon" style="background: linear-gradient(135deg,#5b9ea0,#7bbcbe)"><i class="fas fa-water"></i></div>
+                    <div>
+                        <h2 class="py-section-title">Âm Thanh Thiên Nhiên</h2>
+                        <p class="py-section-sub">Hoà mình vào thiên nhiên, buông bỏ những muộn phiền</p>
+                    </div>
+                </div>
+                <div class="py-sounds-grid" id="pySoundsGrid">
+                    <!-- cards injected by JS -->
+                </div>
+                <!-- Mix bar -->
+                <div class="py-mix-bar">
+                    <span class="py-mix-label"><i class="fas fa-sliders-h"></i> Đang phát:</span>
+                    <div class="py-mix-chips" id="pyMixChips"><span class="py-mix-empty">Chưa có âm thanh nào</span></div>
+                    <button class="py-mix-stop" onclick="pyStopAllSounds()"><i class="fas fa-stop"></i> Tắt hết</button>
+                </div>
+            </section>
+
+            <div class="py-divider"><span>❀</span></div>
+
+            <!-- SECTION: MINI GAMES -->
+            <section class="py-section">
+                <div class="py-section-header">
+                    <div class="py-section-icon" style="background: linear-gradient(135deg,#8b7ca8,#a093c2)"><i class="fas fa-gamepad"></i></div>
+                    <div>
+                        <h2 class="py-section-title">Mini Game Nhẹ Nhàng</h2>
+                        <p class="py-section-sub">Những trò chơi giúp ổn định cảm xúc và thư giãn tâm trí</p>
+                    </div>
+                </div>
+                <div class="py-games-grid">
+                    <!-- GAME 1: Thở -->
+                    <div class="py-game-card" id="breathGame">
+                        <div class="py-game-header">
+                            <span class="py-game-emoji">🌬️</span>
+                            <div>
+                                <div class="py-game-title">Hơi Thở Bình Yên</div>
+                                <div class="py-game-desc">Kỹ thuật thở 4-7-8 để giảm lo âu</div>
+                            </div>
+                        </div>
+                        <div class="py-breath-circle-wrap">
+                            <div class="py-breath-ring" id="pyBreathRing">
+                                <div class="py-breath-inner" id="pyBreathInner">
+                                    <span id="pyBreathText">Bắt đầu</span>
+                                    <span id="pyBreathCount" class="py-breath-count"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="py-game-btn" id="pyBreathBtn" onclick="pyToggleBreath()">
+                            <i class="fas fa-play"></i> Bắt đầu
+                        </button>
+                    </div>
+
+                    <!-- GAME 2: Bubble pop -->
+                    <div class="py-game-card" id="bubbleGame">
+                        <div class="py-game-header">
+                            <span class="py-game-emoji">🫧</span>
+                            <div>
+                                <div class="py-game-title">Nổ Bong Bóng</div>
+                                <div class="py-game-desc">Nhẹ nhàng nhấn vào từng bong bóng</div>
+                            </div>
+                        </div>
+                        <div class="py-bubble-arena" id="pyBubbleArena"></div>
+                        <div class="py-game-stats">
+                            <span>Đã nổ: <b id="pyBubbleCount">0</b></span>
+                            <button class="py-game-btn-sm" onclick="pySpawnBubbles()"><i class="fas fa-redo"></i> Tạo mới</button>
+                        </div>
+                    </div>
+
+                    <!-- GAME 3: Cảm xúc hôm nay -->
+                    <div class="py-game-card" id="moodGame">
+                        <div class="py-game-header">
+                            <span class="py-game-emoji">🌈</span>
+                            <div>
+                                <div class="py-game-title">Cảm Xúc Hôm Nay</div>
+                                <div class="py-game-desc">Vẽ và ghi lại cảm xúc của bạn</div>
+                            </div>
+                        </div>
+                        <div class="py-mood-picker">
+                            <div class="py-mood-emojis" id="pyMoodEmojis">
+                                <button class="py-mood-btn" onclick="pyPickMood(this,'😊','Vui vẻ','#f9c74f')">😊</button>
+                                <button class="py-mood-btn" onclick="pyPickMood(this,'😌','Bình yên','#90dbf4')">😌</button>
+                                <button class="py-mood-btn" onclick="pyPickMood(this,'😢','Buồn','#adb5bd')">😢</button>
+                                <button class="py-mood-btn" onclick="pyPickMood(this,'😤','Tức giận','#f94144')">😤</button>
+                                <button class="py-mood-btn" onclick="pyPickMood(this,'😰','Lo lắng','#f8961e')">😰</button>
+                                <button class="py-mood-btn" onclick="pyPickMood(this,'🥱','Mệt mỏi','#b5838d')">🥱</button>
+                                <button class="py-mood-btn" onclick="pyPickMood(this,'🤗','Biết ơn','#95d5b2')">🤗</button>
+                                <button class="py-mood-btn" onclick="pyPickMood(this,'😕','Bối rối','#cdb4db')">😕</button>
+                            </div>
+                            <div id="pyMoodResult" class="py-mood-result" style="display:none">
+                                <div class="py-mood-selected" id="pyMoodSelected"></div>
+                                <p class="py-mood-affirmation" id="pyMoodAffirmation"></p>
+                                <textarea class="py-mood-note" id="pyMoodNote" placeholder="Viết thêm điều bạn muốn chia sẻ…" rows="2"></textarea>
+                                <button class="py-game-btn-sm" onclick="pySaveMood()" style="margin-top:8px"><i class="fas fa-heart"></i> Lưu cảm xúc</button>
+                            </div>
+                        </div>
+                        <div class="py-mood-history" id="pyMoodHistory"></div>
+                    </div>
+
+                    <!-- GAME 4: Mandala tô màu -->
+                    <div class="py-game-card" id="mandalGame">
+                        <div class="py-game-header">
+                            <span class="py-game-emoji">🎨</span>
+                            <div>
+                                <div class="py-game-title">Tô Màu Mandala</div>
+                                <div class="py-game-desc">Thư giãn qua nghệ thuật tô màu</div>
+                            </div>
+                        </div>
+                        <div class="py-mandala-wrap">
+                            <canvas id="pyMandalaCanvas" width="220" height="220"></canvas>
+                        </div>
+                        <div class="py-color-palette" id="pyColorPalette"></div>
+                        <div class="py-mandala-actions">
+                            <button class="py-game-btn-sm" onclick="pyMandalaNew()"><i class="fas fa-redo"></i> Mới</button>
+                            <button class="py-game-btn-sm" onclick="pyMandalaClear()"><i class="fas fa-eraser"></i> Xóa màu</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        <!-- END GÓC BÌNH YÊN -->
+
+        <!-- TAB TÂM SỰ -->
+        <div id="tamSuTab" class="tamsu-tab" style="display:none">
+
+            <!-- HEADER HERO -->
+
+
+            <!-- WALL TITLE -->
+            <div class="ts-wall-title-bar">
+                <div class="ts-wall-title-left">
+                    <i class="fas fa-heart" style="color:var(--accent-rose)"></i>
+                    <span>Tâm sự ẩn danh</span>
+                </div>
+                <div class="ts-wall-title-right">
+                    <span class="ts-count-badge" id="tsCountBadge">— câu chuyện</span>
+                    <button class="ts-refresh-btn" onclick="tsLoadShares()" title="Làm mới">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SHARE WALL -->
+            <div class="ts-wall" id="tsWall">
+                <!-- Loading state -->
+                <div class="ts-loading" id="tsLoading">
+                    <div class="ts-loading-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <p>Đang tải những tâm sự…</p>
+                </div>
+            </div>
+
+            <!-- EMPTY STATE (hidden by default) -->
+            <div class="ts-empty" id="tsEmpty" style="display:none">
+                <div class="ts-empty-icon">🌿</div>
+                <div class="ts-empty-title">Chưa có tâm sự nào</div>
+                <div class="ts-empty-sub">Hãy là người đầu tiên chia sẻ câu chuyện của mình nhé ✨<br>Nhấn nút <strong>+</strong> bên dưới để bắt đầu</div>
+            </div>
+
+        </div>
+        <!-- END TAM SU -->
+
+        <!-- FAB: Gửi tâm sự (only visible on tamsu tab) -->
+        <div class="ts-fab" id="tsFab" style="display:none" onclick="tsOpenShareModal()">
+            <div class="ts-fab-icon"><i class="fas fa-plus"></i></div>
+            <span class="ts-fab-label">Gửi tâm sự</span>
+        </div>
+
+        <!-- TAB KIẾN THỨC -->
+        <div id="kienThucTab" class="kt-tab" style="display:none">
+            <div class="kt-hero">
+                <div class="kt-hero-inner">
+                    <div class="kt-hero-icon">📖</div>
+                    <div class="kt-hero-text">
+                        <h2 class="kt-hero-title">Kiến Thức Về Bản Thân</h2>
+                        <p class="kt-hero-sub">Bài đọc ngắn, thiết thực — viết riêng cho học sinh</p>
+                    </div>
+                    <div class="kt-hero-divider"></div>
+                    <div class="kt-search-wrap">
+                        <i class="fas fa-search kt-search-icon"></i>
+                        <input type="text" id="ktSearchInput" class="kt-search" placeholder="Tìm bài viết…" oninput="ktFilterCards(this.value)" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="kt-filter-wrap">
+                <div class="kt-filter-bar">
+                    <button class="kt-filter-btn active" data-cat="all" onclick="ktSetCategory('all',this)">Tất cả</button>
+                    <button class="kt-filter-btn" data-cat="camxuc" onclick="ktSetCategory('camxuc',this)">🌸 Cảm xúc</button>
+                    <button class="kt-filter-btn" data-cat="hoctap" onclick="ktSetCategory('hoctap',this)">📚 Học tập</button>
+                    <button class="kt-filter-btn" data-cat="quanhe" onclick="ktSetCategory('quanhe',this)">💛 Mối quan hệ</button>
+                    <button class="kt-filter-btn" data-cat="suckhoe" onclick="ktSetCategory('suckhoe',this)">🌿 Sức khỏe tinh thần</button>
+                    <button class="kt-filter-btn" data-cat="kynang" onclick="ktSetCategory('kynang',this)">✨ Kỹ năng sống</button>
+                </div>
+            </div>
+
+            <div class="kt-content" id="ktContent">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+
         </main>
+    </div>
+
+    <!-- MODAL TÂM SỰ -->
+    <div class="ts-modal-overlay" id="tsModalOverlay" onclick="tsCloseModalOnBg(event)">
+        <div class="ts-modal-card" id="tsModalCard">
+            <button class="ts-modal-close" onclick="tsCloseShareModal()"><i class="fas fa-times"></i></button>
+
+            <div class="ts-modal-header">
+                <div class="ts-modal-icon">🌸</div>
+                <h3 class="ts-modal-title">Gửi Tâm Sự</h3>
+                <p class="ts-modal-sub">Câu chuyện của bạn sẽ được admin xem xét trước khi hiển thị. Hoàn toàn ẩn danh. Hãy chia sẻ nỗi buồn bạn nhé !</p>
+            </div>
+
+            <div class="ts-modal-form">
+                <div class="ts-form-group">
+                    <label class="ts-form-label">Tên hiển thị <span class="ts-optional">(tùy chọn)</span></label>
+                    <input type="text" id="tsNicknameInput" class="ts-form-input" placeholder="VD: HoaNhỏ, MâyTrắng, PvPv, pupu, ..." maxlength="30">
+                </div>
+
+                <div class="ts-form-group">
+                    <label class="ts-form-label">Tâm sự của bạn <span class="ts-required">*</span></label>
+                    <textarea id="tsContentInput" class="ts-form-textarea" placeholder="Hôm nay mình cảm thấy… Điều mình muốn nói là… Có một điều mình chưa dám kể với ai…" rows="5" oninput="tsUpdateCharCount()"></textarea>
+                    <div class="ts-char-count"><span id="tsCharCount">0</span>/500</div>
+                </div>
+
+                <div class="ts-form-note">
+                    <i class="fas fa-lock"></i>
+                    Tâm sự sẽ được ẩn danh và cần admin duyệt trước khi xuất hiện
+                </div>
+
+                <div id="tsSubmitStatus" class="ts-submit-status" style="display:none"></div>
+
+                <button class="ts-submit-btn" id="tsSubmitBtn" onclick="tsSubmitShare()">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Gửi tâm sự</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- ARTICLE MODAL -->
+    <div class="kt-article-overlay" id="ktArticleOverlay" onclick="ktCloseArticle(event)">
+        <div class="kt-article-modal" id="ktArticleModal">
+            <button class="kt-article-close" onclick="ktCloseArticleBtn()"><i class="fas fa-times"></i></button>
+            <div class="kt-article-body" id="ktArticleBody"></div>
+        </div>
     </div>
 
     <!-- MODAL -->
@@ -962,5 +2506,1503 @@
     });
     </script>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+    /* ═══════════════════════════════════════════
+       TAB SWITCHING
+    ═══════════════════════════════════════════ */
+    let _pyLastHomeScreen = 'welcome';
+
+    function switchTab(tab) {
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const chatLayout = document.getElementById('chatLayout');
+        const peacefulTab = document.getElementById('peacefulTab');
+        const tamSuTab = document.getElementById('tamSuTab');
+        const kienThucTab = document.getElementById('kienThucTab');
+        const navHome = document.getElementById('navHome');
+        const navPeaceful = document.getElementById('navPeaceful');
+        const navTamSu = document.getElementById('navTamSu');
+        const navKienThuc = document.getElementById('navKienThuc');
+
+        // Hide all tabs first
+        peacefulTab.style.display = 'none';
+        tamSuTab.style.display = 'none';
+        if (kienThucTab) kienThucTab.style.display = 'none';
+        navHome.classList.remove('active');
+        navPeaceful.classList.remove('active');
+        if (navTamSu) navTamSu.classList.remove('active');
+        if (navKienThuc) navKienThuc.classList.remove('active');
+
+        // FAB visibility
+        const fab = document.getElementById('tsFab');
+        if (fab) fab.style.display = (tab === 'tamsu') ? 'flex' : 'none';
+
+        if (tab === 'home') {
+            navHome.classList.add('active');
+            if (_pyLastHomeScreen === 'chat') {
+                chatLayout.classList.add('active');
+                welcomeScreen.style.display = 'none';
+            } else {
+                welcomeScreen.style.display = 'flex';
+                chatLayout.classList.remove('active');
+            }
+        } else if (tab === 'peaceful') {
+            _pyLastHomeScreen = chatLayout && chatLayout.classList.contains('active') ? 'chat' : 'welcome';
+            welcomeScreen.style.display = 'none';
+            if (chatLayout) chatLayout.classList.remove('active');
+            peacefulTab.style.display = 'block';
+            navPeaceful.classList.add('active');
+            initPeacefulTab();
+        } else if (tab === 'tamsu') {
+            _pyLastHomeScreen = chatLayout && chatLayout.classList.contains('active') ? 'chat' : 'welcome';
+            welcomeScreen.style.display = 'none';
+            if (chatLayout) chatLayout.classList.remove('active');
+            tamSuTab.style.display = 'block';
+            if (navTamSu) navTamSu.classList.add('active');
+            tsInitTab();
+        } else if (tab === 'kienthuc') {
+            _pyLastHomeScreen = chatLayout && chatLayout.classList.contains('active') ? 'chat' : 'welcome';
+            welcomeScreen.style.display = 'none';
+            if (chatLayout) chatLayout.classList.remove('active');
+            if (kienThucTab) kienThucTab.style.display = 'flex';
+            if (navKienThuc) navKienThuc.classList.add('active');
+            ktInitTab();
+        }
+    }
+
+    /* ═══════════════════════════════════════════
+       GÓC BÌNH YÊN — INIT
+    ═══════════════════════════════════════════ */
+    let pyInited = false;
+
+    function initPeacefulTab() {
+        if (pyInited) return;
+        pyInited = true;
+        pyRenderMusic();
+        pyRenderSounds();
+        pySpawnBubbles();
+        pyRenderMandala();
+        pyRenderColorPalette();
+    }
+
+    /* ─────────────────────────────────────────
+       MUSIC DATA & PLAYER
+       (uses YouTube iframe embed for in-page playback)
+    ───────────────────────────────────────── */
+    const PY_MUSIC = [
+        { emoji: '🌸', name: 'Lofi Bình Yên', artist: 'Chữa lành · Lo-fi', videoId: 'jfKfPfyJRdk', mood: 'Thư giãn' },
+        { emoji: '🌊', name: 'Sóng & Piano', artist: 'Thiên nhiên · Nhạc cụ', videoId: 'lFcSrYw-ARY', mood: 'Bình tĩnh' },
+        { emoji: '🎋', name: 'Nhạc Thiền Định', artist: 'Zen · Thiền', videoId: '77ZozI0rw7w', mood: 'Thiền' },
+        { emoji: '🌙', name: 'Đêm Thanh Bình', artist: 'Ambient · Ngủ ngon', videoId: 'HuFYqnbVbzY', mood: 'Ngủ ngon' },
+        { emoji: '☁️', name: 'Mây Trắng Bay', artist: 'New Age · Chữa lành', videoId: '1ZYbU82GVz4', mood: 'Nhẹ nhàng' },
+        { emoji: '🌿', name: 'Rừng Xanh', artist: 'Nature · Nhẹ nhàng', videoId: 'xNN7iTA57jM', mood: 'Tươi mát' },
+    ];
+
+    let pyCurrentTrack = 0;
+    let pyPlaying = false;
+    let pyYTPlayer = null;
+    let pyYTReady = false;
+
+    // Load YouTube IFrame API
+    (function() {
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(tag);
+    })();
+
+    window.onYouTubeIframeAPIReady = function() {
+        pyYTReady = true;
+        pyYTPlayer = new YT.Player('pyYTEmbed', {
+            height: '0',
+            width: '0',
+            videoId: PY_MUSIC[0].videoId,
+            playerVars: { autoplay: 0, controls: 0 },
+            events: {
+                onStateChange: function(e) {
+                    if (e.data === YT.PlayerState.ENDED) {
+                        pyNext();
+                    }
+                    if (e.data === YT.PlayerState.PLAYING) {
+                        pyPlaying = true;
+                        document.getElementById('pyPlayBtn').innerHTML = '<i class="fas fa-pause"></i>';
+                    }
+                    if (e.data === YT.PlayerState.PAUSED) {
+                        pyPlaying = false;
+                        document.getElementById('pyPlayBtn').innerHTML = '<i class="fas fa-play"></i>';
+                    }
+                }
+            }
+        });
+    };
+
+    function pyRenderMusic() {
+        const grid = document.getElementById('pyMusicGrid');
+        grid.innerHTML = PY_MUSIC.map((t, i) => `
+            <div class="py-music-card" id="pyTrack${i}" onclick="pyPlayTrack(${i})">
+                <div class="py-music-playing-dot"></div>
+                <span class="py-music-thumb">${t.emoji}</span>
+                <div class="py-music-name">${t.name}</div>
+                <div class="py-music-mood">${t.mood} · ${t.artist}</div>
+            </div>
+        `).join('');
+    }
+
+    function pyPlayTrack(i) {
+        document.querySelectorAll('.py-music-card').forEach(c => c.classList.remove('playing'));
+        document.getElementById(`pyTrack${i}`).classList.add('playing');
+        pyCurrentTrack = i;
+        const t = PY_MUSIC[i];
+        document.getElementById('pyPlayerName').textContent = t.name;
+        document.getElementById('pyPlayerArtist').textContent = t.artist;
+        document.getElementById('pyPlayerThumb').textContent = t.emoji;
+
+        if (pyYTReady && pyYTPlayer && pyYTPlayer.loadVideoById) {
+            const vol = document.getElementById('pyVolSlider').value;
+            pyYTPlayer.loadVideoById(t.videoId);
+            pyYTPlayer.setVolume(parseInt(vol));
+            pyYTPlayer.playVideo();
+            pyPlaying = true;
+            document.getElementById('pyPlayBtn').innerHTML = '<i class="fas fa-pause"></i>';
+        }
+    }
+
+    function pyTogglePlay() {
+        if (!pyYTReady || !pyYTPlayer) return;
+        if (pyPlaying) {
+            pyYTPlayer.pauseVideo();
+            pyPlaying = false;
+            document.getElementById('pyPlayBtn').innerHTML = '<i class="fas fa-play"></i>';
+            document.querySelectorAll('.py-music-card').forEach(c => c.classList.remove('playing'));
+        } else {
+            if (pyYTPlayer.getPlayerState && pyYTPlayer.getPlayerState() === -1) {
+                pyPlayTrack(pyCurrentTrack);
+            } else {
+                pyYTPlayer.playVideo();
+                document.getElementById(`pyTrack${pyCurrentTrack}`).classList.add('playing');
+            }
+        }
+    }
+
+    function pyNext() {
+        pyPlayTrack((pyCurrentTrack + 1) % PY_MUSIC.length);
+    }
+
+    function pyPrev() {
+        pyPlayTrack((pyCurrentTrack - 1 + PY_MUSIC.length) % PY_MUSIC.length);
+    }
+
+    function pySetVol(v) {
+        if (pyYTPlayer && pyYTPlayer.setVolume) {
+            pyYTPlayer.setVolume(parseInt(v));
+        }
+    }
+
+    /* ─────────────────────────────────────────
+       SOUND DATA (Web Audio API — realistic synthesis)
+    ───────────────────────────────────────── */
+    const PY_SOUNDS = [
+        { emoji: '🌧️', name: 'Mưa rơi', type: 'rain' },
+        { emoji: '🌊', name: 'Sóng biển', type: 'ocean' },
+        { emoji: '🔥', name: 'Lửa bếp', type: 'fire' },
+        { emoji: '🌬️', name: 'Gió nhẹ', type: 'wind' },
+        { emoji: '🐦', name: 'Chim hót', type: 'birds' },
+        { emoji: '💧', name: 'Suối chảy', type: 'stream' },
+        { emoji: '🌿', name: 'Rừng cây', type: 'forest' },
+        { emoji: '🎐', name: 'Chuông gió', type: 'chimes' },
+    ];
+
+    let pyAudioCtx = null;
+    let pyActiveNodes = {};
+
+    function getAudioCtx() {
+        if (!pyAudioCtx) pyAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        return pyAudioCtx;
+    }
+
+    // Helper: create a looping white-noise buffer source
+    function makeNoiseSrc(ctx, seconds) {
+        const len = ctx.sampleRate * (seconds || 4);
+        const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+        for (let ch = 0; ch < 2; ch++) {
+            const d = buf.getChannelData(ch);
+            for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+        }
+        const src = ctx.createBufferSource();
+        src.buffer = buf; src.loop = true;
+        return src;
+    }
+
+    // Helper: pink noise (more natural than white)
+    function makePinkNoiseSrc(ctx) {
+        const len = ctx.sampleRate * 4;
+        const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+        for (let ch = 0; ch < 2; ch++) {
+            const d = buf.getChannelData(ch);
+            let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+            for (let i = 0; i < len; i++) {
+                const w = Math.random() * 2 - 1;
+                b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759;
+                b2=0.96900*b2+w*0.1538520; b3=0.86650*b3+w*0.3104856;
+                b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+                d[i] = (b0+b1+b2+b3+b4+b5+b6+w*0.5362) * 0.11;
+                b6 = w * 0.115926;
+            }
+        }
+        const src = ctx.createBufferSource();
+        src.buffer = buf; src.loop = true;
+        return src;
+    }
+
+    function pyCreateNoise(type, masterGain) {
+        const ctx = getAudioCtx();
+        const nodes = [];
+
+        switch(type) {
+
+        // ── MƯA RƠI: pink noise + nhiều droplets ngẫu nhiên + reverb ──
+        case 'rain': {
+            // Base rain hiss (pink noise filtered)
+            const pink = makePinkNoiseSrc(ctx);
+            const hiPass = ctx.createBiquadFilter();
+            hiPass.type = 'highpass'; hiPass.frequency.value = 1000;
+            const shelf = ctx.createBiquadFilter();
+            shelf.type = 'highshelf'; shelf.frequency.value = 4000; shelf.gain.value = 6;
+            const gainBase = ctx.createGain(); gainBase.gain.value = 0.55;
+            pink.connect(hiPass); hiPass.connect(shelf); shelf.connect(gainBase); gainBase.connect(masterGain);
+            pink.start(); nodes.push(pink);
+
+            // Heavy rain layer (lower rumble)
+            const rumble = makePinkNoiseSrc(ctx);
+            const rumbleF = ctx.createBiquadFilter();
+            rumbleF.type = 'bandpass'; rumbleF.frequency.value = 300; rumbleF.Q.value = 0.4;
+            const rumbleG = ctx.createGain(); rumbleG.gain.value = 0.25;
+            rumble.connect(rumbleF); rumbleF.connect(rumbleG); rumbleG.connect(masterGain);
+            rumble.start(); nodes.push(rumble);
+
+            // Random raindrop splats
+            function droplet() {
+                if (!pyActiveNodes['rain']) return;
+                const osc = ctx.createOscillator();
+                const g = ctx.createGain();
+                const f = 800 + Math.random() * 1600;
+                osc.type = 'sine'; osc.frequency.value = f;
+                osc.frequency.exponentialRampToValueAtTime(f * 0.3, ctx.currentTime + 0.06);
+                g.gain.setValueAtTime(0.08 + Math.random() * 0.1, ctx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
+                osc.connect(g); g.connect(masterGain);
+                osc.start(); osc.stop(ctx.currentTime + 0.1);
+                const next = 20 + Math.random() * 80;
+                setTimeout(droplet, next);
+            }
+            setTimeout(droplet, 50);
+            break;
+        }
+
+        // ── SÓNG BIỂN: LFO-modulated filtered noise, stereo movement ──
+        case 'ocean': {
+            // Tạo 3 sóng độc lập với chu kỳ khác nhau
+            [3.2, 5.8, 9.1].forEach((period, idx) => {
+                const noise = makePinkNoiseSrc(ctx);
+                const lp = ctx.createBiquadFilter();
+                lp.type = 'lowpass'; lp.frequency.value = 600 + idx * 150;
+                const hp = ctx.createBiquadFilter();
+                hp.type = 'highpass'; hp.frequency.value = 80;
+                const wave = ctx.createGain(); wave.gain.value = 0;
+
+                // LFO mô phỏng nhịp sóng vỗ
+                const lfo = ctx.createOscillator();
+                lfo.type = 'sine'; lfo.frequency.value = 1 / period;
+                const lfoG = ctx.createGain(); lfoG.gain.value = 0.18;
+                const dcOffset = ctx.createConstantSource ? ctx.createConstantSource() : null;
+
+                noise.connect(lp); lp.connect(hp); hp.connect(wave); wave.connect(masterGain);
+                lfo.connect(lfoG); lfoG.connect(wave.gain);
+                if (dcOffset) { dcOffset.offset.value = 0.18; dcOffset.connect(wave.gain); dcOffset.start(); nodes.push(dcOffset); }
+                else wave.gain.value = 0.18;
+                noise.start(); lfo.start();
+                nodes.push(noise, lfo);
+            });
+
+            // Foam/spray high freq
+            const spray = makeNoiseSrc(ctx, 4);
+            const sprayF = ctx.createBiquadFilter();
+            sprayF.type = 'bandpass'; sprayF.frequency.value = 3500; sprayF.Q.value = 0.6;
+            const sprayG = ctx.createGain(); sprayG.gain.value = 0.08;
+            spray.connect(sprayF); sprayF.connect(sprayG); sprayG.connect(masterGain);
+            spray.start(); nodes.push(spray);
+            break;
+        }
+
+        // ── LỬA BẾP: crackling + pop + glow hiss ──
+        case 'fire': {
+            // Base fire hiss
+            const hiss = makePinkNoiseSrc(ctx);
+            const hissF = ctx.createBiquadFilter();
+            hissF.type = 'bandpass'; hissF.frequency.value = 800; hissF.Q.value = 0.6;
+            const hissG = ctx.createGain(); hissG.gain.value = 0.35;
+            hiss.connect(hissF); hissF.connect(hissG); hissG.connect(masterGain);
+            hiss.start(); nodes.push(hiss);
+
+            // Roar undertone
+            const roar = makePinkNoiseSrc(ctx);
+            const roarF = ctx.createBiquadFilter();
+            roarF.type = 'lowpass'; roarF.frequency.value = 250;
+            const roarLFO = ctx.createOscillator(); roarLFO.type = 'sine'; roarLFO.frequency.value = 0.4;
+            const roarG = ctx.createGain(); roarG.gain.value = 0.2;
+            const roarMod = ctx.createGain(); roarMod.gain.value = 0.08;
+            roar.connect(roarF); roarF.connect(roarG); roarG.connect(masterGain);
+            roarLFO.connect(roarMod); roarMod.connect(roarG.gain);
+            roar.start(); roarLFO.start(); nodes.push(roar, roarLFO);
+
+            // Random crackles
+            function crackle() {
+                if (!pyActiveNodes['fire']) return;
+                const w = makeNoiseSrc(ctx, 0.1);
+                const f = ctx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=2000+Math.random()*2000; f.Q.value=2;
+                const g = ctx.createGain();
+                g.gain.setValueAtTime(0.2+Math.random()*0.3, ctx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.05+Math.random()*0.07);
+                w.connect(f); f.connect(g); g.connect(masterGain);
+                w.start(); w.stop(ctx.currentTime+0.15);
+                setTimeout(crackle, 80 + Math.random() * 300);
+            }
+            crackle();
+            break;
+        }
+
+        // ── GIÓ NHẸ: sweeping bandpass LFO + howl ──
+        case 'wind': {
+            // Main wind sweep
+            const wind1 = makePinkNoiseSrc(ctx);
+            const bp1 = ctx.createBiquadFilter(); bp1.type='bandpass'; bp1.frequency.value=400; bp1.Q.value=0.2;
+            const windG = ctx.createGain(); windG.gain.value = 0.3;
+            wind1.connect(bp1); bp1.connect(windG); windG.connect(masterGain);
+            wind1.start(); nodes.push(wind1);
+
+            // Slowly modulate wind frequency (gusting)
+            const gustLFO = ctx.createOscillator(); gustLFO.type='sine'; gustLFO.frequency.value=0.07;
+            const gustM = ctx.createGain(); gustM.gain.value = 150;
+            gustLFO.connect(gustM); gustM.connect(bp1.frequency);
+            gustLFO.start(); nodes.push(gustLFO);
+
+            // Volume gust
+            const volLFO = ctx.createOscillator(); volLFO.type='sine'; volLFO.frequency.value=0.11;
+            const volM = ctx.createGain(); volM.gain.value=0.15;
+            volLFO.connect(volM); volM.connect(windG.gain);
+            volLFO.start(); nodes.push(volLFO);
+
+            // High whistle
+            const whistle = makePinkNoiseSrc(ctx);
+            const wbp = ctx.createBiquadFilter(); wbp.type='bandpass'; wbp.frequency.value=1800; wbp.Q.value=3;
+            const wg = ctx.createGain(); wg.gain.value=0.07;
+            whistle.connect(wbp); wbp.connect(wg); wg.connect(masterGain);
+            whistle.start(); nodes.push(whistle);
+            break;
+        }
+
+        // ── CHIM HÓT: nhiều loại chim với âm điệu khác nhau ──
+        case 'birds': {
+            // Background ambient birdsong hum
+            const amb = makePinkNoiseSrc(ctx);
+            const ambF = ctx.createBiquadFilter(); ambF.type='bandpass'; ambF.frequency.value=2500; ambF.Q.value=0.3;
+            const ambG = ctx.createGain(); ambG.gain.value=0.05;
+            amb.connect(ambF); ambF.connect(ambG); ambG.connect(masterGain);
+            amb.start(); nodes.push(amb);
+
+            // Different bird call patterns
+            const birdPatterns = [
+                { baseFreq: 2800, vibRate: 8, notes: [1,1.2,1,0.9], dur: 0.12, gap: () => 1500+Math.random()*3000 },
+                { baseFreq: 3400, vibRate: 12, notes: [1,1.3,1.5,1.3,1], dur: 0.09, gap: () => 2500+Math.random()*5000 },
+                { baseFreq: 1800, vibRate: 5, notes: [1,0.8,1,1.2,0.9,1.1], dur: 0.15, gap: () => 3000+Math.random()*6000 },
+                { baseFreq: 4200, vibRate: 15, notes: [1,1.1,1.2], dur: 0.07, gap: () => 800+Math.random()*2000 },
+            ];
+
+            birdPatterns.forEach((bird, bi) => {
+                function singBird() {
+                    if (!pyActiveNodes['birds']) return;
+                    bird.notes.forEach((ratio, ni) => {
+                        const t0 = ctx.currentTime + ni * (bird.dur * 1.2);
+                        const osc = ctx.createOscillator(); osc.type='sine';
+                        osc.frequency.value = bird.baseFreq * ratio;
+                        // Vibrato
+                        const vib = ctx.createOscillator(); vib.type='sine'; vib.frequency.value=bird.vibRate;
+                        const vibG = ctx.createGain(); vibG.gain.value = bird.baseFreq * ratio * 0.03;
+                        vib.connect(vibG); vibG.connect(osc.frequency);
+                        // Envelope
+                        const g = ctx.createGain();
+                        g.gain.setValueAtTime(0, t0);
+                        g.gain.linearRampToValueAtTime(0.12, t0+bird.dur*0.15);
+                        g.gain.setValueAtTime(0.12, t0+bird.dur*0.7);
+                        g.gain.exponentialRampToValueAtTime(0.001, t0+bird.dur);
+                        osc.connect(g); g.connect(masterGain);
+                        osc.start(t0); osc.stop(t0+bird.dur+0.02);
+                        vib.start(t0); vib.stop(t0+bird.dur+0.02);
+                    });
+                    setTimeout(singBird, bird.gap());
+                }
+                setTimeout(singBird, bi * 700 + Math.random()*500);
+            });
+            break;
+        }
+
+        // ── SUỐI CHẢY: bubbling + rushing water ──
+        case 'stream': {
+            // Rushing water base
+            const rush = makePinkNoiseSrc(ctx);
+            const rushF = ctx.createBiquadFilter(); rushF.type='bandpass'; rushF.frequency.value=1200; rushF.Q.value=0.5;
+            const rushG = ctx.createGain(); rushG.gain.value=0.4;
+            rush.connect(rushF); rushF.connect(rushG); rushG.connect(masterGain);
+            rush.start(); nodes.push(rush);
+
+            // High-freq sparkle
+            const sparkle = makeNoiseSrc(ctx, 4);
+            const spF = ctx.createBiquadFilter(); spF.type='highpass'; spF.frequency.value=3000;
+            const spG = ctx.createGain(); spG.gain.value=0.12;
+            sparkle.connect(spF); spF.connect(spG); spG.connect(masterGain);
+            sparkle.start(); nodes.push(sparkle);
+
+            // Bubbling
+            function bubble() {
+                if (!pyActiveNodes['stream']) return;
+                const o = ctx.createOscillator();
+                const g = ctx.createGain();
+                const f = 500 + Math.random() * 800;
+                o.type='sine'; o.frequency.value=f;
+                o.frequency.linearRampToValueAtTime(f*1.5, ctx.currentTime+0.04);
+                g.gain.setValueAtTime(0.06+Math.random()*0.08, ctx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.1);
+                o.connect(g); g.connect(masterGain);
+                o.start(); o.stop(ctx.currentTime+0.12);
+                setTimeout(bubble, 30 + Math.random() * 100);
+            }
+            bubble();
+            break;
+        }
+
+        // ── RỪNG CÂY: lá xào xạc + gió nhẹ + chim xa ──
+        case 'forest': {
+            // Leaf rustle
+            const leaves = makePinkNoiseSrc(ctx);
+            const leafF = ctx.createBiquadFilter(); leafF.type='bandpass'; leafF.frequency.value=2200; leafF.Q.value=0.4;
+            const leafShelf = ctx.createBiquadFilter(); leafShelf.type='highshelf'; leafShelf.frequency.value=4000; leafShelf.gain.value=3;
+            const leafG = ctx.createGain(); leafG.gain.value=0.18;
+            leaves.connect(leafF); leafF.connect(leafShelf); leafShelf.connect(leafG); leafG.connect(masterGain);
+            leaves.start(); nodes.push(leaves);
+
+            // Low forest ambience
+            const deep = makePinkNoiseSrc(ctx);
+            const deepF = ctx.createBiquadFilter(); deepF.type='lowpass'; deepF.frequency.value=300;
+            const deepG = ctx.createGain(); deepG.gain.value=0.15;
+            deep.connect(deepF); deepF.connect(deepG); deepG.connect(masterGain);
+            deep.start(); nodes.push(deep);
+
+            // Breeze gust modulation on leaves
+            const breezeLFO = ctx.createOscillator(); breezeLFO.type='sine'; breezeLFO.frequency.value=0.15;
+            const breezeM = ctx.createGain(); breezeM.gain.value=0.1;
+            breezeLFO.connect(breezeM); breezeM.connect(leafG.gain);
+            breezeLFO.start(); nodes.push(breezeLFO);
+
+            // Distant bird calls
+            function distantBird() {
+                if (!pyActiveNodes['forest']) return;
+                const osc = ctx.createOscillator(); osc.type='sine';
+                const g = ctx.createGain();
+                const freq = 1800 + Math.random() * 1500;
+                osc.frequency.value = freq;
+                osc.frequency.exponentialRampToValueAtTime(freq*1.15, ctx.currentTime+0.15);
+                g.gain.setValueAtTime(0, ctx.currentTime);
+                g.gain.linearRampToValueAtTime(0.04, ctx.currentTime+0.05);
+                g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.3);
+                osc.connect(g); g.connect(masterGain);
+                osc.start(); osc.stop(ctx.currentTime+0.35);
+                setTimeout(distantBird, 2000+Math.random()*6000);
+            }
+            distantBird();
+            break;
+        }
+
+        // ── CHUÔNG GIÓ: pentatonic tones, natural decay ──
+        case 'chimes': {
+            // pentatonic freqs (A4-based)
+            const pentatonic = [440, 495, 550, 660, 742, 880, 990, 1100];
+            function chime() {
+                if (!pyActiveNodes['chimes']) return;
+                const freq = pentatonic[Math.floor(Math.random()*pentatonic.length)];
+                const duration = 1.5 + Math.random() * 2;
+
+                // Fundamental + inharmonic partials (gives metallic chime quality)
+                const o1 = ctx.createOscillator(); o1.type='sine'; o1.frequency.value=freq;
+                const o2 = ctx.createOscillator(); o2.type='sine'; o2.frequency.value=freq*2.76;
+                const o3 = ctx.createOscillator(); o3.type='sine'; o3.frequency.value=freq*5.4;
+
+                [o1,o2,o3].forEach((o, oi) => {
+                    const g = ctx.createGain();
+                    const amp = oi===0 ? 0.28 : oi===1 ? 0.10 : 0.04;
+                    g.gain.setValueAtTime(0, ctx.currentTime);
+                    g.gain.linearRampToValueAtTime(amp, ctx.currentTime+0.005);
+                    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+duration*(oi===0?1:0.5));
+                    o.connect(g); g.connect(masterGain);
+                    o.start(); o.stop(ctx.currentTime+duration+0.05);
+                });
+
+                // Sometimes ring 2-3 notes closely together (cluster)
+                if (Math.random() < 0.3) {
+                    setTimeout(() => {
+                        if (!pyActiveNodes['chimes']) return;
+                        const f2 = pentatonic[Math.floor(Math.random()*pentatonic.length)];
+                        const oc = ctx.createOscillator(); oc.type='sine'; oc.frequency.value=f2;
+                        const gc = ctx.createGain();
+                        gc.gain.setValueAtTime(0, ctx.currentTime);
+                        gc.gain.linearRampToValueAtTime(0.18, ctx.currentTime+0.005);
+                        gc.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+1.2);
+                        oc.connect(gc); gc.connect(masterGain);
+                        oc.start(); oc.stop(ctx.currentTime+1.3);
+                    }, 120 + Math.random()*200);
+                }
+
+                setTimeout(chime, 600 + Math.random() * 2800);
+            }
+            // Delay first call slightly so pyActiveNodes is set before chime() checks it
+            setTimeout(chime, 50);
+            break;
+        }
+
+        default: {
+            const n = makePinkNoiseSrc(ctx);
+            const f = ctx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=1000;
+            n.connect(f); f.connect(masterGain); n.start(); nodes.push(n);
+        }
+        }
+
+        return nodes;
+    }
+
+    function pyToggleSound(idx) {
+        const s = PY_SOUNDS[idx];
+        const card = document.getElementById(`pySound${idx}`);
+        const key = s.type;
+
+        if (pyActiveNodes[key]) {
+            // Stop
+            try {
+                pyActiveNodes[key].nodes.forEach(n => { try { n.stop ? n.stop() : n.disconnect(); } catch(e){} });
+                pyActiveNodes[key].masterGain.disconnect();
+            } catch(e) {}
+            delete pyActiveNodes[key];
+            card.classList.remove('active');
+        } else {
+            // Start
+            const ctx = getAudioCtx();
+            if (ctx.state === 'suspended') ctx.resume();
+            const masterGain = ctx.createGain();
+            masterGain.gain.value = 0.35;
+            masterGain.connect(ctx.destination);
+            const nodes = pyCreateNoise(s.type, masterGain) || [];
+            pyActiveNodes[key] = { nodes, masterGain };
+            card.classList.add('active');
+
+            const volSlider = card.querySelector('.py-sound-vol');
+            if (volSlider) {
+                volSlider.oninput = function() { masterGain.gain.value = this.value / 100; };
+            }
+        }
+        pyUpdateMixBar();
+    }
+
+    function pyUpdateMixBar() {
+        const chips = document.getElementById('pyMixChips');
+        const active = PY_SOUNDS.filter((s, i) => pyActiveNodes[s.type]);
+        if (active.length === 0) {
+            chips.innerHTML = '<span class="py-mix-empty">Chưa có âm thanh nào</span>';
+        } else {
+            chips.innerHTML = active.map(s => `<span class="py-mix-chip">${s.emoji} ${s.name}</span>`).join('');
+        }
+    }
+
+    function pyStopAllSounds() {
+        Object.keys(pyActiveNodes).forEach(k => {
+            try { pyActiveNodes[k].nodes.forEach(n => { try { n.stop ? n.stop() : n.disconnect(); } catch(e){} }); } catch(e) {}
+            try { if (pyActiveNodes[k].masterGain) pyActiveNodes[k].masterGain.disconnect(); } catch(e) {}
+            delete pyActiveNodes[k];
+        });
+        document.querySelectorAll('.py-sound-card').forEach(c => c.classList.remove('active'));
+        pyUpdateMixBar();
+    }
+
+    function pyRenderSounds() {
+        const grid = document.getElementById('pySoundsGrid');
+        grid.innerHTML = PY_SOUNDS.map((s, i) => `
+            <div class="py-sound-card" id="pySound${i}" onclick="pyToggleSound(${i})">
+                <span class="py-sound-emoji">${s.emoji}</span>
+                <div class="py-sound-name">${s.name}</div>
+                <input type="range" class="py-sound-vol" min="0" max="100" value="30" onclick="event.stopPropagation()">
+            </div>
+        `).join('');
+    }
+
+    /* ─────────────────────────────────────────
+       BREATH GAME
+    ───────────────────────────────────────── */
+    let pyBreathActive = false;
+    let pyBreathTimer = null;
+    let pyBreathPhase = 0;
+    const PY_BREATH_PHASES = [
+        { label: 'Hít vào', duration: 4, scale: 1.6 },
+        { label: 'Giữ hơi', duration: 7, scale: 1.6 },
+        { label: 'Thở ra', duration: 8, scale: 1.0 },
+    ];
+    let pyBreathCount = 0;
+    let pyBreathCountdown = 0;
+
+    function pyToggleBreath() {
+        if (pyBreathActive) {
+            pyBreathActive = false;
+            clearTimeout(pyBreathTimer);
+            document.getElementById('pyBreathBtn').innerHTML = '<i class="fas fa-play"></i> Bắt đầu';
+            document.getElementById('pyBreathRing').style.transform = 'scale(1)';
+            document.getElementById('pyBreathRing').style.transition = 'transform 0.5s ease';
+            document.getElementById('pyBreathText').textContent = 'Bắt đầu';
+            document.getElementById('pyBreathCount').textContent = '';
+        } else {
+            pyBreathActive = true;
+            pyBreathPhase = 0;
+            document.getElementById('pyBreathBtn').innerHTML = '<i class="fas fa-stop"></i> Dừng';
+            pyRunBreathPhase();
+        }
+    }
+
+    function pyRunBreathPhase() {
+        if (!pyBreathActive) return;
+        const phase = PY_BREATH_PHASES[pyBreathPhase];
+        const ring = document.getElementById('pyBreathRing');
+        ring.style.transition = `transform ${phase.duration}s ease${pyBreathPhase === 0 ? '-in' : pyBreathPhase === 2 ? '-out' : ''}`;
+        ring.style.transform = `scale(${phase.scale})`;
+        document.getElementById('pyBreathText').textContent = phase.label;
+
+        pyBreathCountdown = phase.duration;
+        document.getElementById('pyBreathCount').textContent = pyBreathCountdown;
+
+        const tick = setInterval(() => {
+            if (!pyBreathActive) { clearInterval(tick); return; }
+            pyBreathCountdown--;
+            document.getElementById('pyBreathCount').textContent = pyBreathCountdown > 0 ? pyBreathCountdown : '';
+        }, 1000);
+
+        pyBreathTimer = setTimeout(() => {
+            clearInterval(tick);
+            if (!pyBreathActive) return;
+            pyBreathPhase = (pyBreathPhase + 1) % 3;
+            if (pyBreathPhase === 0) {
+                pyBreathCount++;
+            }
+            pyRunBreathPhase();
+        }, phase.duration * 1000);
+    }
+
+    /* ─────────────────────────────────────────
+       BUBBLE POP GAME
+    ───────────────────────────────────────── */
+    let pyBubbleCount = 0;
+    const PY_BUBBLE_EMOJIS = ['🫧','💜','💙','💚','💛','🌸','⭐','✨','💫','🌟'];
+    const PY_BUBBLE_COLORS = [
+        'rgba(139,124,168,0.25)','rgba(200,114,104,0.2)','rgba(91,158,160,0.22)',
+        'rgba(249,199,79,0.2)','rgba(144,219,244,0.25)','rgba(149,213,178,0.22)'
+    ];
+
+    function pySpawnBubbles() {
+        const arena = document.getElementById('pyBubbleArena');
+        arena.innerHTML = '';
+        const count = 8 + Math.floor(Math.random() * 6);
+        for (let i = 0; i < count; i++) {
+            const b = document.createElement('div');
+            b.className = 'py-bubble';
+            const size = 36 + Math.random() * 36;
+            const x = Math.random() * (arena.offsetWidth - size - 10);
+            const y = Math.random() * (arena.offsetHeight - size - 10);
+            b.style.width = size + 'px';
+            b.style.height = size + 'px';
+            b.style.left = x + 'px';
+            b.style.top = y + 'px';
+            b.style.background = PY_BUBBLE_COLORS[Math.floor(Math.random() * PY_BUBBLE_COLORS.length)];
+            b.style.border = '1.5px solid rgba(255,255,255,0.4)';
+            b.style.animationDelay = (Math.random() * 2) + 's';
+            b.style.animationDuration = (3 + Math.random() * 2) + 's';
+            b.textContent = PY_BUBBLE_EMOJIS[Math.floor(Math.random() * PY_BUBBLE_EMOJIS.length)];
+            b.onclick = function() { pyPopBubble(b); };
+            arena.appendChild(b);
+        }
+    }
+
+    function pyPopBubble(b) {
+        if (b.classList.contains('popped')) return;
+        b.classList.add('popped');
+        pyBubbleCount++;
+        document.getElementById('pyBubbleCount').textContent = pyBubbleCount;
+        setTimeout(() => b.remove(), 400);
+        // Tiny audio pop
+        try {
+            const ctx = getAudioCtx();
+            if (ctx.state === 'suspended') ctx.resume();
+            const osc = ctx.createOscillator();
+            const g = ctx.createGain();
+            osc.frequency.value = 600 + Math.random() * 400;
+            osc.type = 'sine';
+            g.gain.setValueAtTime(0.2, ctx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+            osc.connect(g); g.connect(ctx.destination);
+            osc.start(); osc.stop(ctx.currentTime + 0.15);
+        } catch(e) {}
+    }
+
+    /* ─────────────────────────────────────────
+       MOOD TRACKER GAME
+    ───────────────────────────────────────── */
+    const PY_AFFIRMATIONS = {
+        '😊': ['Thật tuyệt khi bạn cảm thấy vui! Hãy trân trọng khoảnh khắc này nhé 🌸', 'Nụ cười của bạn là món quà đẹp nhất hôm nay! ✨'],
+        '😌': ['Sự bình yên nội tâm là điều quý giá nhất. Bạn đang làm rất tốt 🍃', 'Hơi thở bình tĩnh, lòng nhẹ tênh — thật tuyệt 💙'],
+        '😢': ['Được khóc cũng là dũng cảm. Cảm xúc của bạn hoàn toàn có giá trị 🤍', 'Những cơn mưa rồi sẽ tạnh, và cầu vồng sẽ xuất hiện 🌈'],
+        '😤': ['Sự tức giận cho thấy bạn quan tâm. Hãy hít thở sâu và cho mình một chút không gian 🌬️', 'Cảm xúc này sẽ qua đi. Bạn mạnh mẽ hơn cơn giận 💪'],
+        '😰': ['Lo lắng đôi khi bảo vệ ta. Nhưng hãy nhớ: bạn đã vượt qua nhiều điều khó hơn thế 🌟', 'Hít thở cùng mình nhé. Hiện tại, bạn đang an toàn 💛'],
+        '🥱': ['Cơ thể đang nhắc nhở bạn cần nghỉ ngơi. Hãy thương bản thân một chút nhé 🌙', 'Mệt mỏi không có nghĩa là yếu đuối — đó là tín hiệu cần chăm sóc bản thân 🫂'],
+        '🤗': ['Biết ơn mở ra trái tim. Năng lượng tích cực của bạn lan tỏa đến mọi người 🌸', 'Lòng biết ơn là chìa khóa của hạnh phúc 💚'],
+        '😕': ['Đôi khi không biết mình cảm gì cũng là điều bình thường. Hãy cho bản thân thời gian 🌿', 'Mọi cảm xúc đều xứng đáng được lắng nghe, kể cả sự bối rối 💜'],
+    };
+
+    let pyCurrentMood = null;
+    let pyMoodHistory = [];
+
+    function pyPickMood(btn, emoji, label, color) {
+        document.querySelectorAll('.py-mood-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        pyCurrentMood = { emoji, label, color };
+
+        const result = document.getElementById('pyMoodResult');
+        result.style.display = 'block';
+        document.getElementById('pyMoodSelected').textContent = emoji;
+
+        const affirmations = PY_AFFIRMATIONS[emoji] || ['Cảm ơn bạn đã chia sẻ 💙'];
+        const aff = affirmations[Math.floor(Math.random() * affirmations.length)];
+        document.getElementById('pyMoodAffirmation').textContent = aff;
+    }
+
+    function pySaveMood() {
+        if (!pyCurrentMood) return;
+        const note = document.getElementById('pyMoodNote').value;
+        const entry = {
+            ...pyCurrentMood,
+            note,
+            time: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })
+        };
+        pyMoodHistory.unshift(entry);
+        if (pyMoodHistory.length > 5) pyMoodHistory.pop();
+
+        const hist = document.getElementById('pyMoodHistory');
+        hist.innerHTML = pyMoodHistory.map(e => `
+            <div class="py-mood-entry">${e.emoji} ${e.label} <span style="opacity:0.5">· ${e.time}</span></div>
+        `).join('');
+
+        document.getElementById('pyMoodNote').value = '';
+        // Flash confirm
+        const btn = event.currentTarget;
+        btn.innerHTML = '<i class="fas fa-check"></i> Đã lưu!';
+        setTimeout(() => { btn.innerHTML = '<i class="fas fa-heart"></i> Lưu cảm xúc'; }, 1800);
+    }
+
+    /* ─────────────────────────────────────────
+       MANDALA COLORING GAME
+    ───────────────────────────────────────── */
+    const PY_MANDALA_COLORS = [
+        '#f94144','#f8961e','#f9c74f','#90be6d','#43aa8b',
+        '#577590','#8b7ca8','#c87268','#90dbf4','#cdb4db',
+        '#ffffff','#adb5bd','#495057','#212529',
+    ];
+
+    let pyMandalaColor = '#c87268';
+    let pyMandalaSegments = [];
+    let pyMandalaColored = {};
+
+    function pyRenderMandala() {
+        const palette = document.getElementById('pyColorPalette');
+        palette.innerHTML = PY_MANDALA_COLORS.map(c => `
+            <div class="py-color-swatch ${c === pyMandalaColor ? 'active' : ''}"
+                 style="background:${c};border:2px solid var(--border)"
+                 onclick="pySelectColor('${c}',this)"></div>
+        `).join('');
+        pyMandalaNew();
+    }
+
+    function pySelectColor(c, el) {
+        pyMandalaColor = c;
+        document.querySelectorAll('.py-color-swatch').forEach(s => s.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    function pyMandalaNew() {
+        pyMandalaColored = {};
+        const canvas = document.getElementById('pyMandalaCanvas');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        const cx = W/2, cy = H/2;
+        ctx.clearRect(0, 0, W, H);
+
+        // Fill background
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        ctx.fillStyle = isDark ? '#1a1a2e' : '#faf8f5';
+        ctx.fillRect(0, 0, W, H);
+
+        pyMandalaSegments = [];
+
+        // Draw mandala segments
+        const rings = 4;
+        const petals = 12;
+        ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.2)';
+        ctx.lineWidth = 1;
+
+        for (let r = 1; r <= rings; r++) {
+            const radius = (r / rings) * 90;
+            const innerR = ((r - 1) / rings) * 90;
+            for (let p = 0; p < petals; p++) {
+                const a1 = (p / petals) * Math.PI * 2;
+                const a2 = ((p + 1) / petals) * Math.PI * 2;
+                const aMid = (a1 + a2) / 2;
+
+                // Store segment for click detection
+                pyMandalaSegments.push({ r, p, radius, innerR, a1, a2, aMid, color: null });
+
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius, a1, a2);
+                ctx.arc(cx, cy, innerR, a2, a1, true);
+                ctx.closePath();
+                ctx.stroke();
+            }
+        }
+        // Center circle
+        ctx.beginPath(); ctx.arc(cx, cy, 90/rings * 0.5, 0, Math.PI*2);
+        ctx.stroke();
+
+        pyMandalaSegments.push({ r: 0, p: 0, radius: 90/rings*0.5, innerR: 0, a1: 0, a2: Math.PI*2, aMid: 0, color: null });
+    }
+
+    function pyMandalaClear() {
+        pyMandalaColored = {};
+        pyMandalaNew();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const canvas = document.getElementById('pyMandalaCanvas');
+        if (!canvas) return;
+        canvas.addEventListener('click', function(e) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const mx = (e.clientX - rect.left) * scaleX;
+            const my = (e.clientY - rect.top) * scaleY;
+            pyMandalaClick(mx, my);
+        });
+    });
+
+    function pyMandalaClick(mx, my) {
+        const canvas = document.getElementById('pyMandalaCanvas');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        const cx = W/2, cy = H/2;
+        const dx = mx - cx, dy = my - cy;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const angle = Math.atan2(dy, dx);
+        const normAngle = angle < 0 ? angle + Math.PI*2 : angle;
+
+        // Find clicked segment
+        for (const seg of pyMandalaSegments) {
+            if (seg.r === 0) {
+                // center
+                if (dist <= seg.radius) {
+                    pyColorSegment(ctx, cx, cy, seg, pyMandalaColor);
+                    return;
+                }
+                continue;
+            }
+            if (dist >= seg.innerR && dist <= seg.radius) {
+                let a1 = seg.a1 < 0 ? seg.a1 + Math.PI*2 : seg.a1;
+                let a2 = seg.a2 < 0 ? seg.a2 + Math.PI*2 : seg.a2;
+                if (normAngle >= a1 && normAngle < a2) {
+                    pyColorSegment(ctx, cx, cy, seg, pyMandalaColor);
+                    return;
+                }
+            }
+        }
+    }
+
+    function pyColorSegment(ctx, cx, cy, seg, color) {
+        const key = `${seg.r}-${seg.p}`;
+        pyMandalaColored[key] = color;
+
+        if (seg.r === 0) {
+            ctx.beginPath(); ctx.arc(cx, cy, seg.radius, 0, Math.PI*2);
+            ctx.fillStyle = color; ctx.fill();
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.2)';
+            ctx.lineWidth = 1; ctx.stroke();
+            return;
+        }
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, seg.radius, seg.a1, seg.a2);
+        ctx.arc(cx, cy, seg.innerR, seg.a2, seg.a1, true);
+        ctx.closePath();
+        ctx.fillStyle = color; ctx.fill();
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.2)';
+        ctx.lineWidth = 1; ctx.stroke();
+    }
+
+    /* ═══════════════════════════════════════════
+       TÂM SỰ — SUPABASE CONFIG & LOGIC
+    ═══════════════════════════════════════════ */
+    const TS_SUPABASE_URL = 'https://lqrrwgkwagnydiewmqde.supabase.co';
+    const TS_SUPABASE_KEY = 'sb_publishable_aILf87X6g5sphowuLZQJuw_UbioAyN7';
+    const TS_TABLE = 'UserShare';
+
+    let tsInited = false;
+    let tsShares = [];
+
+    function tsInitTab() {
+        if (!tsInited) {
+            tsInited = true;
+            tsLoadShares();
+        }
+    }
+
+    async function tsLoadShares() {
+        const wall = document.getElementById('tsWall');
+        const loading = document.getElementById('tsLoading');
+        const empty = document.getElementById('tsEmpty');
+        const refreshBtn = document.querySelector('.ts-refresh-btn');
+
+        // Show loading
+        wall.style.display = 'grid';
+        loading.style.display = 'flex';
+        empty.style.display = 'none';
+        document.querySelectorAll('.ts-card').forEach(c => c.remove());
+
+        if (refreshBtn) {
+            const icon = refreshBtn.querySelector('i');
+            if (icon) { icon.style.transition = 'transform 0.6s'; icon.style.transform = 'rotate(360deg)'; setTimeout(() => { icon.style.transition = ''; icon.style.transform = ''; }, 700); }
+        }
+
+        try {
+            const res = await fetch(
+                `${TS_SUPABASE_URL}/rest/v1/${TS_TABLE}?approved=eq.true&order=created_at.desc`,
+                {
+                    headers: {
+                        'apikey': TS_SUPABASE_KEY,
+                        'Authorization': `Bearer ${TS_SUPABASE_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            if (!res.ok) throw new Error('Lỗi kết nối cơ sở dữ liệu');
+
+            tsShares = await res.json();
+            loading.style.display = 'none';
+
+            if (!tsShares || tsShares.length === 0) {
+                wall.style.display = 'none';
+                empty.style.display = 'block';
+                document.getElementById('tsCountBadge').textContent = '0 câu chuyện';
+                return;
+            }
+
+            document.getElementById('tsCountBadge').textContent = `${tsShares.length} câu chuyện`;
+            tsRenderCards(tsShares);
+
+        } catch (err) {
+            loading.style.display = 'none';
+            const errDiv = document.createElement('div');
+            errDiv.style.cssText = 'grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text-muted);font-size:13.5px';
+            errDiv.innerHTML = `<div style="font-size:32px;margin-bottom:10px">🌿</div><div>Không thể tải tâm sự lúc này.<br>Hãy thử lại sau nhé.</div>`;
+            wall.appendChild(errDiv);
+            console.error('[TâmSự]', err);
+        }
+    }
+
+    function tsRenderCards(shares) {
+        const wall = document.getElementById('tsWall');
+        const flowerEmojis = ['🌸','🌷','🌼','🌻','🌺','🌿','✿','❀','🍃','💮'];
+
+        shares.forEach((share, i) => {
+            const card = document.createElement('div');
+            card.className = 'ts-card';
+            card.style.animationDelay = (i * 0.07) + 's';
+
+            const nickname = share.nickname ? share.nickname.trim() : 'Ẩn danh';
+            const initial = [...nickname][0].toUpperCase();
+            const avatarFlower = flowerEmojis[i % flowerEmojis.length];
+            const timeStr = share.created_at ? tsFormatTime(share.created_at) : 'Vừa xong';
+            const content = tsEscapeHTML(share.content || '');
+
+            card.innerHTML = `
+                <div class="ts-card-glow"></div>
+                <div class="ts-card-quote">"</div>
+                <div class="ts-card-header">
+                    <div class="ts-card-avatar">${initial}</div>
+                    <div>
+                        <div class="ts-card-nickname">${tsEscapeHTML(nickname)}</div>
+                        <div class="ts-card-time">${timeStr}</div>
+                    </div>
+                </div>
+                <div class="ts-card-content">${content}</div>
+                <div class="ts-card-footer">
+                    <div class="ts-card-heart"> ${avatarFlower}</div>
+                </div>
+            `;
+            wall.appendChild(card);
+        });
+    }
+
+    function tsFormatTime(isoString) {
+        try {
+            const date = new Date(isoString);
+            const now = new Date();
+            const diff = (now - date) / 1000;
+            if (diff < 60) return 'Vừa xong';
+            if (diff < 3600) return Math.floor(diff/60) + ' phút trước';
+            if (diff < 86400) return Math.floor(diff/3600) + ' giờ trước';
+            if (diff < 86400 * 7) return Math.floor(diff/86400) + ' ngày trước';
+            return date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        } catch (e) { return ''; }
+    }
+
+    function tsEscapeHTML(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/\n/g, '<br>');
+    }
+
+    function tsOpenShareModal() {
+        const overlay = document.getElementById('tsModalOverlay');
+        overlay.classList.add('ts-modal-show');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => { const ni = document.getElementById('tsNicknameInput'); if(ni) ni.focus(); }, 400);
+        document.getElementById('tsNicknameInput').value = '';
+        document.getElementById('tsContentInput').value = '';
+        document.getElementById('tsCharCount').textContent = '0';
+        const status = document.getElementById('tsSubmitStatus');
+        status.style.display = 'none'; status.className = 'ts-submit-status';
+        const btn = document.getElementById('tsSubmitBtn');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i><span>Gửi tâm sự</span>';
+    }
+
+    function tsCloseShareModal() {
+        document.getElementById('tsModalOverlay').classList.remove('ts-modal-show');
+        document.body.style.overflow = '';
+    }
+
+    function tsCloseModalOnBg(e) {
+        if (e.target === document.getElementById('tsModalOverlay')) tsCloseShareModal();
+    }
+
+    function tsUpdateCharCount() {
+        const val = document.getElementById('tsContentInput').value;
+        const count = document.getElementById('tsCharCount');
+        count.textContent = val.length;
+        count.style.color = val.length > 450 ? 'var(--accent-rose)' : 'var(--text-muted)';
+    }
+
+    async function tsSubmitShare() {
+        const nickname = document.getElementById('tsNicknameInput').value.trim() || 'Ẩn danh';
+        const content = document.getElementById('tsContentInput').value.trim();
+        const status = document.getElementById('tsSubmitStatus');
+        const btn = document.getElementById('tsSubmitBtn');
+
+        if (!content) {
+            status.className = 'ts-submit-status error';
+            status.textContent = '🌸 Bạn ơi, hãy viết đôi điều trước khi gửi nhé!';
+            status.style.display = 'block';
+            document.getElementById('tsContentInput').focus();
+            return;
+        }
+        if (content.length > 500) {
+            status.className = 'ts-submit-status error';
+            status.textContent = 'Tâm sự quá dài rồi. Hãy rút gọn còn tối đa 500 ký tự nhé 🌿';
+            status.style.display = 'block';
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i><span>Đang gửi…</span>';
+        status.style.display = 'none';
+
+        try {
+            const res = await fetch(
+                `${TS_SUPABASE_URL}/rest/v1/${TS_TABLE}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'apikey': TS_SUPABASE_KEY,
+                        'Authorization': `Bearer ${TS_SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify({ nickname, content, approved: false })
+                }
+            );
+            if (!res.ok) throw new Error('Lỗi gửi');
+
+            status.className = 'ts-submit-status success';
+            status.innerHTML = '🌸 Tâm sự của bạn đã được gửi! Sẽ hiển thị sau khi admin duyệt. Cảm ơn bạn đã chia sẻ.';
+            status.style.display = 'block';
+            btn.innerHTML = '<i class="fas fa-check"></i><span>Đã gửi!</span>';
+            setTimeout(() => tsCloseShareModal(), 2800);
+
+        } catch (err) {
+            status.className = 'ts-submit-status error';
+            status.textContent = 'Không thể gửi lúc này. Hãy thử lại sau nhé 🌿';
+            status.style.display = 'block';
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i><span>Thử lại</span>';
+            console.error('[TâmSự Submit]', err);
+        }
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            tsCloseShareModal();
+            ktCloseArticleBtn();
+        }
+    });
+
+    /* ═══════════════════════════════════════════
+       KIẾN THỨC — DATA & LOGIC
+    ═══════════════════════════════════════════ */
+    const KT_ARTICLES = [
+        // ① Cảm xúc & Tâm lý
+        {
+            id: 'kt01', cat: 'camxuc', emoji: '🌀',
+            title: 'Overthinking là gì?',
+            preview: 'Đầu óc cứ quay mãi dù chẳng đi đến đâu — bạn có quen không?',
+            readTime: 3, level: 'basic', tags: ['#stress', '#tâmlý'],
+            hook: 'Bạn đã từng nằm xuống để ngủ nhưng đầu óc bắt đầu replay lại mọi cuộc trò chuyện trong ngày chưa? Đó chính xác là overthinking.',
+            explain: ['Overthinking là khi bạn suy nghĩ quá mức về một vấn đề mà không ra kết luận gì.', 'Não bộ cứ tưởng mình đang "giải quyết" nhưng thực ra chỉ đang quay vòng.', 'Nó thường xảy ra nhiều hơn vào ban đêm, khi môi trường xung quanh im lặng.', 'Overthinking kéo dài có thể gây kiệt sức tinh thần, khó ngủ và lo âu mãn tính.'],
+            steps: ['Nhận ra khi nào mình đang overthink — đặt câu hỏi: "Mình đang giải quyết hay chỉ đang lo?".', 'Viết hết suy nghĩ ra giấy trong 5 phút, rồi đóng sổ lại — não sẽ "thả" nó ra.', 'Hỏi bản thân: "Điều này có chắc chắn 100% không?" — hầu hết câu trả lời là không.'],
+            closing: 'Bạn không yếu đuối khi hay suy nghĩ. Bạn chỉ cần học cách điều hướng lại não bộ của mình.'
+        },
+        {
+            id: 'kt02', cat: 'camxuc', emoji: '💛',
+            title: 'Lo âu trước kỳ thi',
+            preview: 'Tim đập nhanh, tay run, không thể tập trung — bình thường hơn bạn nghĩ.',
+            readTime: 4, level: 'basic', tags: ['#thiCử', '#stress'],
+            hook: 'Kỳ thi đang đến gần và bạn cảm thấy như cả thế giới đang đặt lên vai mình. Tim đập nhanh, khó thở, không ôn được gì. Đây là lo âu thi cử — và bạn không hề một mình.',
+            explain: ['Lo âu trước thi là phản ứng bình thường của cơ thể trước áp lực.', 'Một chút lo âu có thể giúp bạn tập trung hơn — vấn đề là khi nó quá lớn.', 'Nguyên nhân: sợ thất bại, sợ làm cha mẹ buồn, so sánh với bạn bè.', 'Triệu chứng thường gặp: mất ngủ trước hôm thi, đau bụng, quên kiến thức đã học.'],
+            steps: ['Thở sâu 4 giây, giữ 4 giây, thở ra 6 giây — làm 3 lần ngay khi cảm thấy lo.', 'Nhớ lại một lần bạn vượt qua khó khăn trước đây — bằng chứng rằng bạn làm được.', 'Thay "Mình phải đạt điểm cao" bằng "Mình sẽ cố hết sức với những gì mình có".'],
+            closing: 'Một kỳ thi không định nghĩa toàn bộ tương lai của bạn. Hít thở, rồi bước tiếp.'
+        },
+        {
+            id: 'kt03', cat: 'camxuc', emoji: '🔍',
+            title: 'Vì sao mình hay so sánh bản thân?',
+            preview: 'Nhìn bạn được điểm cao, nhìn mình điểm thấp — cái cảm giác đó từ đâu ra?',
+            readTime: 3, level: 'basic', tags: ['#tựtin', '#tâmlý'],
+            hook: 'Bạn nhìn vào điểm của bạn cùng bàn và tự nhiên thấy mình tệ hơn — dù chưa ai nói gì. Đây không phải tính xấu, đây là bản năng của não người.',
+            explain: ['Não người tiến hóa để so sánh với người khác nhằm đánh giá vị trí xã hội — từ thời nguyên thủy.', 'Mạng xã hội làm trầm trọng hơn vì chúng ta chỉ thấy "highlight" của người khác.', 'So sánh lên (người giỏi hơn) gây cảm giác tự ti. So sánh xuống (người kém hơn) dễ sinh ra cảm giác ưu việt giả tạo.', 'So sánh với bản thân ngày hôm qua mới là thước đo thực sự có giá trị.'],
+            steps: ['Khi thấy mình đang so sánh, dừng lại và hỏi: "Thông tin này có giúp mình tốt hơn không?"', 'Ghi ra 3 điểm mình đã tiến bộ so với 3 tháng trước — dù nhỏ cũng được.', 'Theo dõi ít hơn những tài khoản khiến bạn thường xuyên cảm thấy "không đủ".'],
+            closing: 'Bạn không phải đang thua — bạn chỉ đang ở một hành trình khác, với tốc độ của riêng mình.'
+        },
+        {
+            id: 'kt04', cat: 'camxuc', emoji: '🕊️',
+            title: 'Hội chứng "không đủ tốt"',
+            preview: 'Dù cố gắng bao nhiêu, vẫn thấy như chưa xứng. Bạn có quen cảm giác này?',
+            readTime: 4, level: 'advanced', tags: ['#tựtin', '#imposter'],
+            hook: 'Bạn vừa làm được điều gì đó tốt, nhưng thay vì vui, trong đầu lại nghĩ: "Chắc mình may thôi", "Lần sau chắc không được nữa". Đây là Imposter Syndrome — và nó rất phổ biến ở học sinh.',
+            explain: ['Imposter Syndrome là cảm giác mình không xứng đáng với thành công đang có.', 'Người mắc thường cảm thấy mình đang "đóng giả" người giỏi, và sớm muộn sẽ bị "lộ tẩy".', 'Nó không liên quan đến trình độ thật sự — ngay cả người xuất sắc cũng hay mắc.', 'Nguyên nhân thường đến từ áp lực kỳ vọng cao, so sánh với người khác, hoặc môi trường cạnh tranh.'],
+            steps: ['Viết ra bằng chứng cụ thể về những điều bạn đã thực sự làm được — không phải "may mắn".', 'Nói chuyện với người bạn tin tưởng về cảm giác này — bạn sẽ ngạc nhiên khi nhiều người cũng trải qua.', 'Thay "Mình không đủ tốt" bằng "Mình đang học và ngày càng tốt hơn" — đây là sự thật hơn.'],
+            closing: 'Bạn không cần phải hoàn hảo để xứng đáng được ở đây. Bạn đang làm tốt hơn bạn nghĩ rất nhiều.'
+        },
+        // ② Học tập & Động lực
+        {
+            id: 'kt05', cat: 'hoctap', emoji: '⏰',
+            title: 'Làm sao hết trì hoãn?',
+            preview: 'Cứ định học là lại mở điện thoại lên — bạn không lười, bạn chỉ chưa có cách.',
+            readTime: 3, level: 'basic', tags: ['#học', '#trìhoãn'],
+            hook: 'Bạn ngồi xuống với quyển sách, định học thật sự... rồi 2 giờ sau nhìn lại mình vừa xem video mèo. Không phải vì lười — não bạn đang né tránh sự khó chịu.',
+            explain: ['Trì hoãn là cách não chọn phần thưởng ngay lập tức thay vì mục tiêu lâu dài.', 'Nguyên nhân thực sự: sợ thất bại, bài khó quá, không biết bắt đầu từ đâu.', 'Cảm giác "chán" trước khi học là bình thường — không cần đợi cảm hứng mới học.', 'Việc khởi động là phần khó nhất — một khi bắt đầu, não sẽ vào guồng.'],
+            steps: ['Dùng quy tắc "2 phút": chỉ học 2 phút thôi — nếu muốn dừng thì dừng. Thường bạn sẽ tiếp tục.', 'Chia nhỏ bài ra: thay vì "học toán", hãy là "làm 2 bài tập đầu chương 3".', 'Để điện thoại sang phòng khác hoặc dùng app chặn mạng trong 25 phút đầu.'],
+            closing: 'Bắt đầu không cần hoàn hảo. Chỉ cần bắt đầu.'
+        },
+        {
+            id: 'kt06', cat: 'hoctap', emoji: '🍅',
+            title: 'Pomodoro hoạt động thế nào?',
+            preview: 'Kỹ thuật học 25 phút này có thật sự hiệu quả không? Giải thích ngắn gọn.',
+            readTime: 3, level: 'basic', tags: ['#học', '#Pomodoro'],
+            hook: 'Học 25 phút, nghỉ 5 phút, lặp lại. Nghe đơn giản đến mức bạn nghĩ không thể hiệu quả — nhưng khoa học chứng minh nó thực sự hoạt động.',
+            explain: ['Não người tập trung tốt nhất trong khoảng 20–30 phút liên tục, sau đó hiệu suất giảm.', 'Pomodoro tận dụng điều này: học tập trung ngắn, nghỉ có chủ đích để não phục hồi.', 'Mỗi "pomodoro" = 25 phút học + 5 phút nghỉ. Sau 4 cái thì nghỉ dài 15–20 phút.', 'Hiệu quả nhất khi tắt mọi thông báo và chỉ làm một việc trong 25 phút đó.'],
+            steps: ['Chọn một nhiệm vụ cụ thể: ví dụ "đọc hiểu đoạn văn trang 34–38".', 'Set đồng hồ 25 phút, tắt điện thoại, bắt đầu. Nếu bị phân tâm, ghi chú lại rồi tiếp tục.', 'Nghỉ 5 phút THẬT SỰ: đứng dậy, uống nước, nhìn ra cửa sổ — không mở mạng xã hội.'],
+            closing: 'Não bạn không yếu. Nó chỉ cần được tôn trọng đúng cách.'
+        },
+        {
+            id: 'kt07', cat: 'hoctap', emoji: '🌱',
+            title: 'Cách học khi không có động lực',
+            preview: 'Chờ có cảm hứng mới học thì sẽ không bao giờ học xong. Đây là cách khác.',
+            readTime: 4, level: 'basic', tags: ['#học', '#độnglực'],
+            hook: 'Nếu bạn chờ cảm hứng mới học, bạn sẽ chờ rất lâu. Các học sinh giỏi không có nhiều cảm hứng hơn — họ chỉ có hệ thống tốt hơn.',
+            explain: ['Động lực không phải điểm bắt đầu — nó thường xuất hiện sau khi bạn đã bắt đầu.', '"Cảm hứng đến từ hành động" không phải "hành động đến từ cảm hứng".', 'Môi trường ảnh hưởng mạnh đến hành vi: bàn học gọn thì dễ học hơn hẳn.', 'Thưởng nhỏ sau mỗi phiên học giúp não gắn "học" với trải nghiệm tích cực.'],
+            steps: ['Thiết lập "nghi lễ" trước khi học: một cốc nước, bật nhạc instrumental nhẹ, dọn bàn — não sẽ học được rằng đây là tín hiệu bắt đầu học.', 'Đặt mục tiêu tối thiểu hàng ngày: dù thế nào cũng làm được. VD: 15 phút thay vì 2 tiếng.', 'Sau khi học xong, ghi vào nhật ký một câu: "Hôm nay mình đã học được gì?" — rất tăng động lực.'],
+            closing: 'Bạn không cần thích học để học. Bạn chỉ cần bắt đầu.'
+        },
+        {
+            id: 'kt08', cat: 'hoctap', emoji: '⚡',
+            title: 'Tập trung trong 25 phút',
+            preview: 'Hướng dẫn thực hành tập trung tuyệt đối cho một phiên học ngắn.',
+            readTime: 3, level: 'basic', tags: ['#học', '#tậptrung'],
+            hook: 'Chỉ cần 25 phút không bị phân tâm — nghe dễ nhưng thực tế rất nhiều học sinh chưa từng thử đúng cách.',
+            explain: ['Đa nhiệm làm giảm hiệu suất não tới 40% — làm một việc luôn tốt hơn.', 'Thông báo điện thoại là kẻ thù số 1 của sự tập trung — mỗi lần nhìn vào tốn 20 phút để quay lại.', 'Môi trường yên tĩnh không phải lúc nào cũng tốt nhất — tiếng ồn vừa phải có thể giúp tập trung.', 'Nước uống đầy đủ giúp não hoạt động tốt hơn rõ rệt.'],
+            steps: ['Trước khi bắt đầu: ghi ra một câu "Trong 25 phút này mình sẽ làm gì" — rõ ràng cụ thể.', 'Đặt điện thoại úp mặt hoặc sang phòng khác. Set đồng hồ 25 phút.', 'Nếu có ý tưởng/suy nghĩ khác xuất hiện, ghi vào mảnh giấy rồi tiếp tục — đừng chuyển hướng.'],
+            closing: '25 phút mỗi ngày, mỗi ngày. Đó là tất cả những gì bạn cần để bắt đầu thay đổi.'
+        },
+        // ③ Mối quan hệ
+        {
+            id: 'kt09', cat: 'quanhe', emoji: '💬',
+            title: 'Cãi nhau với bạn thân phải làm sao?',
+            preview: 'Im lặng hay nói thẳng? Cách xử lý xung đột mà không làm mọi thứ tệ hơn.',
+            readTime: 4, level: 'basic', tags: ['#bạnbè', '#xungđột'],
+            hook: 'Bạn và người bạn thân nhất vừa cãi nhau. Giờ hai người đang ngồi yên, không ai nhắn tin trước. Khoảng lặng đó thật sự rất nặng nề.',
+            explain: ['Cãi nhau với bạn thân không có nghĩa là tình bạn sắp tan — đôi khi nó là dấu hiệu tình bạn đủ sâu để nói thật.', 'Sai lầm lớn nhất: im lặng quá lâu hoặc nói khi cả hai đang còn nóng.', 'Mỗi người có kiểu xử lý cảm xúc khác nhau — có người cần không gian, có người cần kết nối ngay.', 'Mục tiêu không phải "thắng" cuộc cãi nhau — mà là giữ được người đó.'],
+            steps: ['Đợi cơn nóng giảm xuống (ít nhất 30 phút) rồi mới nói chuyện.', 'Mở đầu bằng cảm xúc của mình thay vì lỗi của bạn: "Tôi cảm thấy buồn khi..." thay vì "Bạn đã...".', 'Nếu chưa sẵn sàng nói thẳng, nhắn tin ngắn: "Tao cần ít thời gian nhưng tao không muốn mất mày" — rất hiệu quả.'],
+            closing: 'Tình bạn thật sự đủ mạnh để vượt qua những cuộc cãi vã. Điều quan trọng là cả hai đều muốn giữ nhau.'
+        },
+        {
+            id: 'kt10', cat: 'quanhe', emoji: '🌸',
+            title: 'Crush bạn cùng lớp có sai không?',
+            preview: 'Để ý ai đó mình học cùng — cảm giác đó bình thường và cũng hơi phức tạp.',
+            readTime: 3, level: 'basic', tags: ['#tìnhcảm', '#tháituổi'],
+            hook: 'Bạn bỗng nhận ra mình cứ vô thức nhìn về một hướng trong lớp. Không sai, không có gì phải xấu hổ — đây là cảm xúc rất bình thường của tuổi học sinh.',
+            explain: ['Có cảm xúc với người bạn học cùng là hoàn toàn lành mạnh và bình thường.', 'Khó khăn thật sự: nếu không diễn ra tốt, hai người vẫn phải nhìn thấy nhau mỗi ngày.', 'Cảm xúc mạnh ở tuổi học sinh không phải luôn là "tình yêu đích thực" — đôi khi là ngưỡng mộ, thần tượng hoặc quen biết sâu.', 'Tự hỏi: bạn thích họ vì biết họ thật sự, hay vì hình ảnh trong đầu mình về họ?'],
+            steps: ['Cho phép bản thân có cảm xúc đó — đừng tự dằn vặt hay ép bản thân "hết ngay".', 'Quan sát thêm trước khi hành động — hiểu họ hơn qua cách họ đối xử với người khác, không chỉ với bạn.', 'Nếu muốn tiến thêm, bắt đầu bằng tình bạn tự nhiên — không cần "thú nhận" khi chưa sẵn sàng.'],
+            closing: 'Cảm xúc không bao giờ sai. Quan trọng là cách bạn chọn để hành động với nó.'
+        },
+        {
+            id: 'kt11', cat: 'quanhe', emoji: '🏠',
+            title: 'Khi cha mẹ không hiểu mình',
+            preview: 'Nói gì họ cũng không nghe, hoặc hiểu sai ý. Đây là cách thu hẹp khoảng cách đó.',
+            readTime: 4, level: 'advanced', tags: ['#giađình', '#giaotiếp'],
+            hook: 'Bạn cố giải thích điều gì đó quan trọng với cha mẹ, nhưng cuối cùng cuộc trò chuyện thành một cuộc tranh cãi. Không ai sai hoàn toàn — chỉ là hai thế hệ đang nói khác ngôn ngữ.',
+            explain: ['Khoảng cách thế hệ là thật — cha mẹ lớn lên trong hoàn cảnh khác nên nhìn thế giới khác.', 'Cha mẹ thường phản ứng từ lo lắng chứ không phải không tôn trọng bạn.', 'Cách nhiều bạn trẻ hay dùng: im lặng hoặc cãi lại — cả hai đều không hiệu quả lâu dài.', 'Cầu nối thật sự: để họ hiểu rằng bạn đang lắng nghe họ, rồi họ mới sẵn sàng lắng nghe lại.'],
+            steps: ['Chọn thời điểm khi cả hai đang không căng thẳng — không phải lúc vừa có chuyện.', 'Bắt đầu bằng cách đồng ý một phần với lo lắng của họ: "Con hiểu ba/mẹ lo vì..." — họ sẽ cởi mở hơn hẳn.', 'Trình bày góc nhìn của mình bằng dữ liệu và cảm xúc: "Con cảm thấy... và con muốn thử... vì..." thay vì chỉ nói "Con muốn.."'],
+            closing: 'Cha mẹ không hoàn hảo, và bạn cũng không cần họ hoàn hảo. Chỉ cần kết nối được đủ để hiểu nhau hơn.'
+        },
+        // ④ Sức khỏe tinh thần
+        {
+            id: 'kt12', cat: 'suckhoe', emoji: '🔋',
+            title: 'Dấu hiệu kiệt sức (burnout)',
+            preview: 'Mệt mỏi bình thường và burnout là hai thứ khác nhau. Bạn đang ở đâu?',
+            readTime: 4, level: 'advanced', tags: ['#burnout', '#sứckhỏetinhthần'],
+            hook: 'Bạn ngủ đủ giấc nhưng sáng dậy vẫn thấy kiệt sức. Làm gì cũng thấy vô nghĩa. Không phải lười — đây là dấu hiệu burnout và nó cần được chú ý.',
+            explain: ['Burnout là tình trạng kiệt sức toàn diện về thể chất, cảm xúc và tinh thần.', 'Dấu hiệu: mất hứng với mọi thứ từng yêu thích, cảm giác vô nghĩa, khó tập trung, hay cáu gắt vô cớ.', 'Khác với mệt mỏi thông thường: nghỉ ngơi không giải quyết được burnout.', 'Học sinh hay burnout khi chịu áp lực học tập kéo dài mà không có không gian nghỉ ngơi đúng nghĩa.'],
+            steps: ['Nhận ra và thừa nhận: "Mình đang bị burnout, không phải lười" — điều này rất quan trọng để không tự trách bản thân.', 'Bảo vệ ít nhất một khoảng thời gian không có "nhiệm vụ" mỗi ngày — không phải học, không phải thành tích.', 'Nói chuyện với người tin tưởng hoặc thầy cô tư vấn — burnout kéo dài cần được hỗ trợ chuyên nghiệp.'],
+            closing: 'Bạn không cần phải liên tục chạy mới là người có giá trị. Dừng lại để nạp lại không phải là thất bại.'
+        },
+        {
+            id: 'kt13', cat: 'suckhoe', emoji: '🌙',
+            title: 'Mất ngủ và cách cải thiện',
+            preview: 'Nằm xuống mà đầu không tắt được — đây là những gì thực sự giúp ích.',
+            readTime: 3, level: 'basic', tags: ['#ngủ', '#sứckhỏe'],
+            hook: 'Bạn đặt lưng xuống giường lúc 11 giờ đêm nhưng 2 giờ sáng vẫn trần trọc. Đầu óc cứ chạy, mắt không chịu nhắm. Hầu hết học sinh đều trải qua điều này.',
+            explain: ['Não cần tín hiệu để biết "đây là giờ ngủ" — ánh sáng xanh từ điện thoại phá vỡ tín hiệu đó.', 'Ngủ không đủ ảnh hưởng đến trí nhớ, cảm xúc và học tập mạnh hơn nhiều người nghĩ.', 'Lo lắng buổi tối thường tăng lên vì ban ngày quá bận để "để ý" tới những lo âu đó.', 'Không phải ai cũng cần đúng 8 tiếng — nhưng dưới 7 tiếng ảnh hưởng rõ ràng với học sinh.'],
+            steps: ['30 phút trước khi ngủ: không dùng điện thoại — thay bằng sách, vẽ, nghe nhạc nhẹ.', 'Viết ra 3 điều lo lắng + 1 bước nhỏ sẽ làm ngày mai — não sẽ "thả" nó ra và dễ ngủ hơn.', 'Giữ giờ ngủ và dậy cố định, kể cả cuối tuần — đây là cách hiệu quả nhất để cải thiện giấc ngủ.'],
+            closing: 'Giấc ngủ tốt không phải xa xỉ — nó là nền tảng của mọi thứ khác.'
+        },
+        {
+            id: 'kt14', cat: 'suckhoe', emoji: '🌿',
+            title: 'Cách tự trấn an bản thân',
+            preview: 'Khi không có ai bên cạnh và cảm xúc đang dâng lên — đây là những kỹ thuật thực sự hoạt động.',
+            readTime: 3, level: 'basic', tags: ['#cảmxúc', '#tựchămsóc'],
+            hook: 'Có những lúc bạn đang một mình và cảm xúc ập đến — lo lắng, buồn, tức giận hay chỉ là cảm giác khó chịu không tên. Bạn không cần ai khác để vượt qua được.',
+            explain: ['Tự trấn an không phải là "giả vờ ổn" — mà là giúp hệ thần kinh trở về trạng thái cân bằng.', 'Kỹ thuật grounding 5-4-3-2-1: chú ý 5 thứ nhìn thấy, 4 thứ chạm vào, 3 thứ nghe thấy, 2 thứ ngửi, 1 thứ nếm được.', 'Chuyển động nhẹ giúp cơ thể xử lý cảm xúc nhanh hơn — đi bộ 5 phút hoặc vươn tay.', 'Nói chuyện với bản thân như với người bạn thân — tử tế và không phán xét.'],
+            steps: ['Khi cảm xúc dâng lên: đặt tay lên ngực, thở chậm 4-6-8 (hít 4, giữ 6, thở ra 8).', 'Nói thầm hoặc viết ra: "Mình đang cảm thấy ____. Điều này sẽ qua. Mình đã từng vượt qua rồi."', 'Làm một việc nhỏ ngay lập tức: uống nước, rửa mặt, mở cửa sổ — hành động nhỏ phá vỡ vòng lo âu.'],
+            closing: 'Bạn có khả năng trấn an bản thân mình. Cần luyện tập — và bạn đang làm điều đó.'
+        },
+        // ⑤ Kỹ năng sống nhỏ
+        {
+            id: 'kt15', cat: 'kynang', emoji: '🛡️',
+            title: 'Nói "không" mà không áy náy',
+            preview: 'Hay nhận lời rồi hối hận? Đây là cách từ chối mà vẫn giữ được mối quan hệ.',
+            readTime: 3, level: 'basic', tags: ['#giới hạn', '#giaotiếp'],
+            hook: 'Ai đó nhờ bạn điều gì đó, bạn không muốn làm nhưng vẫn nói "ừ" vì ngại. Sau đó bạn vừa oán họ, vừa tự trách mình. Từ chối là kỹ năng — không phải tính xấu.',
+            explain: ['Nói "có" khi muốn nói "không" không phải tốt bụng — đó là thiếu tôn trọng chính mình.', 'Người xin bạn điều gì đó họ không có quyền "xứng đáng" được nhận — bạn mới là người quyết định.', 'Từ chối không cần giải thích dài dòng — nhưng cần rõ ràng và ấm áp.', 'Người tốt sẽ hiểu và tôn trọng khi bạn nói không. Người không hiểu — đó là thông tin về họ, không phải về bạn.'],
+            steps: ['Công thức đơn giản: "Cảm ơn bạn đã nghĩ đến mình, nhưng lần này mình không thể giúp được."', 'Không cần lý do chi tiết — "Mình không có sẵn lúc đó" là đủ.', 'Nếu cần thêm thời gian: "Để mình nghĩ thêm rồi báo bạn" — tốt hơn là nhận lời rồi rút lại.'],
+            closing: 'Mỗi lần bạn nói "không" đúng lúc là bạn đang nói "có" với bản thân mình.'
+        },
+        {
+            id: 'kt16', cat: 'kynang', emoji: '💌',
+            title: 'Giao tiếp không gây tổn thương',
+            preview: 'Nói điều đúng theo cách sai vẫn gây đau. Đây là cách nói thật mà không làm tổn thương.',
+            readTime: 4, level: 'advanced', tags: ['#giaotiếp', '#cảmxúc'],
+            hook: 'Bạn không có ý xấu, nhưng người kia vẫn bị tổn thương. Hoặc ngược lại. Cách nói quan trọng không kém gì điều muốn nói.',
+            explain: ['Ngôn ngữ "tôi" vs ngôn ngữ "bạn": "Tôi cảm thấy bị bỏ qua" ít gây phòng thủ hơn "Bạn đã bỏ qua tôi".', 'Lắng nghe để hiểu, không phải để trả lời — đây là kỹ năng hiếm và giá trị nhất.', 'Cảm xúc và hành động là hai thứ khác nhau — "Tôi tức" là cảm xúc, "Bạn làm tôi tức" là phán xét.', 'Chọn thời điểm nói quan trọng không kém nội dung — đừng nói chuyện quan trọng khi ai đó đang vội hoặc căng thẳng.'],
+            steps: ['Trước khi nói, tự hỏi: "Mục đích của mình là gì? Kết nối hay thắng?".', 'Dùng công thức: "Khi ___[hành động], mình cảm thấy ___[cảm xúc], vì mình cần/muốn ___".', 'Sau cuộc trò chuyện khó: hỏi "Bạn có cảm thấy ổn không?" — thể hiện bạn quan tâm đến họ, không chỉ vấn đề.'],
+            closing: 'Lời nói không thể lấy lại. Nhưng cách nói có thể học được — và mỗi lần thực hành là bạn đang tốt lên.'
+        },
+        {
+            id: 'kt17', cat: 'kynang', emoji: '📅',
+            title: 'Quản lý thời gian đơn giản',
+            preview: 'Không cần app phức tạp. Ba nguyên tắc nhỏ có thể thay đổi cách bạn dùng thời gian.',
+            readTime: 3, level: 'basic', tags: ['#thờigian', '#hiệuquả'],
+            hook: 'Bạn cảm thấy ngày quá ngắn và mình không làm được gì. Không phải vì bạn không đủ nỗ lực — mà vì chưa có hệ thống đơn giản.',
+            explain: ['Quản lý thời gian không phải nhồi thêm việc vào ngày — mà là làm việc đúng vào thời điểm đúng.', 'Quy tắc 80/20: 20% việc tạo ra 80% kết quả — tìm ra 20% đó và ưu tiên nó.', 'Não hoạt động tốt nhất vào các thời điểm khác nhau trong ngày — tìm "giờ vàng" của bạn.', 'Lập kế hoạch tối hôm trước thay vì sáng hôm đó — tiết kiệm năng lượng quyết định rất nhiều.'],
+            steps: ['Mỗi tối trước khi ngủ: viết ra 3 việc quan trọng nhất ngày mai — chỉ 3, không nhiều hơn.', 'Làm việc khó nhất vào đầu ngày khi năng lượng còn cao — đừng để đến lúc mệt rồi mới làm.', 'Tạo "thời gian chết": những khoảng thời gian không có nhiệm vụ — não cần khoảng trống để sáng tạo và hồi phục.'],
+            closing: 'Thời gian của bạn là tài sản. Bạn mới là người quyết định dùng nó cho điều gì.'
+        }
+    ];
+
+    let ktCurrentCat = 'all';
+    let ktInitialized = false;
+
+    function ktInitTab() {
+        if (ktInitialized) return;
+        ktInitialized = true;
+        ktRenderAll();
+    }
+
+    function ktRenderAll() {
+        ktRenderContent(ktCurrentCat, '');
+    }
+
+    function ktSetCategory(cat, btn) {
+        ktCurrentCat = cat;
+        document.querySelectorAll('.kt-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const searchVal = document.getElementById('ktSearchInput') ? document.getElementById('ktSearchInput').value : '';
+        ktRenderContent(cat, searchVal);
+    }
+
+    function ktFilterCards(val) {
+        ktRenderContent(ktCurrentCat, val);
+    }
+
+    function ktRenderContent(cat, search) {
+        const container = document.getElementById('ktContent');
+        if (!container) return;
+
+        const q = (search || '').toLowerCase().trim();
+
+        const filtered = KT_ARTICLES.filter(a => {
+            const matchCat = (cat === 'all') || (a.cat === cat);
+            const matchSearch = !q || a.title.toLowerCase().includes(q) || (a.preview || '').toLowerCase().includes(q) || (a.tags || []).join(' ').toLowerCase().includes(q);
+            return matchCat && matchSearch;
+        });
+
+        if (filtered.length === 0) {
+            container.innerHTML = `<div class="kt-empty"><div class="kt-empty-icon">🌸</div><div>Không tìm thấy bài viết phù hợp.<br>Hãy thử từ khóa khác nhé.</div></div>`;
+            return;
+        }
+
+        const groups = [
+            { id: 'camxuc', label: '① Cảm xúc & Tâm lý', sub: 'Hiểu cảm xúc, nhận ra chính mình', icon: '🌸', bg: 'background:linear-gradient(135deg,#e8889e,#c87268)' },
+            { id: 'hoctap', label: '② Học tập & Động lực', sub: 'Học thật sự thay vì học cho có', icon: '📚', bg: 'background:linear-gradient(135deg,#5b9bd5,#3d7cbf)' },
+            { id: 'quanhe', label: '③ Mối quan hệ', sub: 'Bạn bè, gia đình, tình cảm', icon: '💛', bg: 'background:linear-gradient(135deg,#f4b942,#e09020)' },
+            { id: 'suckhoe', label: '④ Sức khỏe tinh thần', sub: 'Nhận ra và chăm sóc tâm lý đúng cách', icon: '🌿', bg: 'background:linear-gradient(135deg,#5cbb7a,#3d9e60)' },
+            { id: 'kynang', label: '⑤ Kỹ năng sống nhỏ', sub: 'Những kỹ năng nhỏ, tác động lớn', icon: '✨', bg: 'background:linear-gradient(135deg,#8b7ca8,#6d5f8a)' },
+        ];
+
+        const stripeMap = {
+            camxuc: 'background:linear-gradient(90deg,#e8889e,#c87268)',
+            hoctap: 'background:linear-gradient(90deg,#5b9bd5,#3d7cbf)',
+            quanhe: 'background:linear-gradient(90deg,#f4b942,#e09020)',
+            suckhoe: 'background:linear-gradient(90deg,#5cbb7a,#3d9e60)',
+            kynang: 'background:linear-gradient(90deg,#8b7ca8,#6d5f8a)',
+        };
+
+        let html = '';
+        for (const grp of groups) {
+            const cards = filtered.filter(a => a.cat === grp.id);
+            if (cards.length === 0) continue;
+            html += `<div class="kt-group" data-cat="${grp.id}">
+                <div class="kt-group-header">
+                    <div class="kt-group-icon" style="${grp.bg}">${grp.icon}</div>
+                    <div>
+                        <div class="kt-group-title">${grp.label}</div>
+                        <div class="kt-group-sub">${grp.sub}</div>
+                    </div>
+                </div>
+                <div class="kt-cards-grid">
+                    ${cards.map(a => ktCardHTML(a, stripeMap[a.cat])).join('')}
+                </div>
+            </div>`;
+        }
+
+        container.innerHTML = html;
+    }
+
+    function ktCardHTML(a, stripe) {
+        const levelClass = a.level === 'basic' ? 'kt-level-basic' : 'kt-level-advanced';
+        const levelLabel = a.level === 'basic' ? 'Cơ bản' : 'Nâng cao';
+        const tags = (a.tags || []).map(t => `<span class="kt-tag">${t}</span>`).join('');
+        return `<div class="kt-card kt-card-${a.cat}" onclick="ktOpenArticle('${a.id}')">
+            <div class="kt-card-stripe" style="${stripe}"></div>
+            <div class="kt-card-emoji">${a.emoji}</div>
+            <div class="kt-card-title">${a.title}</div>
+            <div class="kt-card-preview">${a.preview}</div>
+            <div class="kt-card-meta">
+                <span class="kt-meta-time"><i class="fas fa-clock"></i>${a.readTime} phút đọc</span>
+                <span class="kt-level-badge ${levelClass}">${levelLabel}</span>
+                ${tags}
+            </div>
+            <div class="kt-card-read-arrow"><i class="fas fa-arrow-right"></i> Đọc bài</div>
+        </div>`;
+    }
+
+    function ktOpenArticle(id) {
+        const a = KT_ARTICLES.find(x => x.id === id);
+        if (!a) return;
+
+        const levelClass = a.level === 'basic' ? 'kt-level-basic' : 'kt-level-advanced';
+        const levelLabel = a.level === 'basic' ? 'Cơ bản' : 'Nâng cao';
+        const tags = (a.tags || []).map(t => `<span class="kt-tag">${t}</span>`).join('');
+
+        const explainItems = (a.explain || []).map(e => `<li><div class="kt-art-bullet-dot"></div><span>${e}</span></li>`).join('');
+        const stepItems = (a.steps || []).map((s, i) => `<li class="kt-art-step"><div class="kt-art-step-num">${i+1}</div><div class="kt-art-step-text">${s}</div></li>`).join('');
+
+        document.getElementById('ktArticleBody').innerHTML = `
+            <div class="kt-art-top">
+                <div class="kt-art-emoji">${a.emoji}</div>
+                <div class="kt-art-meta-col">
+                    <div class="kt-art-metas">
+                        <span class="kt-meta-time"><i class="fas fa-clock"></i>${a.readTime} phút đọc</span>
+                        <span class="kt-level-badge ${levelClass}">${levelLabel}</span>
+                    </div>
+                    <div class="kt-art-metas">${tags}</div>
+                </div>
+            </div>
+            <h2 class="kt-art-title">${a.title}</h2>
+            <p class="kt-art-hook">${a.hook}</p>
+            <div class="kt-art-section-title">🔹 Bạn cần biết</div>
+            <ul class="kt-art-bullets">${explainItems}</ul>
+            <div class="kt-art-section-title">🔹 3 bước áp dụng ngay</div>
+            <ol class="kt-art-steps">${stepItems}</ol>
+            <div class="kt-art-close-quote">${a.closing}</div>
+        `;
+
+        const overlay = document.getElementById('ktArticleOverlay');
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        overlay.scrollTop = 0;
+        document.getElementById('ktArticleModal').scrollTop = 0;
+    }
+
+    function ktCloseArticle(e) {
+        if (e.target === document.getElementById('ktArticleOverlay')) ktCloseArticleBtn();
+    }
+
+    function ktCloseArticleBtn() {
+        const overlay = document.getElementById('ktArticleOverlay');
+        if (overlay) {
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    }
+
+    </script>
 </body>
 </html>
