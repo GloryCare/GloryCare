@@ -3281,9 +3281,25 @@
                                 <div class="peer-partner-label">Đang kết nối</div>
                             </div>
                         </div>
-                        <button class="peer-leave-btn" onclick="leavePeerChat()">
-                            <i class="fas fa-sign-out-alt" style="font-size:11px"></i> Rời phòng
-                        </button>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <!-- Nút thoát khẩn cấp — luôn hiển thị nổi bật -->
+                            <button onclick="pcForceLeave()" title="Kết thúc và rời ngay lập tức" style="
+                                display:flex;align-items:center;gap:6px;
+                                padding:7px 13px;
+                                background:linear-gradient(135deg,#c0392b,#e74c3c);
+                                color:white;border:none;border-radius:20px;
+                                font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;
+                                cursor:pointer;white-space:nowrap;
+                                box-shadow:0 3px 12px rgba(192,57,43,0.35);
+                                transition:all 0.2s;
+                                animation:pcPulse 3s ease-in-out infinite;
+                            " onmouseover="this.style.transform='scale(1.05)';this.style.animation='none'" onmouseout="this.style.transform='scale(1)';this.style.animation='pcPulse 3s ease-in-out infinite'">
+                                🚪 Thoát ngay
+                            </button>
+                            <button class="peer-leave-btn" onclick="leavePeerChat()">
+                                <i class="fas fa-sign-out-alt" style="font-size:11px"></i> Rời phòng
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Messages area -->

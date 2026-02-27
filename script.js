@@ -136,6 +136,271 @@ function cmHideWarning(warningId) {
 }
 
 // ─────────────────────────────────────────────
+// PEER SAFETY — Phát hiện lừa đảo & quấy rối
+// ─────────────────────────────────────────────
+
+const DANGER_PATTERNS = [
+    // Xin thông tin cá nhân
+    { pattern: /(số điện thoại|sdt|phone|zalo|facebook|fb|instagram|ig|snapchat|tiktok|telegram|line|kakao|wechat|discord|số của bạn|liên hệ ngoài|nhắn ngoài|nick của bạn|tài khoản của bạn)/i, type: 'personal_info', label: 'Xin thông tin cá nhân' },
+    // Yêu cầu gặp mặt
+    { pattern: /(gặp nhau|gặp mặt|gặp ngoài|hẹn gặp|ra ngoài|đến chỗ|cho mình địa chỉ|ở đâu vậy|nhà bạn đâu|trường bạn|quận mấy|tỉnh nào)/i, type: 'meetup', label: 'Yêu cầu gặp mặt thực tế' },
+    // Lừa đảo tài chính
+    { pattern: /(chuyển tiền|gửi tiền|momo|banking|ngân hàng|stk|số tài khoản|nạp tiền|đầu tư|kiếm tiền|làm giàu|hoa hồng|cộng tác viên|affiliate|dự án|góp vốn|vay tiền|cho mượn tiền)/i, type: 'scam_finance', label: 'Có dấu hiệu lừa đảo tài chính' },
+    // Quấy rối tình dục
+    { pattern: /(gửi ảnh|gửi clip|ảnh của bạn|ảnh thật|ảnh body|video call|cam cùng|khỏa thân|nude|sexy|body đẹp|thân hình|nhìn bạn|thấy mặt bạn|ảnh mặt)/i, type: 'sexual_harassment', label: 'Quấy rối hoặc xin ảnh cá nhân' },
+    // Đe dọa & thao túng
+    { pattern: /(nếu không|bằng không|tao sẽ|mày phải|ép buộc|tống tiền|đăng lên|tung ảnh|kể với mọi người|bắt mày|theo dõi|biết nhà mày|biết trường mày)/i, type: 'threat', label: 'Đe dọa hoặc thao túng' },
+    // Dụ dỗ trẻ em / grooming
+    { pattern: /(bao nhiêu tuổi|mấy tuổi|còn nhỏ|học lớp mấy|cấp mấy|thích người lớn|chín chắn hơn tuổi|trưởng thành rồi|bí mật nhé|đừng kể ai|chỉ mình ta biết|người lớn hiểu em)/i, type: 'grooming', label: 'Dấu hiệu dụ dỗ — grooming' },
+];
+
+let pcDangerStrikeCount = 0;   // đếm số lần phát hiện nguy hiểm
+let pcAlertShown = false;       // tránh hiện nhiều alert cùng lúc
+
+/**
+ * Kiểm tra tin nhắn nhận từ peer có nguy hiểm không.
+ * Trả về object { type, label } hoặc null.
+ */
+function pcDetectDanger(text) {
+    const normalized = text.toLowerCase();
+    for (const rule of DANGER_PATTERNS) {
+        if (rule.pattern.test(normalized)) {
+            return { type: rule.type, label: rule.label };
+        }
+    }
+    return null;
+}
+
+/**
+ * Hiển thị alert cảnh báo khẩn cấp khi phát hiện nội dung nguy hiểm.
+ */
+function pcShowDangerAlert(dangerInfo) {
+    if (pcAlertShown) return;
+    pcAlertShown = true;
+    pcDangerStrikeCount++;
+
+    // Remove existing alert if any
+    const old = document.getElementById('pcDangerAlert');
+    if (old) old.remove();
+
+    const MESSAGES = {
+        personal_info:     { icon: '📵', title: 'Cảnh báo: Ai đó đang xin thông tin cá nhân', advice: 'Tuyệt đối <strong>không chia sẻ</strong> số điện thoại, mạng xã hội, địa chỉ hay bất kỳ thông tin định danh nào.' },
+        meetup:            { icon: '🚫', title: 'Cảnh báo: Yêu cầu gặp mặt ngoài đời thực', advice: '<strong>Không gặp mặt</strong> người quen qua mạng ẩn danh. Đây là dấu hiệu của kẻ có ý đồ xấu.' },
+        scam_finance:      { icon: '💸', title: 'Cảnh báo: Dấu hiệu lừa đảo tài chính!', advice: '<strong>Không chuyển tiền</strong> hoặc cung cấp thông tin tài khoản ngân hàng cho bất kỳ ai trên nền tảng này.' },
+        sexual_harassment: { icon: '🛑', title: 'Cảnh báo: Quấy rối — yêu cầu ảnh/video cá nhân', advice: '<strong>Không gửi bất kỳ hình ảnh nào</strong> của bản thân. Đây là hành vi quấy rối nghiêm trọng.' },
+        threat:            { icon: '⚠️', title: 'Cảnh báo: Phát hiện lời đe dọa hoặc thao túng', advice: 'Bạn <strong>không cần làm bất cứ điều gì</strong> người này yêu cầu. Hãy kết thúc cuộc trò chuyện ngay.' },
+        grooming:          { icon: '🔒', title: 'Cảnh báo: Dấu hiệu tiếp cận, dụ dỗ nguy hiểm', advice: 'Đây là dấu hiệu của kẻ có <strong>ý đồ xấu với trẻ em</strong>. Hãy rời ngay và báo với người lớn tin cậy.' },
+    };
+
+    const info = MESSAGES[dangerInfo.type] || { icon: '⚠️', title: 'Phát hiện nội dung đáng ngờ', advice: 'Hãy cẩn thận và kết thúc cuộc trò chuyện nếu bạn cảm thấy không an toàn.' };
+
+    const overlay = document.createElement('div');
+    overlay.id = 'pcDangerAlert';
+    overlay.style.cssText = `
+        position: fixed; inset: 0; z-index: 9999;
+        background: rgba(0,0,0,0.65); backdrop-filter: blur(6px);
+        display: flex; align-items: center; justify-content: center;
+        padding: 20px; animation: pcAlertIn 0.3s cubic-bezier(0.34,1.2,0.64,1) both;
+    `;
+
+    overlay.innerHTML = `
+        <div style="
+            background: var(--bg-card, #fff);
+            border-radius: 24px;
+            padding: 32px 28px 24px;
+            max-width: 420px; width: 100%;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+            border: 2px solid rgba(220,60,60,0.3);
+            text-align: center;
+            font-family: 'DM Sans', sans-serif;
+            animation: pcCardPop 0.35s cubic-bezier(0.34,1.4,0.64,1) both;
+        ">
+            <div style="font-size: 52px; margin-bottom: 10px; line-height:1;">${info.icon}</div>
+            <h3 style="
+                font-family: 'Cormorant Garamond', serif;
+                font-size: 20px; font-weight: 600;
+                color: #c0392b; margin: 0 0 14px;
+                line-height: 1.35;
+            ">${info.title}</h3>
+            <p style="
+                font-size: 13.5px; color: var(--text-secondary, #555);
+                line-height: 1.6; margin: 0 0 20px;
+            ">${info.advice}</p>
+
+            <div style="
+                background: rgba(220,60,60,0.07);
+                border: 1px solid rgba(220,60,60,0.2);
+                border-radius: 14px; padding: 14px 16px;
+                font-size: 12.5px; color: var(--text-secondary, #555);
+                text-align: left; margin-bottom: 24px; line-height: 1.55;
+            ">
+                <strong style="color:#c0392b;">Nhắc nhở an toàn:</strong><br>
+                GloryCare <strong>không yêu cầu</strong> bạn chia sẻ thông tin cá nhân. Cuộc trò chuyện này là ẩn danh và bạn có quyền rời đi bất cứ lúc nào.
+            </div>
+
+            <button onclick="pcForceLeave()" style="
+                width: 100%; padding: 14px;
+                background: linear-gradient(135deg, #c0392b, #e74c3c);
+                color: white; border: none; border-radius: 14px;
+                font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+                cursor: pointer; margin-bottom: 10px;
+                box-shadow: 0 6px 20px rgba(192,57,43,0.35);
+                transition: transform 0.15s;
+            " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                🚪 Kết thúc ngay & Rời khỏi chat
+            </button>
+            <button onclick="pcDismissAlert()" style="
+                width: 100%; padding: 11px;
+                background: transparent;
+                color: var(--text-muted, #888); border: 1.5px solid var(--border, #ddd);
+                border-radius: 14px; font-family: 'DM Sans', sans-serif;
+                font-size: 13px; cursor: pointer;
+            ">
+                Tôi hiểu, tiếp tục thận trọng
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Inject keyframes
+    if (!document.getElementById('pcAlertStyle')) {
+        const s = document.createElement('style');
+        s.id = 'pcAlertStyle';
+        s.textContent = `
+            @keyframes pcAlertIn { from { opacity:0; } to { opacity:1; } }
+            @keyframes pcCardPop { from { opacity:0; transform:scale(0.88) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
+            @keyframes pcSafetySlideIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+            @keyframes pcPulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+        `;
+        document.head.appendChild(s);
+    }
+
+    // Auto-add system message in chat
+    addSystemMessage(`${info.icon} Cảnh báo tự động: ${info.label} — hãy thận trọng!`);
+}
+
+/**
+ * Người dùng chọn "tiếp tục thận trọng" — đóng alert nhưng vẫn trong chat.
+ */
+function pcDismissAlert() {
+    const el = document.getElementById('pcDangerAlert');
+    if (el) {
+        el.style.animation = 'pcAlertIn 0.25s ease reverse both';
+        setTimeout(() => el.remove(), 250);
+    }
+    pcAlertShown = false;
+
+    // Nếu đã có 2+ lần cảnh báo, hiện banner nhắc nhở thêm
+    if (pcDangerStrikeCount >= 2) {
+        addSystemMessage('⚠️ Đây là lần thứ ' + pcDangerStrikeCount + ' phát hiện nội dung đáng ngờ. Hãy cân nhắc kết thúc cuộc trò chuyện này.');
+    }
+}
+
+/**
+ * Kết thúc ngay lập tức và hiển thị thông báo an toàn.
+ */
+function pcForceLeave() {
+    const el = document.getElementById('pcDangerAlert');
+    if (el) el.remove();
+    pcAlertShown = false;
+    pcDangerStrikeCount = 0;
+
+    if (socket) {
+        socket.emit('leave_chat');
+        socket.disconnect();
+        socket = null;
+    }
+    isInPeerChat = false;
+    peerRoom = null;
+
+    document.getElementById('peerChatActive').style.display = 'none';
+    document.getElementById('peerChatInputArea').style.display = 'none';
+
+    // Hiện màn hình an toàn sau khi rời
+    const area = document.getElementById('messagesArea');
+    area.style.display = 'flex';
+    area.innerHTML = '';
+
+    const safeEl = document.createElement('div');
+    safeEl.style.cssText = `
+        display:flex; flex-direction:column; align-items:center;
+        padding: 40px 28px; text-align:center; gap:14px;
+        font-family:'DM Sans',sans-serif;
+    `;
+    safeEl.innerHTML = `
+        <div style="font-size:52px;">🛡️</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--accent-rose);margin:0;">Bạn đã an toàn rời khỏi cuộc trò chuyện</h3>
+        <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.65;max-width:340px;margin:0;">
+            Bạn đã làm đúng. Bảo vệ bản thân là điều quan trọng nhất.
+            Nếu bạn cảm thấy lo lắng hoặc bị đe dọa, hãy kể cho người lớn tin cậy hoặc liên hệ đường dây hỗ trợ.
+        </p>
+        <div style="
+            background:rgba(139,124,168,0.08);border:1.5px solid rgba(139,124,168,0.2);
+            border-radius:16px;padding:16px 20px;max-width:340px;
+            font-size:12.5px;color:var(--text-secondary);line-height:1.6;text-align:left;
+        ">
+            <strong style="color:var(--accent-lavender,#8b7ca8);">📞 Hỗ trợ khẩn cấp:</strong><br>
+            • Đường dây bảo vệ trẻ em: <strong>1800 599 924</strong> (miễn phí)<br>
+            • Hỗ trợ tâm lý học sinh: <strong>1800 599 920</strong><br>
+            • Cảnh sát 113 nếu có nguy hiểm trực tiếp
+        </div>
+        <button onclick="showPeerSetupScreen()" style="
+            margin-top:8px; padding:13px 32px;
+            background:linear-gradient(135deg,var(--accent-rose),var(--accent-lavender));
+            color:white;border:none;border-radius:14px;
+            font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;
+            cursor:pointer;box-shadow:0 6px 18px rgba(200,114,104,0.3);
+        ">✿ Tìm người trò chuyện khác</button>
+    `;
+    area.appendChild(safeEl);
+    scrollDown();
+}
+
+/**
+ * Hiện banner cảnh báo an toàn ngay khi bắt đầu p2p chat.
+ */
+function pcShowSafetyBanner() {
+    const area = document.getElementById('messagesArea');
+    const banner = document.createElement('div');
+    banner.id = 'pcSafetyBanner';
+    banner.style.cssText = `
+        margin: 8px 16px 4px;
+        background: linear-gradient(135deg, rgba(139,124,168,0.08), rgba(200,114,104,0.06));
+        border: 1.5px solid rgba(139,124,168,0.25);
+        border-radius: 16px;
+        padding: 14px 18px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12.5px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        animation: pcSafetySlideIn 0.4s ease-out both;
+        position: relative;
+    `;
+    banner.innerHTML = `
+        <button onclick="this.parentElement.remove()" style="
+            position:absolute;top:10px;right:12px;
+            background:none;border:none;cursor:pointer;
+            font-size:14px;color:var(--text-muted);opacity:0.6;
+            padding:2px 5px;
+        ">×</button>
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="font-size:20px;flex-shrink:0;margin-top:1px;">🛡️</span>
+            <div>
+                <strong style="color:var(--accent-lavender,#8b7ca8);font-size:13px;">Lưu ý an toàn khi trò chuyện</strong><br>
+                <span style="color:var(--text-muted);">• Không chia sẻ <strong>số điện thoại, địa chỉ, mạng xã hội</strong> với người lạ</span><br>
+                <span style="color:var(--text-muted);">• Không chuyển tiền hoặc làm theo yêu cầu tài chính</span><br>
+                <span style="color:var(--text-muted);">• Không gửi ảnh, video cá nhân</span><br>
+                <span style="color:var(--text-muted);">• Không nhận lời hẹn gặp mặt ngoài đời thực</span><br>
+                <span style="color:var(--text-muted);">• Dùng nút <strong style="color:#c0392b;">🚪 Thoát ngay</strong> nếu cảm thấy không thoải mái</span>
+            </div>
+        </div>
+    `;
+    area.appendChild(banner);
+    scrollDown();
+}
+
+// ─────────────────────────────────────────────
 // SELECT TOPIC
 // ─────────────────────────────────────────────
 function selectTopic(topic) {
@@ -257,6 +522,8 @@ function cancelWaiting() {
 
 function showActivePeerChat(partnerNickname) {
     isInPeerChat = true;
+    pcDangerStrikeCount = 0;
+    pcAlertShown = false;
 
     // Remove waiting indicator
     const waitEl = document.getElementById('waitingIndicator');
@@ -270,6 +537,9 @@ function showActivePeerChat(partnerNickname) {
     activeEl.style.display = 'flex';
     document.getElementById('peerPartnerName').textContent = partnerNickname;
     document.getElementById('peerChatInputArea').style.display = 'flex';
+
+    // Hiện banner cảnh báo an toàn
+    pcShowSafetyBanner();
 
     addSystemMessage(`✨ Đã kết nối! Bạn đang trò chuyện với ${partnerNickname}`);
     addSystemMessage('💚 Không gian này an toàn và ẩn danh. Hãy lắng nghe và chia sẻ.');
@@ -326,6 +596,12 @@ function initSocket(callback) {
     socket.on('receive_message', (data) => {
         removePeerTyping();
         addPeerMessage(data.content);
+
+        // Quét tin nhắn nhận được để phát hiện nguy hiểm
+        const danger = pcDetectDanger(data.content);
+        if (danger) {
+            pcShowDangerAlert(danger);
+        }
     });
 
     socket.on('partner_typing', (data) => {
