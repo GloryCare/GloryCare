@@ -32,6 +32,110 @@ const topicNames = {
 const FREE_CHAT_TOPICS = ['chat', 'general'];
 
 // ─────────────────────────────────────────────
+// CONTENT MODERATION — Kiểm duyệt từ khóa
+// ─────────────────────────────────────────────
+
+// Danh sách từ khóa không phù hợp (tiếng Việt & biến thể phổ biến)
+const PROFANITY_LIST = [
+    // Chửi thề / tục tĩu cơ bản
+    'đụ', 'đù', 'du ma', 'đú má', 'địt', 'dit', 'địt mẹ', 'dit me', 'đéo', 'deo',
+    'cặc', 'cac', 'buồi', 'buoi', 'lồn', 'lon', 'lol', 'con lol', 'đĩ', 'di', 'đĩ chó',
+    'vãi', 'vai cac', 'vãi cặc', 'vãi lồn', 'vl', 'vcl', 'clm', 'cml',
+    'mẹ mày', 'me may', 'má mày', 'thằng chó', 'con chó', 'đồ chó', 'chó chết',
+    'đồ khốn', 'đm', 'đmm', 'đmcs', 'dm', 'dmm',
+    'fuck', 'fck', 'f*ck', 'f**k', 'shit', 'sh1t', 'bitch', 'b1tch', 'bastard',
+    'asshole', 'dickhead', 'motherfucker', 'wtf',
+    // Xúc phạm / kỳ thị
+    'ngu', 'óc chó', 'óc trâu', 'đần', 'mày ngu', 'thằng ngu', 'con ngu',
+    'đồ điên', 'thằng điên', 'con điên', 'thần kinh', 'tâm thần', 'mất dạy',
+    'vô học', 'đồ khùng', 'khùng điên', 'khốn nạn', 'đồ hèn', 'tên hèn',
+    'súc vật', 'suc vat', 'thú vật', 'thu vat',
+    // Quấy rối / gợi dục
+    'show hàng', 'lộ hàng', 'nude', 'nudes', 'gửi ảnh', 'khiêu dâm', 'sex', 'sexx',
+    'quan hệ', 'làm tình', 'lm tinh', 'đụ nhau', 'bú cặc', 'liếm lồn',
+    // Số hoá / biến thể lách lọc
+    'c4c', 'bu0i', 'l0n', 'd1t', 'd!t', 'đ!t', 'fuk', 'phak',
+    'Iồn', 'nqu', '7 học', '7hoc','sucvat', 'sv', 'súc', 'suc', 'https', '.com', '//', 'www' 
+];
+
+// Chuẩn hoá chữ hoa/thường và bỏ dấu cơ bản để so sánh linh hoạt
+function cmNormalize(str) {
+    return str
+        .toLowerCase()
+        .replace(/[*@#!$%^&]/g, '')          // bỏ ký tự thay thế
+        .replace(/\s+/g, ' ')                 // chuẩn hoá khoảng trắng
+        .trim();
+}
+
+/**
+ * Kiểm tra xem text có chứa từ khóa không phù hợp không.
+ * Trả về từ vi phạm đầu tiên tìm thấy, hoặc null nếu sạch.
+ */
+function cmCheckProfanity(text) {
+    const normalized = cmNormalize(text);
+    for (const word of PROFANITY_LIST) {
+        // Kiểm tra theo biên từ nhưng linh hoạt với tiếng Việt (không dùng \b vì Unicode)
+        const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp('(?:^|\\s|[^a-zA-ZÀ-ỹ])' + escaped + '(?:$|\\s|[^a-zA-ZÀ-ỹ])|^' + escaped + '$|\\s' + escaped + '\\s', 'i');
+        // Kiểm tra chứa chuỗi (substring) vì tiếng Việt ghép từ linh hoạt
+        if (normalized.includes(word)) {
+            return word;
+        }
+    }
+    return null;
+}
+
+/**
+ * Hiển thị cảnh báo kiểm duyệt ngay bên dưới ô nhập liệu.
+ * @param {string} inputId - ID của thẻ input/textarea
+ * @param {string} warningId - ID duy nhất cho phần tử cảnh báo
+ */
+function cmShowWarning(inputId, warningId) {
+    cmHideWarning(warningId); // tránh trùng
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    const warn = document.createElement('div');
+    warn.id = warningId;
+    warn.style.cssText = `
+        display: flex; align-items: center; gap: 7px;
+        margin-top: 6px; padding: 8px 13px;
+        background: rgba(220, 80, 80, 0.09);
+        border: 1px solid rgba(220, 80, 80, 0.28);
+        border-radius: 10px;
+        font-size: 12.5px; color: #c0392b;
+        animation: cmWarnFadeIn 0.25s ease-out;
+        font-family: 'DM Sans', sans-serif;
+        line-height: 1.45;
+    `;
+    warn.innerHTML = `
+        <span style="font-size:15px;flex-shrink:0">⚠️</span>
+        <span>Tin nhắn chứa từ ngữ không phù hợp và không thể gửi đi. Vui lòng giữ không gian trò chuyện lành mạnh và tôn trọng nhau.</span>
+    `;
+
+    // Chèn phần tử cảnh báo sau input
+    input.closest('.peer-chat-input-row, .chat-input-row')?.parentElement?.appendChild(warn)
+        ?? input.parentElement?.parentElement?.appendChild(warn)
+        ?? input.parentElement?.appendChild(warn);
+
+    // Tự ẩn sau 4 giây
+    setTimeout(() => cmHideWarning(warningId), 4000);
+
+    // Thêm keyframe animation nếu chưa có
+    if (!document.getElementById('cmStyleTag')) {
+        const style = document.createElement('style');
+        style.id = 'cmStyleTag';
+        style.textContent = `@keyframes cmWarnFadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }`;
+        document.head.appendChild(style);
+    }
+}
+
+function cmHideWarning(warningId) {
+    const el = document.getElementById(warningId);
+    if (el) el.remove();
+}
+
+// ─────────────────────────────────────────────
 // SELECT TOPIC
 // ─────────────────────────────────────────────
 function selectTopic(topic) {
@@ -285,6 +389,13 @@ function sendPeerMessage() {
     const text = input.value.trim();
     if (!text || !socket || !peerRoom) return;
 
+    // ── Kiểm duyệt từ khóa ──
+    if (cmCheckProfanity(text)) {
+        cmShowWarning('peerChatInput', 'cmPeerWarning');
+        return;
+    }
+    cmHideWarning('cmPeerWarning');
+
     input.value = '';
     autoResizeTextarea(input);
 
@@ -389,6 +500,13 @@ async function sendMessage() {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
     if (!text) return;
+
+    // ── Kiểm duyệt từ khóa ──
+    if (cmCheckProfanity(text)) {
+        cmShowWarning('chatInput', 'cmChatWarning');
+        return;
+    }
+    cmHideWarning('cmChatWarning');
 
     input.value = '';
     autoResizeTextarea(input);
