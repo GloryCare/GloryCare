@@ -35,40 +35,102 @@
            Bảng màu: nâu sô-cô-la ấm + đào hồng + xanh sage
         ══════════════════════════════════════════ */
         [data-theme="dark"] {
-            --bg-primary: #2A1F1A;
-            --bg-secondary: #311F18;
-            --bg-card: rgba(58,36,28,0.88);
-            --bg-glass: rgba(58,36,28,0.72);
-            --border: rgba(200,150,120,0.2);
-            --border-accent: rgba(210,160,130,0.38);
 
-            /* Chữ sáng hơn, ấm hơn */
-            --text-primary: #F5E8DE;
-            --text-secondary: #D4A890;
-            --text-muted: #A07860;
+            /* ===== BACKGROUND SYSTEM ===== */
+            --bg-primary: #1E1613;
+            --bg-secondary: #241A16;
+            --bg-elevated: #2A1F1A;
 
-            /* Màu nhấn ấm, rực rỡ hơn để nổi trên nền tối */
-            --accent-rose: #E8907E;
-            --accent-blush: #DDA090;
-            --accent-sage: #90B89C;
-            --accent-lavender: #A090C0;
-            --accent-peach: #D8A878;
+            --bg-card: rgba(48, 34, 28, 0.88);
+            --bg-glass: rgba(48, 34, 28, 0.72);
 
-            --chat-user-bg: linear-gradient(135deg, #D07868, #B06050);
-            --chat-bot-bg: rgba(68,42,32,0.95);
-            --shadow-soft: 0 4px 24px rgba(0,0,0,0.35);
-            --shadow-md: 0 8px 40px rgba(0,0,0,0.45);
-            --shadow-lg: 0 20px 60px rgba(0,0,0,0.55);
-            --panel-left: #2A1F1A;
-            --panel-right: #2E1E16;
-            --option-hover: rgba(220,130,100,0.14);
-            --scrollbar: rgba(200,140,100,0.3);
-            --header-bg: rgba(38,26,20,0.97);
-            --toggle-bg: rgba(200,140,100,0.22);
-            --toggle-dot: #E8907E;
-            --petal: rgba(220,130,110,0.5);
-            --petal2: rgba(240,160,140,0.4);
-            --petal3: rgba(255,190,170,0.3);
+            --panel-left: #1F1714;
+            --panel-right: #241914;
+
+            --header-bg: rgba(30, 22, 18, 0.96);
+
+            /* ===== BORDER ===== */
+            --border: rgba(210,160,130,0.18);
+            --border-accent: rgba(230,170,140,0.35);
+
+            /* ===== TEXT ===== */
+            --text-primary: #F4E8DF;
+            --text-secondary: #D8B7A3;
+            --text-muted: #A68472;
+
+            /* ===== ACCENT (ấm, nổi nhẹ trên nền tối) ===== */
+            --accent-rose: #E78B7B;
+            --accent-blush: #DDA392;
+            --accent-sage: #8FBFA5;
+            --accent-lavender: #A79BCF;
+            --accent-peach: #E2A676;
+
+            /* ===== CHAT SYSTEM ===== */
+            --chat-user-bg: linear-gradient(
+                135deg,
+                #D07C6C,
+                #B86555
+            );
+
+            --chat-bot-bg: rgba(60, 42, 34, 0.95);
+
+            /* ===== SHADOW (mềm, không gắt) ===== */
+            --shadow-soft: 0 6px 30px rgba(0,0,0,0.35);
+            --shadow-md: 0 12px 50px rgba(0,0,0,0.45);
+            --shadow-lg: 0 25px 80px rgba(0,0,0,0.55);
+
+            /* ===== INTERACTION ===== */
+            --option-hover: rgba(230,140,110,0.12);
+            --toggle-bg: rgba(230,150,120,0.25);
+            --toggle-dot: #E78B7B;
+
+            --scrollbar: rgba(220,150,120,0.3);
+
+            /* ===== PETAL / EFFECT ===== */
+            --petal: rgba(230,150,130,0.45);
+            --petal2: rgba(240,170,150,0.35);
+            --petal3: rgba(255,200,180,0.25);
+        }
+
+        [data-theme="dark"] body {
+            background: radial-gradient(
+                circle at 20% 20%,
+                rgba(255,180,150,0.06),
+                transparent 40%
+            ),
+            radial-gradient(
+                circle at 80% 80%,
+                rgba(160,120,255,0.05),
+                transparent 40%
+            ),
+            var(--bg-primary);
+        }
+
+
+        [data-theme="dark"] .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(14px);
+            box-shadow: var(--shadow-soft);
+            border-radius: 16px;
+        }
+
+        [data-theme="dark"] .card:hover {
+            background: rgba(65, 45, 35, 0.95);
+        }
+        
+        [data-theme="dark"] .btn-primary {
+            background: linear-gradient(
+                135deg,
+                var(--accent-rose),
+                var(--accent-peach)
+            );
+            box-shadow: 0 0 24px rgba(230,140,120,0.35);
+        }
+
+        [data-theme="dark"] ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar);
+            border-radius: 10px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -90,17 +152,18 @@
           left: 0;
           width: 100%;
           height: 100%;
-          pointer-events: none;  /* Cho phép tương tác với nội dung bên dưới */
-          z-index: -1;           /* Đưa canvas xuống dưới cùng */
+          pointer-events: none;
+          z-index: 0;  /* ← đổi từ -1 thành 0 */
         }
 
         /* ──────────────── APP LAYOUT ──────────────── */
         .app {
-            position: relative;
-            z-index: 1;
-            width: 100%; height: 100%;
-            display: flex;
-            flex-direction: column;
+          position: relative;
+          z-index: 1;
+          width: 100%; height: 100%;
+          display: flex;
+          flex-direction: column;
+          background: transparent; /* ← thêm dòng này */
         }
 
         /* ──────────────── HEADER ──────────────── */
@@ -225,7 +288,7 @@
             align-items: center;
             justify-content: center;
             padding: 40px;
-            background: var(--bg-primary);
+            background: transparent; /* ← đổi từ var(--bg-primary) thành transparent */
             overflow-y: auto;
             backdrop-filter: blur(2px); 
         }

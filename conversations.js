@@ -708,7 +708,7 @@ const conversationsData = {
             "children": [
               {
                 "id": "stress_coping_sleep_intrusive",
-                "userShare": "Tôi không thể dừng suy nghĩ, tôi khiên rong lo lắng",
+                "userShare": "Tôi không thể dừng suy nghĩ",
                 "botResponse": "Suy nghĩ xâm lấn (rumination) thường xuất hiện khi bạn nằm yên. Đó là lúc tâm trí cố gắng giải quyết vấn đề nhưng lại bị mắc kẹt. Hãy thử kỹ thuật 'dừng suy nghĩ': khi một ý nghĩ lo lắng xuất hiện, bạn tự nhủ 'DỪNG LẠI' và chuyển sang một hình ảnh dễ chịu (như bãi biển). Hoặc bạn có thể tập thiền chánh niệm: quan sát suy nghĩ như mây trôi, không đánh giá. Dần dần, bạn sẽ học cách không bị cuốn vào vòng xoáy lo âu.",
                 "children": [
                   {
