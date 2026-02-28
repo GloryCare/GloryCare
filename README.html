@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GloryCare — README</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #c87268;
+    --rose-light: #e8b4af;
+    --lavender: #8b7ca8;
+    --lavender-light: #c4bcd8;
+    --cream: #faf8f5;
+    --ink: #2a2320;
+    --ink-mid: #6b5e58;
+    --ink-soft: #9e9189;
+    --border: rgba(200,114,104,0.18);
+    --card-bg: rgba(255,255,255,0.82);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  /* ── BACKGROUND BLOBS ── */
+  .bg-blob {
+    position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.18; pointer-events: none; z-index: 0;
+  }
+  .blob-1 { width: 500px; height: 500px; background: radial-gradient(circle, #e8b4af, transparent); top: -120px; right: -100px; }
+  .blob-2 { width: 400px; height: 400px; background: radial-gradient(circle, #c4bcd8, transparent); bottom: 10%; left: -80px; }
+  .blob-3 { width: 300px; height: 300px; background: radial-gradient(circle, #f7d9b5, transparent); top: 40%; right: 15%; }
+
+  /* ── MAIN CONTENT ── */
+  main { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 80px 32px 120px; }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 60px 0 80px;
+    animation: fadeUp 0.9s ease both;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 6px 18px;
+    font-size: 11px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--rose);
+    background: rgba(200,114,104,0.06);
+    margin-bottom: 32px;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 9vw, 96px);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -1px;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .hero-title span { color: var(--rose); font-style: italic; }
+
+  .hero-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink-mid);
+    margin-bottom: 28px;
+    letter-spacing: 0.2px;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 520px;
+    margin: 0 auto 44px;
+    line-height: 1.8;
+  }
+
+  .hero-pills {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+  }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 16px; border-radius: 40px;
+    font-size: 12.5px; font-weight: 400; letter-spacing: 0.2px;
+    border: 1px solid var(--border);
+    color: var(--ink-mid);
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
+  }
+  .pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rose); flex-shrink: 0; }
+  .pill .dot.lav { background: var(--lavender); }
+  .pill .dot.grn { background: #7ea88b; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    text-align: center;
+    margin: 24px 0 56px;
+    color: var(--ink-soft);
+    font-size: 18px;
+    letter-spacing: 8px;
+    opacity: 0.4;
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-label {
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--rose); font-weight: 500; margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 400; color: var(--ink); margin-bottom: 16px; line-height: 1.15;
+  }
+  .section-sub {
+    font-size: 14.5px; color: var(--ink-soft); max-width: 500px; line-height: 1.75;
+  }
+
+  /* ── FEATURE GRID ── */
+  .feat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .feat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    backdrop-filter: blur(12px);
+    transition: box-shadow 0.3s, transform 0.3s;
+    animation: fadeUp 0.7s ease both;
+  }
+  .feat-card:hover { box-shadow: 0 12px 40px rgba(200,114,104,0.12); transform: translateY(-3px); }
+
+  .feat-icon {
+    font-size: 28px; margin-bottom: 14px; display: block;
+    filter: drop-shadow(0 2px 6px rgba(200,114,104,0.3));
+  }
+  .feat-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px; font-weight: 600; color: var(--ink); margin-bottom: 8px;
+  }
+  .feat-desc {
+    font-size: 13px; color: var(--ink-soft); line-height: 1.65;
+  }
+
+  /* ── STACK SECTION ── */
+  .stack-wrap {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin-top: 36px;
+  }
+  @media (max-width: 600px) { .stack-wrap { grid-template-columns: 1fr; } }
+
+  .stack-block {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 20px;
+    backdrop-filter: blur(10px);
+  }
+  .stack-block-title {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--lavender); font-weight: 500; margin-bottom: 12px;
+  }
+  .stack-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--ink-mid);
+    padding: 6px 0; border-bottom: 1px solid rgba(200,114,104,0.08);
+  }
+  .stack-item:last-child { border-bottom: none; }
+  .stack-item .tag {
+    font-size: 10px; padding: 2px 8px; border-radius: 8px;
+    background: rgba(139,124,168,0.1); color: var(--lavender); font-weight: 500;
+    margin-left: auto; flex-shrink: 0;
+  }
+
+  /* ── SETUP SECTION ── */
+  .setup-steps {
+    counter-reset: step;
+    margin-top: 36px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .setup-step {
+    counter-increment: step;
+    display: flex; gap: 18px; align-items: flex-start;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    backdrop-filter: blur(10px);
+    animation: fadeUp 0.6s ease both;
+  }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px; font-weight: 300;
+    color: var(--rose-light);
+    line-height: 1; flex-shrink: 0; width: 32px;
+    content: counter(step);
+  }
+  .step-num::before { content: counter(step, decimal-leading-zero); }
+  .step-body { flex: 1; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .step-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+
+  code, .code-block {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 12px;
+  }
+
+  .code-block {
+    background: #1e1a18;
+    color: #e8ddd6;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 10px;
+    line-height: 1.6;
+    overflow-x: auto;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .code-block .cm { color: #7a9e7a; }
+  .code-block .kw { color: #c4bcd8; }
+  .code-block .st { color: #e8a87c; }
+  .code-block .fn { color: #c87268; }
+
+  /* ── STRUCTURE SECTION ── */
+  .file-tree {
+    background: #1e1a18;
+    border-radius: 14px;
+    padding: 22px 22px;
+    margin-top: 32px;
+    font-size: 13px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .file-tree .line {
+    display: flex; align-items: center; gap: 10px;
+    padding: 5px 0;
+    color: #d4c9c0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .file-tree .line:last-child { border: none; }
+  .file-tree .line .ico { font-size: 14px; flex-shrink: 0; }
+  .file-tree .line .fname { color: #e8b4af; font-family: 'SF Mono', monospace; }
+  .file-tree .line .fdesc { color: #7a6f68; font-size: 11.5px; margin-left: auto; }
+
+  /* ── API SECTION ── */
+  .api-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-top: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+  .api-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(200,114,104,0.04);
+  }
+  .method {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.8px; padding: 3px 10px;
+    border-radius: 6px; flex-shrink: 0;
+  }
+  .method.post { background: rgba(200,114,104,0.15); color: var(--rose); }
+  .method.get  { background: rgba(139,124,168,0.15); color: var(--lavender); }
+  .method.ws   { background: rgba(126,168,139,0.15); color: #5a9e6e; }
+  .api-path { font-family: 'SF Mono', monospace; font-size: 13px; color: var(--ink); }
+  .api-body { padding: 14px 20px; font-size: 13px; color: var(--ink-soft); line-height: 1.65; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 60px 32px 40px;
+    position: relative; z-index: 1;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; font-weight: 300;
+    color: var(--ink-soft);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .footer-logo span { color: var(--rose); font-style: italic; }
+  .footer-note { font-size: 12px; color: var(--ink-soft); letter-spacing: 0.3px; }
+  .footer-line { width: 60px; height: 1px; background: var(--border); margin: 20px auto; }
+
+  /* ── QUOTE BLOCK ── */
+  .quote-block {
+    border-left: 2px solid var(--rose-light);
+    padding: 16px 24px;
+    margin: 40px 0;
+    background: rgba(200,114,104,0.04);
+    border-radius: 0 12px 12px 0;
+  }
+  .quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-style: italic; color: var(--ink-mid); line-height: 1.5;
+  }
+  .quote-src { font-size: 11px; color: var(--ink-soft); margin-top: 8px; letter-spacing: 0.5px; }
+
+  /* ── SECTIONS ── */
+  section { margin-bottom: 80px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .anim-1 { animation-delay: 0.05s; }
+  .anim-2 { animation-delay: 0.12s; }
+  .anim-3 { animation-delay: 0.19s; }
+  .anim-4 { animation-delay: 0.26s; }
+  .anim-5 { animation-delay: 0.33s; }
+  .anim-6 { animation-delay: 0.40s; }
+
+  @media (max-width: 600px) {
+    main { padding: 48px 20px 80px; }
+    .feat-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg-blob blob-1"></div>
+<div class="bg-blob blob-2"></div>
+<div class="bg-blob blob-3"></div>
+
+<main>
+
+  <!-- ═══ HERO ═══ -->
+  <div class="hero">
+    <div class="hero-badge">✦ Mental Health · Học sinh Việt Nam ✦</div>
+    <h1 class="hero-title">Glory<span>Care</span></h1>
+    <p class="hero-tagline">Tâm lý học sinh — Không phán xét, không áp đặt</p>
+    <p class="hero-desc">Một nền tảng hỗ trợ sức khỏe tâm thần cho học sinh Việt Nam, kết hợp AI đồng cảm và kết nối tâm sự ngang hàng theo thời gian thực.</p>
+    <div class="hero-pills">
+      <span class="pill"><span class="dot"></span>Flask · Python</span>
+      <span class="pill"><span class="dot lav"></span>Gemini AI</span>
+      <span class="pill"><span class="dot grn"></span>WebSocket Peer Chat</span>
+      <span class="pill"><span class="dot"></span>Vanilla JS</span>
+      <span class="pill"><span class="dot lav"></span>Single-file Frontend</span>
+    </div>
+  </div>
+
+  <div class="divider">· · ·</div>
+
+  <!-- ═══ FEATURES ═══ -->
+  <section>
+    <div class="section-label">Tính năng</div>
+    <h2 class="section-title">Được xây dựng với<br>sự quan tâm thật sự</h2>
+    <p class="section-sub">Mỗi tính năng được thiết kế để học sinh cảm thấy được lắng nghe và an toàn khi chia sẻ.</p>
+
+    <div class="feat-grid">
+      <div class="feat-card anim-1">
+        <span class="feat-icon">🤖</span>
+        <div class="feat-name">Trò chuyện AI</div>
+        <p class="feat-desc">Tích hợp Gemini (gemma-3-27b-it), phản hồi ấm áp, ngắn gọn. Hệ thống prompt đặc biệt với nhân cách "người bạn thân" không phán xét.</p>
+      </div>
+      <div class="feat-card anim-2">
+        <span class="feat-icon">🫂</span>
+        <div class="feat-name">Tâm sự tự do</div>
+        <p class="feat-desc">Peer chat ẩn danh qua WebSocket. Hệ thống ghép cặp thông minh theo chủ đề: áp lực học, gia đình, tình cảm, cô đơn…</p>
+      </div>
+      <div class="feat-card anim-3">
+        <span class="feat-icon">✅</span>
+        <div class="feat-name">Daily Check-in</div>
+        <p class="feat-desc">Theo dõi cảm xúc hằng ngày với 6 mức độ emoji. Chuỗi streak, huy hiệu milestones, biểu đồ SVG xu hướng tâm trạng.</p>
+      </div>
+      <div class="feat-card anim-4">
+        <span class="feat-icon">💌</span>
+        <div class="feat-name">Thư gửi tương lai</div>
+        <p class="feat-desc">Viết thư cho bản thân ở tương lai, lưu trữ local, mở đọc lại khi muốn. Tính năng suy ngẫm và trưởng thành.</p>
+      </div>
+      <div class="feat-card anim-5">
+        <span class="feat-icon">📖</span>
+        <div class="feat-name">Nhật ký cảm xúc</div>
+        <p class="feat-desc">Ghi chép tự do, gắn emoji cảm xúc, lưu trữ localStorage. Không có server lưu trữ dữ liệu cá nhân.</p>
+      </div>
+      <div class="feat-card anim-6">
+        <span class="feat-icon">🛡️</span>
+        <div class="feat-name">Kiểm duyệt nội dung</div>
+        <p class="feat-desc">Bộ lọc ngôn từ tiếng Việt tích hợp, bảo vệ không gian an toàn cho peer chat. Hỗ trợ biến thể & lách lọc.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TECH STACK ═══ -->
+  <section>
+    <div class="section-label">Công nghệ</div>
+    <h2 class="section-title">Kiến trúc gọn nhẹ,<br>dễ triển khai</h2>
+
+    <div class="stack-wrap">
+      <div class="stack-block">
+        <div class="stack-block-title">Backend · Python</div>
+        <div class="stack-item">Flask <span class="tag">Web server</span></div>
+        <div class="stack-item">Flask-SocketIO <span class="tag">WebSocket</span></div>
+        <div class="stack-item">flask-cors <span class="tag">CORS</span></div>
+        <div class="stack-item">google-generativeai <span class="tag">Gemini SDK</span></div>
+        <div class="stack-item">eventlet <span class="tag">Async</span></div>
+      </div>
+      <div class="stack-block">
+        <div class="stack-block-title">Frontend · Vanilla</div>
+        <div class="stack-item">HTML / CSS / JS <span class="tag">Single file</span></div>
+        <div class="stack-item">Cormorant Garamond <span class="tag">Serif</span></div>
+        <div class="stack-item">DM Sans <span class="tag">Body</span></div>
+        <div class="stack-item">Socket.io client <span class="tag">CDN</span></div>
+        <div class="stack-item">LocalStorage <span class="tag">Data</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FILE STRUCTURE ═══ -->
+  <section>
+    <div class="section-label">Cấu trúc dự án</div>
+    <h2 class="section-title">Đơn giản &<br>dễ hiểu</h2>
+
+    <div class="file-tree">
+      <div class="line"><span class="ico">📁</span><span class="fname">glorycare/</span><span class="fdesc">root</span></div>
+      <div class="line"><span class="ico" style="margin-left:20px">🐍</span><span class="fname">app.py</span><span class="fdesc">Flask server + WebSocket + Gemini API</span></div>
+      <div class="line"><span class="ico" style="margin-left:20px">🌐</span><span class="fname">index.html</span><span class="fdesc">Toàn bộ UI, style &amp; logic kiểm duyệt</span></div>
+      <div class="line"><span class="ico" style="margin-left:20px">🎨</span><span class="fname">style.css</span><span class="fdesc">Theme, biến CSS, responsive layout</span></div>
+      <div class="line"><span class="ico" style="margin-left:20px">⚙️</span><span class="fname">script.js</span><span class="fdesc">Chat logic, Socket.io client, peer flow</span></div>
+      <div class="line"><span class="ico" style="margin-left:20px">💬</span><span class="fname">conversations.js</span><span class="fdesc">Script hội thoại theo chủ đề tâm lý</span></div>
+      <div class="line"><span class="ico" style="margin-left:20px">📝</span><span class="fname">README.html</span><span class="fdesc">File này</span></div>
+    </div>
+  </section>
+
+  <!-- ═══ SETUP ═══ -->
+  <section>
+    <div class="section-label">Cài đặt & Chạy</div>
+    <h2 class="section-title">Lên máy trong<br>5 phút</h2>
+
+    <div class="setup-steps">
+      <div class="setup-step">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <div class="step-title">Cài dependencies</div>
+          <div class="step-desc">Cần Python 3.9+ và pip.</div>
+          <div class="code-block"><span class="fn">pip</span> install flask flask-socketio flask-cors google-generativeai eventlet</div>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <div class="step-title">Cấu hình Gemini API Key</div>
+          <div class="step-desc">Lấy key tại <em>aistudio.google.com</em>, sau đó set biến môi trường.</div>
+          <div class="code-block"><span class="cm"># Linux / macOS</span>
+<span class="kw">export</span> GEMINI_API_KEY=<span class="st">your_api_key_here</span>
+
+<span class="cm"># Windows (PowerShell)</span>
+<span class="kw">$env</span>:GEMINI_API_KEY=<span class="st">"your_api_key_here"</span></div>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <div class="step-title">Chạy server</div>
+          <div class="step-desc">Flask sẽ serve frontend tự động từ cùng thư mục.</div>
+          <div class="code-block"><span class="fn">python</span> app.py</div>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <div class="step-title">Mở trình duyệt</div>
+          <div class="step-desc">Truy cập địa chỉ sau để dùng ứng dụng.</div>
+          <div class="code-block"><span class="st">http://localhost:5000</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ API ═══ -->
+  <section>
+    <div class="section-label">API Reference</div>
+    <h2 class="section-title">Endpoints</h2>
+
+    <div class="api-card">
+      <div class="api-header">
+        <span class="method post">POST</span>
+        <span class="api-path">/api/chat</span>
+      </div>
+      <div class="api-body">Gửi lịch sử hội thoại, nhận phản hồi từ Gemini AI. Body: <code>{ messages: [{role, content}] }</code>. Tự động fallback khi chưa cấu hình API key.</div>
+    </div>
+
+    <div class="api-card">
+      <div class="api-header">
+        <span class="method get">GET</span>
+        <span class="api-path">/api/health</span>
+      </div>
+      <div class="api-body">Trạng thái server: Gemini, số người đang chờ, số cặp đang chat.</div>
+    </div>
+
+    <div class="api-card">
+      <div class="api-header">
+        <span class="method ws">WS</span>
+        <span class="api-path">Socket.io events</span>
+      </div>
+      <div class="api-body">
+        <code>join_queue</code> → vào hàng chờ ghép cặp &nbsp;·&nbsp;
+        <code>matched</code> → đã ghép thành công &nbsp;·&nbsp;
+        <code>send_message</code> → gửi tin nhắn &nbsp;·&nbsp;
+        <code>typing</code> → trạng thái đang gõ &nbsp;·&nbsp;
+        <code>leave_chat</code> → rời phòng
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ QUOTE ═══ -->
+  <div class="quote-block">
+    <div class="quote-text">"Học sinh cần một không gian để được lắng nghe — không phán xét, không chẩn đoán, không áp đặt."</div>
+    <div class="quote-src">— Tinh thần thiết kế của GloryCare</div>
+  </div>
+
+  <!-- ═══ NOTES ═══ -->
+  <section>
+    <div class="section-label">Lưu ý quan trọng</div>
+    <h2 class="section-title">Bảo mật &<br>giới hạn</h2>
+    <p class="section-sub" style="margin-bottom:16px">Một số điểm cần biết khi triển khai production:</p>
+    <div class="stack-block" style="margin-top:0">
+      <div class="stack-item">Peer chat state lưu in-memory → nên dùng Redis cho production</div>
+      <div class="stack-item">Dữ liệu người dùng (nhật ký, check-in) lưu localStorage phía client</div>
+      <div class="stack-item">Không thu thập, không lưu trữ bất kỳ dữ liệu cá nhân nào trên server</div>
+      <div class="stack-item">AI không thay thế tư vấn tâm lý chuyên nghiệp — chỉ hỗ trợ ban đầu</div>
+      <div class="stack-item">Nếu người dùng có dấu hiệu nguy hiểm, hệ thống khuyến khích tìm chuyên gia</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-line"></div>
+  <div class="footer-logo">Glory<span>Care</span></div>
+  <p class="footer-note">Được xây dựng với ❤️ dành cho học sinh Việt Nam · Flask + Gemini AI + WebSocket</p>
+</footer>
+
+</body>
+</html>
