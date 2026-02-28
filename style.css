@@ -285,10 +285,10 @@
         .welcome-screen {
             width: 100%;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             padding: 40px;
-            background: transparent; /* ← đổi từ var(--bg-primary) thành transparent */
+            background: transparent;
             overflow-y: auto;
             backdrop-filter: blur(2px); 
         }
@@ -296,6 +296,7 @@
         .welcome-inner {
             max-width: 700px;
             width: 100%;
+            margin: auto;
             animation: fadeUp 0.8s ease-out;
         }
 
@@ -1344,4 +1345,29 @@
             #peerChatSetup {
                 padding: 12px 10px;
             }
+        }
+        /* ══════════════════════════════════════════════════
+           SHORT SCREEN FIX (chiều cao thấp / landscape)
+        ══════════════════════════════════════════════════ */
+        @media (max-height: 700px) {
+            .welcome-hero { margin-bottom: 20px; }
+            .welcome-ornament { font-size: 48px; margin-top: 0; margin-bottom: 12px; }
+            .welcome-title { font-size: 32px; }
+            .welcome-subtitle { font-size: 14px; }
+            .welcome-divider { margin: 18px 0; }
+        }
+        @media (max-height: 580px) {
+            .welcome-ornament { font-size: 36px; margin-bottom: 8px; }
+            .welcome-hero { margin-bottom: 14px; }
+            .welcome-title { font-size: 26px; margin-bottom: 8px; }
+            .welcome-subtitle { font-size: 13px; line-height: 1.6; }
+            .welcome-divider { margin: 14px 0; }
+        }
+        @media (max-height: 420px) {
+            .welcome-ornament { display: none; }
+            .welcome-hero { margin-bottom: 10px; }
+            .welcome-title { font-size: 22px; margin-bottom: 6px; }
+            .welcome-subtitle { font-size: 12.5px; }
+            .welcome-divider { margin: 10px 0; }
+            .topics-label { font-size: 10.5px; margin-bottom: 10px; }
         }

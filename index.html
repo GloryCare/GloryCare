@@ -904,6 +904,174 @@
     }
 
     /* ══════════════════════════════
+       NÚT ĐƯỜNG DÂY HỖ TRỢ KHẨN CẤP
+    ══════════════════════════════ */
+    .sos-nav-btn {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 13px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-muted);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: 0.2px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.25s ease;
+        flex-shrink: 0;
+        white-space: nowrap;
+        align-self: center;
+        margin-bottom: 4px;
+    }
+
+    .sos-nav-btn i {
+        font-size: 11px;
+        opacity: 0.6;
+        transition: opacity 0.2s;
+    }
+
+    .sos-nav-btn:hover {
+        border-color: rgba(200, 114, 104, 0.4);
+        color: var(--accent-rose);
+        background: rgba(200, 114, 104, 0.05);
+    }
+
+    .sos-nav-btn:hover i { opacity: 1; }
+
+    /* Mobile: ẩn khỏi bottom nav, dùng nút trong header thay thế */
+    @media (max-width: 640px) {
+        .sos-nav-btn { display: none; }
+        .sos-float-pill { display: none; }
+
+        .sos-header-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 11px;
+            border-radius: 20px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .sos-header-btn i { font-size: 11px; opacity: 0.6; }
+        .sos-header-btn:hover { border-color: rgba(200,114,104,0.4); color: var(--accent-rose); }
+        .sos-header-btn:hover i { opacity: 1; }
+    }
+
+    @media (min-width: 641px) {
+        .sos-header-btn { display: none; }
+        .sos-float-pill { display: none; }
+    }
+
+    /* Tooltip/modal nổi khi bấm */
+    .sos-modal-overlay {
+        display: none;
+        position: fixed; inset: 0;
+        z-index: 1000;
+        background: rgba(0,0,0,0.25);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        align-items: center;
+        justify-content: center;
+        animation: gcFadeIn 0.2s ease;
+    }
+
+    .sos-modal-overlay.open { display: flex; }
+
+    .sos-modal {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 32px 28px;
+        max-width: 360px;
+        width: calc(100% - 40px);
+        box-shadow: 0 16px 64px rgba(0,0,0,0.18);
+        animation: fadeUp 0.3s ease-out;
+        position: relative;
+    }
+
+    .sos-modal-close {
+        position: absolute; top: 16px; right: 16px;
+        background: none; border: none;
+        color: var(--text-muted); font-size: 14px;
+        cursor: pointer; padding: 4px 7px; border-radius: 8px;
+        transition: background 0.15s;
+    }
+    .sos-modal-close:hover { background: var(--toggle-bg); }
+
+    .sos-modal-icon {
+        width: 52px; height: 52px;
+        background: linear-gradient(135deg, rgba(200,114,104,0.12), rgba(139,124,168,0.1));
+        border: 1px solid rgba(200,114,104,0.2);
+        border-radius: 16px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px; margin: 0 auto 18px;
+    }
+
+    .sos-modal-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 22px; font-weight: 500;
+        color: var(--text-primary);
+        text-align: center; margin-bottom: 8px;
+    }
+
+    .sos-modal-desc {
+        font-size: 13px; color: var(--text-secondary);
+        text-align: center; line-height: 1.7;
+        margin-bottom: 22px; font-weight: 300;
+    }
+
+    .sos-line-item {
+        display: flex; align-items: center;
+        gap: 12px;
+        padding: 13px 16px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background: var(--bg-primary);
+        margin-bottom: 10px;
+        text-decoration: none;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+    .sos-line-item:hover {
+        border-color: rgba(200,114,104,0.35);
+        background: rgba(200,114,104,0.04);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(200,114,104,0.1);
+    }
+
+    .sos-line-icon {
+        width: 36px; height: 36px; border-radius: 10px;
+        background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+        display: flex; align-items: center; justify-content: center;
+        font-size: 15px; color: white; flex-shrink: 0;
+    }
+
+    .sos-line-info { flex: 1; }
+    .sos-line-name { font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 1px; }
+    .sos-line-num  { font-size: 16px; font-weight: 600; color: var(--accent-rose); letter-spacing: 0.5px; font-family: 'Cormorant Garamond', serif; }
+    .sos-line-note { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+
+    .sos-modal-footer {
+        text-align: center; font-size: 11px;
+        color: var(--text-muted); margin-top: 14px; line-height: 1.6;
+    }
+
+    /* ══════════════════════════════
        MAIN NAV TABS
     ══════════════════════════════ */
     .main-nav {
@@ -3179,6 +3347,11 @@
                     <div class="status-dot"></div>
                     <span>Sẵn sàng lắng nghe</span>
                 </div>
+                <!-- Nút SOS trong header — chỉ hiện trên mobile -->
+                <button class="sos-header-btn" onclick="sosOpenModal()" title="Đường dây hỗ trợ tâm lý">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>Hỗ trợ</span>
+                </button>
                 <div class="theme-toggle" id="themeToggle" title="Chuyển giao diện">
                     <span class="theme-icon sun">☀</span>
                     <span class="theme-icon moon">☾</span>
@@ -3208,7 +3381,58 @@
                 <i class="fas fa-seedling"></i>
                 <span>Cá Nhân</span>
             </button>
+
+            <!-- Nút hỗ trợ khẩn cấp — desktop -->
+            <button class="sos-nav-btn" onclick="sosOpenModal()" title="Đường dây hỗ trợ tâm lý">
+                <i class="fas fa-phone-alt"></i>
+                <span>Hỗ trợ khẩn cấp</span>
+            </button>
         </nav>
+
+        <!-- Floating pill — mobile -->
+        <button class="sos-float-pill" onclick="sosOpenModal()" title="Đường dây hỗ trợ tâm lý">
+            <i class="fas fa-phone-alt"></i>
+            <span>Hỗ trợ</span>
+        </button>
+
+        <!-- Modal đường dây hỗ trợ -->
+        <div class="sos-modal-overlay" id="sosModalOverlay" onclick="sosCloseOnBg(event)">
+            <div class="sos-modal">
+                <button class="sos-modal-close" onclick="sosCloseModal()"><i class="fas fa-times"></i></button>
+                <div class="sos-modal-icon">🫂</div>
+                <h2 class="sos-modal-title">Bạn không một mình</h2>
+                <p class="sos-modal-desc">Nếu bạn đang trải qua giai đoạn khó khăn, hãy liên hệ với các chuyên gia. Họ luôn sẵn sàng lắng nghe bạn.</p>
+
+                <a class="sos-line-item" href="tel:18005990920">
+                    <div class="sos-line-icon"><i class="fas fa-shield-heart"></i></div>
+                    <div class="sos-line-info">
+                        <div class="sos-line-name">Đường dây Sức khoẻ Tâm thần</div>
+                        <div class="sos-line-num">1800 599 920</div>
+                        <div class="sos-line-note">Bộ Y tế · Miễn phí · 24/7</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color:var(--text-muted);font-size:11px;"></i>
+                </a>
+
+                <a class="sos-line-item" href="tel:19001267">
+                    <div class="sos-line-icon"><i class="fas fa-heart-pulse"></i></div>
+                    <div class="sos-line-info">
+                        <div class="sos-line-name">Đường dây Bảo vệ Trẻ em</div>
+                        <div class="sos-line-num">19001267</div>
+                        <div class="sos-line-note">Bộ LĐTB&XH · Miễn phí · 24/7</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color:var(--text-muted);font-size:11px;"></i>
+                </a>
+
+                <p class="sos-modal-footer">Thông tin của bạn được bảo mật tuyệt đối.<br>Gọi ngay nếu bạn hoặc người thân cần hỗ trợ.</p>
+            </div>
+        </div>
+
+        <script>
+        function sosOpenModal()  { document.getElementById('sosModalOverlay').classList.add('open'); }
+        function sosCloseModal() { document.getElementById('sosModalOverlay').classList.remove('open'); }
+        function sosCloseOnBg(e) { if (e.target === document.getElementById('sosModalOverlay')) sosCloseModal(); }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') sosCloseModal(); });
+        </script>
 
         <main class="main">
             <!-- WELCOME SCREEN -->
