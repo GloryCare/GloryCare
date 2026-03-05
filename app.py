@@ -13,6 +13,7 @@ Chạy:
 import os
 import uuid
 import time
+import requests
 from flask import Flask, request, jsonify, send_from_directory
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask_cors import CORS
@@ -137,6 +138,32 @@ def health():
         "waiting": len(waiting_queue),
         "active_pairs": len(active_pairs) // 2
     })
+
+
+# ─────────────────────────────────────────────
+# TELEGRAM BOT CONFIG
+# ─────────────────────────────────────────────
+TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN', '8508905067:AAEHNOWUd13hd1zlKnu7MO8mkU_hcgMeiA0')
+TELEGRAM_CHAT_ID   = os.environ.get('TELEGRAM_CHAT_ID', '6851056890')
+
+def send_telegram(msg: str):
+    """Gửi thông báo tới Telegram admin."""
+    try:
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+        requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": msg}, timeout=5)
+    except Exception as e:
+        print(f"[Telegram] Lỗi gửi thông báo: {e}")
+
+
+@app.route('/api/notify-confession', methods=['POST'])
+def notify_confession():
+    """
+    POST /api/notify-confession
+    Được gọi từ frontend sau khi user gửi tâm sự lên Supabase thành công.
+    Gửi thông báo tới Telegram cho admin biết.
+    """
+    send_telegram("🌸 Đã có User gửi tâm sự")
+    return jsonify({"ok": True})
 
 
 # ─────────────────────────────────────────────

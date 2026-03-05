@@ -5452,6 +5452,9 @@
             );
             if (!res.ok) throw new Error('Lỗi gửi');
 
+            // Thông báo cho admin qua Telegram
+            fetch('/api/notify-confession', { method: 'POST' }).catch(() => {});
+
             status.className = 'ts-submit-status success';
             status.innerHTML = '🌸 Tâm sự của bạn đã được gửi! Sẽ hiển thị sau khi admin duyệt. Cảm ơn bạn đã chia sẻ.';
             status.style.display = 'block';
