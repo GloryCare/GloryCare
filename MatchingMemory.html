@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Matching Memory</title>
+   <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/genizy/bl/TemplateData/favicon.ico">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+   <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+         --accent-rose: #c87268;
+         --accent-lavender: #8b7ca8;
+         --bg: #0f0e17;
+         --bg-card: #1a1825;
+         --bg-card2: #211f2e;
+         --border: rgba(255,255,255,0.08);
+         --text: #f0eaf8;
+         --text-muted: rgba(240,234,248,0.45);
+         --glow-rose: rgba(200,114,104,0.35);
+         --glow-lav: rgba(139,124,168,0.35);
+      }
+
+      body {
+         background: var(--bg);
+         color: var(--text);
+         font-family: 'DM Sans', sans-serif;
+         min-height: 100vh;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         overflow-x: hidden;
+      }
+
+      /* Background ambient */
+      body::before {
+         content: '';
+         position: fixed;
+         inset: 0;
+         background:
+            radial-gradient(ellipse 60% 50% at 20% 20%, rgba(200,114,104,0.08) 0%, transparent 60%),
+            radial-gradient(ellipse 50% 60% at 80% 80%, rgba(139,124,168,0.1) 0%, transparent 60%);
+         pointer-events: none;
+         z-index: 0;
+      }
+
+      /* ── Back Button ── */
+      .back-button-container {
+         position: fixed;
+         top: 20px; left: 20px;
+         z-index: 9999;
+         display: flex; align-items: center; gap: 12px;
+      }
+
+      .back-button {
+         width: 50px; height: 50px;
+         border-radius: 50%;
+         background: linear-gradient(135deg, #c87268, #8b7ca8);
+         border: none; color: white; cursor: pointer;
+         display: flex; align-items: center; justify-content: center;
+         font-size: 18px;
+         transition: all 0.3s cubic-bezier(0.34,1.4,0.64,1);
+         box-shadow: 0 4px 14px rgba(200,114,104,0.35);
+      }
+      .back-button:hover { transform: scale(1.1); box-shadow: 0 6px 22px rgba(200,114,104,0.5); }
+      .back-button:active { transform: scale(0.95); }
+
+      .back-label {
+         color: white; font-size: 14px; font-weight: 500;
+         background: linear-gradient(135deg, rgba(200,114,104,0.9), rgba(139,124,168,0.9));
+         padding: 8px 16px; border-radius: 20px;
+         backdrop-filter: blur(10px);
+         opacity: 0; pointer-events: none;
+         transition: opacity 0.3s;
+         white-space: nowrap;
+         box-shadow: 0 4px 14px rgba(200,114,104,0.35);
+      }
+      .back-button-container:hover .back-label { opacity: 1; }
+
+      /* ── Header ── */
+      .game-header {
+         position: relative; z-index: 1;
+         text-align: center;
+         padding: 48px 24px 20px;
+      }
+
+      .game-title {
+         font-family: 'Cormorant Garamond', serif;
+         font-size: 42px; font-weight: 600;
+         background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+         -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+         background-clip: text;
+         letter-spacing: -0.5px;
+         margin-bottom: 6px;
+      }
+
+      .game-subtitle {
+         font-size: 13px; color: var(--text-muted); letter-spacing: 1.5px;
+         text-transform: uppercase; font-weight: 300;
+      }
+
+      /* ── Stats bar ── */
+      .stats-bar {
+         position: relative; z-index: 1;
+         display: flex; gap: 20px;
+         justify-content: center; align-items: stretch;
+         padding: 0 24px 24px;
+         flex-wrap: wrap;
+      }
+
+      .stat-pill {
+         background: var(--bg-card);
+         border: 1px solid var(--border);
+         border-radius: 16px;
+         padding: 12px 22px;
+         display: flex; flex-direction: column; align-items: center; gap: 2px;
+         min-width: 90px;
+         transition: border-color 0.3s, box-shadow 0.3s;
+      }
+      .stat-pill:hover { border-color: rgba(200,114,104,0.3); box-shadow: 0 4px 16px rgba(200,114,104,0.12); }
+
+      .stat-val {
+         font-family: 'Cormorant Garamond', serif;
+         font-size: 28px; font-weight: 600;
+         color: var(--accent-rose);
+         line-height: 1;
+      }
+
+      .stat-label {
+         font-size: 10px; color: var(--text-muted);
+         text-transform: uppercase; letter-spacing: 1px;
+         font-weight: 400;
+      }
+
+      /* ── Difficulty selector ── */
+      .difficulty-row {
+         position: relative; z-index: 1;
+         display: flex; gap: 8px;
+         justify-content: center;
+         padding: 0 24px 24px;
+      }
+
+      .diff-btn {
+         padding: 7px 18px;
+         border-radius: 20px;
+         border: 1.5px solid var(--border);
+         background: transparent;
+         color: var(--text-muted);
+         font-family: 'DM Sans', sans-serif;
+         font-size: 13px; font-weight: 500;
+         cursor: pointer;
+         transition: all 0.25s;
+      }
+      .diff-btn:hover { border-color: rgba(200,114,104,0.4); color: var(--text); }
+      .diff-btn.active {
+         background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+         border-color: transparent; color: white;
+         box-shadow: 0 4px 14px rgba(200,114,104,0.3);
+      }
+
+      /* ── Game board ── */
+      .board-wrap {
+         position: relative; z-index: 1;
+         width: 100%;
+         max-width: 580px;
+         padding: 0 20px 30px;
+      }
+
+      .board {
+         display: grid;
+         gap: 12px;
+      }
+      .board.grid-4 { grid-template-columns: repeat(4, 1fr); }
+      .board.grid-5 { grid-template-columns: repeat(5, 1fr); }
+      .board.grid-6 { grid-template-columns: repeat(6, 1fr); }
+
+      /* ── Card ── */
+      .card {
+         aspect-ratio: 1;
+         perspective: 600px;
+         cursor: pointer;
+      }
+
+      .card-inner {
+         position: relative;
+         width: 100%; height: 100%;
+         transform-style: preserve-3d;
+         transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+         border-radius: 16px;
+      }
+
+      .card.flipped .card-inner,
+      .card.matched .card-inner {
+         transform: rotateY(180deg);
+      }
+
+      .card-face {
+         position: absolute; inset: 0;
+         border-radius: 16px;
+         backface-visibility: hidden;
+         display: flex; align-items: center; justify-content: center;
+         font-size: clamp(22px, 5vw, 36px);
+         user-select: none;
+      }
+
+      /* Back face */
+      .card-back {
+         background: var(--bg-card);
+         border: 1.5px solid var(--border);
+         transition: border-color 0.25s, box-shadow 0.25s;
+      }
+
+      .card:not(.flipped):not(.matched):hover .card-back {
+         border-color: rgba(200,114,104,0.45);
+         box-shadow: 0 4px 20px rgba(200,114,104,0.2), inset 0 0 20px rgba(200,114,104,0.05);
+      }
+
+      .card-back::after {
+         content: '✦';
+         font-size: clamp(14px, 3vw, 20px);
+         color: rgba(139,124,168,0.3);
+      }
+
+      /* Front face */
+      .card-front {
+         transform: rotateY(180deg);
+         background: var(--bg-card2);
+         border: 1.5px solid rgba(200,114,104,0.25);
+         box-shadow: 0 4px 20px rgba(200,114,104,0.1);
+      }
+
+      .card.matched .card-front {
+         background: linear-gradient(135deg, rgba(200,114,104,0.15), rgba(139,124,168,0.15));
+         border-color: rgba(200,114,104,0.5);
+         box-shadow: 0 4px 24px rgba(200,114,104,0.25);
+         animation: matchedPulse 0.5s ease-out;
+      }
+
+      @keyframes matchedPulse {
+         0% { transform: rotateY(180deg) scale(1.1); }
+         100% { transform: rotateY(180deg) scale(1); }
+      }
+
+      /* Wrong shake */
+      .card.wrong .card-inner {
+         animation: wrongShake 0.5s ease-out;
+      }
+      @keyframes wrongShake {
+         0%, 100% { transform: rotateY(180deg) translateX(0); }
+         20% { transform: rotateY(180deg) translateX(-6px); }
+         40% { transform: rotateY(180deg) translateX(6px); }
+         60% { transform: rotateY(180deg) translateX(-4px); }
+         80% { transform: rotateY(180deg) translateX(4px); }
+      }
+
+      /* ── Controls ── */
+      .controls-row {
+         position: relative; z-index: 1;
+         display: flex; justify-content: center; gap: 12px;
+         padding: 0 24px 40px;
+         flex-wrap: wrap;
+      }
+
+      .ctrl-btn {
+         padding: 11px 28px; border-radius: 24px;
+         border: 1.5px solid var(--border);
+         background: var(--bg-card);
+         color: var(--text);
+         font-family: 'DM Sans', sans-serif;
+         font-size: 14px; font-weight: 500;
+         cursor: pointer;
+         display: flex; align-items: center; gap: 8px;
+         transition: all 0.25s cubic-bezier(0.34,1.4,0.64,1);
+      }
+      .ctrl-btn:hover { transform: scale(1.04); border-color: rgba(200,114,104,0.4); box-shadow: 0 4px 16px rgba(200,114,104,0.15); }
+      .ctrl-btn:active { transform: scale(0.97); }
+      .ctrl-btn.primary {
+         background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+         border-color: transparent; color: white;
+         box-shadow: 0 4px 16px rgba(200,114,104,0.3);
+      }
+      .ctrl-btn.primary:hover { box-shadow: 0 6px 24px rgba(200,114,104,0.45); }
+
+      /* ── Win overlay ── */
+      .win-overlay {
+         position: fixed; inset: 0; z-index: 9000;
+         display: none;
+         align-items: center; justify-content: center;
+         background: rgba(15,14,23,0.85);
+         backdrop-filter: blur(12px);
+         animation: fadeIn 0.4s ease;
+      }
+      .win-overlay.show { display: flex; }
+
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+      .win-modal {
+         background: var(--bg-card);
+         border: 1.5px solid rgba(200,114,104,0.3);
+         border-radius: 28px;
+         padding: 48px 56px;
+         text-align: center;
+         max-width: 400px; width: 90%;
+         box-shadow: 0 20px 60px rgba(200,114,104,0.2), 0 0 0 1px rgba(139,124,168,0.1);
+         animation: modalPop 0.5s cubic-bezier(0.34,1.4,0.64,1);
+      }
+
+      @keyframes modalPop { from { transform: scale(0.8) translateY(20px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+      .win-emoji { font-size: 56px; margin-bottom: 12px; display: block; animation: spinIn 0.6s ease-out 0.2s both; }
+      @keyframes spinIn { from { transform: rotate(-20deg) scale(0.5); opacity: 0; } to { transform: none; opacity: 1; } }
+
+      .win-title {
+         font-family: 'Cormorant Garamond', serif;
+         font-size: 32px; font-weight: 600;
+         background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+         -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+         background-clip: text;
+         margin-bottom: 8px;
+      }
+
+      .win-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.6; }
+
+      .win-stats {
+         display: flex; gap: 16px; justify-content: center;
+         margin-bottom: 32px;
+      }
+
+      .win-stat {
+         background: var(--bg);
+         border: 1px solid var(--border);
+         border-radius: 14px;
+         padding: 12px 20px;
+         min-width: 80px;
+      }
+
+      .win-stat-val {
+         font-family: 'Cormorant Garamond', serif;
+         font-size: 26px; font-weight: 600; color: var(--accent-rose);
+         display: block; line-height: 1;
+      }
+
+      .win-stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 3px; display: block; }
+
+      .win-actions { display: flex; flex-direction: column; gap: 10px; }
+
+      /* ── Timer animation ── */
+      @keyframes timerPulse {
+         0%, 100% { transform: scale(1); }
+         50% { transform: scale(1.1); }
+      }
+      .timer-urgent { animation: timerPulse 0.8s ease-in-out infinite; color: var(--accent-rose) !important; }
+
+      /* ── Confetti particles ── */
+      .confetti-wrap {
+         position: fixed; inset: 0; pointer-events: none; z-index: 9001;
+         overflow: hidden;
+      }
+      .confetti-piece {
+         position: absolute;
+         width: 8px; height: 8px;
+         border-radius: 2px;
+         animation: confettiFall linear both;
+      }
+      @keyframes confettiFall {
+         0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+         100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 580px) {
+         .game-title { font-size: 32px; }
+         .board-wrap { padding: 0 14px 24px; }
+         .board { gap: 9px; }
+         .card-face { font-size: clamp(18px, 6vw, 28px); }
+         .win-modal { padding: 36px 28px; }
+      }
+
+      @media (max-width: 400px) {
+         .board.grid-6 { gap: 6px; }
+         .card-back::after { font-size: 12px; }
+      }
+   </style>
+</head>
+
+<body>
+
+<!-- Back Button -->
+<div class="back-button-container">
+   <button class="back-button" onclick="goBackToHome()" title="Quay lại trang chủ">
+      <i class="fas fa-arrow-left"></i>
+   </button>
+   <div class="back-label">Quay lại</div>
+</div>
+
+<!-- Confetti container -->
+<div class="confetti-wrap" id="confettiWrap"></div>
+
+<!-- Win Overlay -->
+<div class="win-overlay" id="winOverlay">
+   <div class="win-modal">
+      <span class="win-emoji" id="winEmoji">🎉</span>
+      <div class="win-title">Tuyệt vời!</div>
+      <div class="win-sub" id="winSub">Bạn đã ghép tất cả các cặp thành công.</div>
+      <div class="win-stats">
+         <div class="win-stat">
+            <span class="win-stat-val" id="winMoves">0</span>
+            <span class="win-stat-label">Lượt đi</span>
+         </div>
+         <div class="win-stat">
+            <span class="win-stat-val" id="winTime">0s</span>
+            <span class="win-stat-label">Thời gian</span>
+         </div>
+         <div class="win-stat">
+            <span class="win-stat-val" id="winScore">0</span>
+            <span class="win-stat-label">Điểm số</span>
+         </div>
+      </div>
+      <div class="win-actions">
+         <button class="ctrl-btn primary" onclick="restartGame()" style="width:100%;justify-content:center;">
+            <i class="fas fa-redo"></i> Chơi lại
+         </button>
+         <button class="ctrl-btn" onclick="closeWin()" style="width:100%;justify-content:center;">
+            <i class="fas fa-times"></i> Đóng
+         </button>
+      </div>
+   </div>
+</div>
+
+<!-- Header -->
+<div class="game-header">
+   <div class="game-title">Matching Memory</div>
+   <div class="game-subtitle">Ghép đôi · Luyện trí nhớ · Thư giãn</div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+   <div class="stat-pill">
+      <span class="stat-val" id="statMoves">0</span>
+      <span class="stat-label">Lượt</span>
+   </div>
+   <div class="stat-pill">
+      <span class="stat-val" id="statTimer">0s</span>
+      <span class="stat-label">Thời gian</span>
+   </div>
+   <div class="stat-pill">
+      <span class="stat-val" id="statMatched">0</span>
+      <span class="stat-label">Đã ghép</span>
+   </div>
+   <div class="stat-pill">
+      <span class="stat-val" id="statBest">—</span>
+      <span class="stat-label">Kỷ lục</span>
+   </div>
+</div>
+
+<!-- Difficulty -->
+<div class="difficulty-row">
+   <button class="diff-btn active" data-diff="easy" onclick="setDifficulty('easy')">Dễ (4×4)</button>
+   <button class="diff-btn" data-diff="medium" onclick="setDifficulty('medium')">Vừa (4×5)</button>
+   <button class="diff-btn" data-diff="hard" onclick="setDifficulty('hard')">Khó (5×6)</button>
+</div>
+
+<!-- Board -->
+<div class="board-wrap">
+   <div class="board grid-4" id="board"></div>
+</div>
+
+<!-- Controls -->
+<div class="controls-row">
+   <button class="ctrl-btn primary" onclick="restartGame()">
+      <i class="fas fa-redo"></i> Chơi lại
+   </button>
+   <button class="ctrl-btn" onclick="shuffleHint()">
+      <i class="fas fa-eye"></i> Gợi ý
+   </button>
+</div>
+
+<script>
+   // ── Theme packs ──
+   const THEMES = {
+      nature:   ['🌸','🌿','🍃','🌺','🌻','🍄','🌈','🦋','🐝','🌙','⭐','🌊','🍀','🌴','❄️'],
+      emotion:  ['😊','😢','😮','😴','🥰','😂','🤔','😎','😤','🥺','😇','🤩','😌','🥳','😑'],
+      food:     ['🍎','🍇','🍓','🍑','🥝','🍋','🍒','🍍','🥭','🍉','🍌','🫐','🍈','🍏','🍊'],
+      animals:  ['🐱','🐶','🦊','🐼','🐨','🦁','🐯','🐸','🐙','🦜','🐬','🦩','🐞','🦎','🦦'],
+      space:    ['🚀','⭐','🌙','🪐','☄️','🌌','👾','🛸','🌟','💫','🔭','🌠','🪞','🛰️','🌑'],
+   };
+
+   const DIFFICULTY = {
+      easy:   { cols: 4, rows: 4, pairs: 8,  grid: 'grid-4' },
+      medium: { cols: 4, rows: 5, pairs: 10, grid: 'grid-4' },
+      hard:   { cols: 5, rows: 6, pairs: 15, grid: 'grid-5' },
+   };
+
+   // ── State ──
+   let currentDiff = 'easy';
+   let cards = [];
+   let flipped = [];
+   let matched = [];
+   let moves = 0;
+   let timerSeconds = 0;
+   let timerInterval = null;
+   let isLocked = false;
+   let gameStarted = false;
+   let hintUsed = 0;
+   let bestScores = JSON.parse(localStorage.getItem('mmBest') || '{}');
+
+   // ── Init ──
+   function setDifficulty(diff) {
+      currentDiff = diff;
+      document.querySelectorAll('.diff-btn').forEach(b => b.classList.toggle('active', b.dataset.diff === diff));
+      restartGame();
+   }
+
+   function buildDeck(pairs) {
+      const themeKeys = Object.keys(THEMES);
+      const theme = THEMES[themeKeys[Math.floor(Math.random() * themeKeys.length)]];
+      const selected = theme.slice(0, pairs);
+      return shuffle([...selected, ...selected]);
+   }
+
+   function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+         const j = Math.floor(Math.random() * (i + 1));
+         [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+   }
+
+   function restartGame() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      timerSeconds = 0;
+      moves = 0;
+      flipped = [];
+      matched = [];
+      isLocked = false;
+      gameStarted = false;
+      hintUsed = 0;
+
+      updateStats();
+      closeWin();
+
+      const cfg = DIFFICULTY[currentDiff];
+      const deck = buildDeck(cfg.pairs);
+      cards = deck;
+
+      const board = document.getElementById('board');
+      board.className = 'board ' + cfg.grid;
+      board.innerHTML = '';
+
+      deck.forEach((emoji, idx) => {
+         const card = document.createElement('div');
+         card.className = 'card';
+         card.dataset.idx = idx;
+         card.dataset.emoji = emoji;
+         card.innerHTML = `
+            <div class="card-inner">
+               <div class="card-face card-back"></div>
+               <div class="card-face card-front">${emoji}</div>
+            </div>`;
+         card.addEventListener('click', () => onCardClick(card));
+         board.appendChild(card);
+      });
+
+      // Quick preview flash at start
+      flashPreview();
+   }
+
+   function flashPreview() {
+      const allCards = document.querySelectorAll('.card');
+      allCards.forEach(c => c.classList.add('flipped'));
+      setTimeout(() => {
+         allCards.forEach(c => c.classList.remove('flipped'));
+      }, 800);
+   }
+
+   function startTimer() {
+      if (timerInterval) return;
+      timerInterval = setInterval(() => {
+         timerSeconds++;
+         updateStats();
+      }, 1000);
+   }
+
+   function onCardClick(card) {
+      if (isLocked) return;
+      if (card.classList.contains('flipped') || card.classList.contains('matched')) return;
+
+      if (!gameStarted) {
+         gameStarted = true;
+         startTimer();
+      }
+
+      card.classList.add('flipped');
+      flipped.push(card);
+
+      if (flipped.length === 2) {
+         moves++;
+         updateStats();
+         isLocked = true;
+         checkMatch();
+      }
+   }
+
+   function checkMatch() {
+      const [a, b] = flipped;
+      const isMatch = a.dataset.emoji === b.dataset.emoji;
+
+      if (isMatch) {
+         a.classList.add('matched');
+         b.classList.add('matched');
+         matched.push(a.dataset.emoji);
+         flipped = [];
+         isLocked = false;
+         updateStats();
+
+         const cfg = DIFFICULTY[currentDiff];
+         if (matched.length === cfg.pairs) {
+            setTimeout(showWin, 400);
+         }
+      } else {
+         a.classList.add('wrong');
+         b.classList.add('wrong');
+         setTimeout(() => {
+            a.classList.remove('flipped', 'wrong');
+            b.classList.remove('flipped', 'wrong');
+            flipped = [];
+            isLocked = false;
+         }, 900);
+      }
+   }
+
+   function updateStats() {
+      document.getElementById('statMoves').textContent = moves;
+      const tEl = document.getElementById('statTimer');
+      tEl.textContent = formatTime(timerSeconds);
+      tEl.className = 'stat-val' + (timerSeconds > 120 ? ' timer-urgent' : '');
+      document.getElementById('statMatched').textContent = matched.length;
+
+      const best = bestScores[currentDiff];
+      document.getElementById('statBest').textContent = best ? formatTime(best) : '—';
+   }
+
+   function formatTime(s) {
+      if (s < 60) return s + 's';
+      return Math.floor(s / 60) + 'm ' + (s % 60) + 's';
+   }
+
+   function calcScore() {
+      const cfg = DIFFICULTY[currentDiff];
+      const base = cfg.pairs * 100;
+      const timePenalty = Math.floor(timerSeconds * 0.5);
+      const movePenalty = Math.max(0, (moves - cfg.pairs) * 5);
+      const hintPenalty = hintUsed * 30;
+      return Math.max(0, base - timePenalty - movePenalty - hintPenalty);
+   }
+
+   function showWin() {
+      clearInterval(timerInterval);
+
+      // Save best time
+      if (!bestScores[currentDiff] || timerSeconds < bestScores[currentDiff]) {
+         bestScores[currentDiff] = timerSeconds;
+         try { localStorage.setItem('mmBest', JSON.stringify(bestScores)); } catch(e) {}
+      }
+
+      const score = calcScore();
+      document.getElementById('winMoves').textContent = moves;
+      document.getElementById('winTime').textContent = formatTime(timerSeconds);
+      document.getElementById('winScore').textContent = score;
+
+      const emojis = ['🎉','✨','🌟','🎊','💫'];
+      document.getElementById('winEmoji').textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+      const ratings = score > 700 ? 'Xuất sắc! Bộ nhớ siêu việt! 🧠' : score > 400 ? 'Tốt lắm! Tiếp tục luyện tập nhé! 💪' : 'Hoàn thành rồi! Lần sau cố gắng nhanh hơn nhé 😊';
+      document.getElementById('winSub').textContent = ratings;
+
+      document.getElementById('winOverlay').classList.add('show');
+      spawnConfetti();
+      updateStats();
+   }
+
+   function closeWin() {
+      document.getElementById('winOverlay').classList.remove('show');
+      document.getElementById('confettiWrap').innerHTML = '';
+   }
+
+   function spawnConfetti() {
+      const wrap = document.getElementById('confettiWrap');
+      wrap.innerHTML = '';
+      const colors = ['#c87268','#8b7ca8','#f9c74f','#90be6d','#43aa8b','#f8961e'];
+      for (let i = 0; i < 60; i++) {
+         const el = document.createElement('div');
+         el.className = 'confetti-piece';
+         el.style.left = Math.random() * 100 + 'vw';
+         el.style.background = colors[Math.floor(Math.random() * colors.length)];
+         el.style.width = (6 + Math.random() * 8) + 'px';
+         el.style.height = (6 + Math.random() * 8) + 'px';
+         el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+         el.style.animationDuration = (1.5 + Math.random() * 2.5) + 's';
+         el.style.animationDelay = (Math.random() * 0.8) + 's';
+         wrap.appendChild(el);
+      }
+   }
+
+   function shuffleHint() {
+      hintUsed++;
+      const unmatched = document.querySelectorAll('.card:not(.matched):not(.flipped)');
+      unmatched.forEach(c => c.classList.add('flipped'));
+      setTimeout(() => {
+         unmatched.forEach(c => c.classList.remove('flipped'));
+      }, 600);
+   }
+
+   function goBackToHome() {
+      window.close();
+      window.location.href = 'index.html';
+   }
+
+   // Start on load
+   restartGame();
+</script>
+
+</body>
+</html>

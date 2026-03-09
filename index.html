@@ -1428,6 +1428,51 @@
 
     .py-game-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
 
+    /* Card "Nhiều trò chơi hơn" */
+    .py-more-games-card {
+        cursor: pointer;
+        border: 1.5px solid transparent;
+        background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+                    linear-gradient(135deg, var(--accent-rose), var(--accent-lavender)) border-box;
+        position: relative; overflow: hidden;
+        transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .py-more-games-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 36px rgba(200,114,104,0.18);
+    }
+    .py-more-games-glow {
+        position: absolute; inset: 0; opacity: 0;
+        background: linear-gradient(135deg, rgba(200,114,104,0.07), rgba(139,124,168,0.07));
+        transition: opacity 0.25s; pointer-events: none;
+    }
+    .py-more-games-card:hover .py-more-games-glow { opacity: 1; }
+    .py-more-games-list {
+        display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .py-more-games-list span {
+        font-size: 11.5px; padding: 4px 10px;
+        background: var(--bg-secondary);
+        border-radius: 20px; color: var(--text-secondary);
+        border: 1px solid var(--border);
+        white-space: nowrap;
+    }
+    .py-more-games-btn {
+        margin-top: auto;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        padding: 10px 0;
+        background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+        border-radius: 12px; color: white;
+        font-size: 13.5px; font-weight: 600;
+        letter-spacing: 0.02em;
+        box-shadow: 0 4px 14px rgba(200,114,104,0.3);
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .py-more-games-card:hover .py-more-games-btn {
+        box-shadow: 0 6px 20px rgba(200,114,104,0.45);
+        transform: translateY(-1px);
+    }
+
     .py-game-header {
         display: flex; align-items: flex-start; gap: 12px;
     }
@@ -1700,82 +1745,334 @@
 
     @media (max-width: 700px) { .ts-wall { padding: 16px 16px 40px; grid-template-columns: 1fr; gap: 14px; } }
 
-    /* CARD */
+    /* ── FACEBOOK-STYLE CARD ── */
     .ts-card {
         background: var(--bg-card);
         border: 1.5px solid var(--border);
-        border-radius: 24px;
-        padding: 26px 24px 22px;
-        position: relative; overflow: hidden;
-        transition: all 0.3s cubic-bezier(0.34,1.1,0.64,1);
+        border-radius: 18px;
+        overflow: hidden;
+        transition: box-shadow 0.25s, border-color 0.25s;
         animation: fadeUp 0.5s ease-out both;
+        cursor: pointer;
     }
-
     .ts-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.10);
         border-color: var(--border-accent);
     }
-
     .ts-card-glow {
-        position: absolute; top: 0; left: 0; right: 0; height: 3px;
+        height: 3px;
         background: linear-gradient(90deg, var(--accent-rose), var(--accent-lavender));
         opacity: 0; transition: opacity 0.3s;
     }
-
     .ts-card:hover .ts-card-glow { opacity: 1; }
-
-    .ts-card-quote {
-        position: absolute; top: 18px; right: 20px;
-        font-size: 52px; color: var(--accent-rose);
-        opacity: 0.07; font-family: Georgia, serif;
-        line-height: 1; pointer-events: none;
-        user-select: none;
-    }
 
     .ts-card-header {
         display: flex; align-items: center; gap: 10px;
-        margin-bottom: 14px;
+        padding: 16px 18px 0;
     }
-
     .ts-card-avatar {
-        width: 38px; height: 38px; border-radius: 50%;
+        width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
         background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
         display: flex; align-items: center; justify-content: center;
-        font-size: 15px; color: white; font-weight: 500;
-        flex-shrink: 0;
-        box-shadow: 0 3px 10px rgba(200,114,104,0.25);
+        font-size: 15px; color: white; font-weight: 600;
+        box-shadow: 0 2px 8px rgba(200,114,104,0.3);
     }
+    .ts-card-nickname { font-size: 13.5px; font-weight: 600; color: var(--text-primary); }
+    .ts-card-time { font-size: 11.5px; color: var(--text-muted); margin-top: 1px; }
 
-    .ts-card-nickname {
-        font-size: 14px; font-weight: 500;
-        color: var(--text-primary);
+    .ts-card-body {
+        padding: 12px 18px 14px;
     }
-
-    .ts-card-time {
-        font-size: 11.5px; color: var(--text-muted);
-        margin-top: 1px;
-    }
-
     .ts-card-content {
         font-size: 14.5px; color: var(--text-secondary);
-        line-height: 1.78; font-weight: 300;
-        font-style: italic;
-        position: relative; z-index: 1;
+        line-height: 1.75; font-weight: 300;
+        white-space: pre-wrap; word-break: break-word;
+    }
+    .ts-card-content.ts-clamped {
+        display: -webkit-box; -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .ts-card-read-more {
+        font-size: 13px; color: var(--accent-rose);
+        cursor: pointer; margin-top: 4px; display: inline-block;
+        font-weight: 500;
     }
 
-    .ts-card-footer {
+    /* divider & stats bar */
+    .ts-card-stats {
         display: flex; align-items: center; justify-content: flex-end;
-        margin-top: 16px; padding-top: 12px;
+        padding: 0 18px 6px;
+        font-size: 12px; color: var(--text-muted);
+        gap: 4px;
+    }
+    .ts-card-stats i { font-size: 11px; }
+
+    /* action row — flower decoration left, comment btn right */
+    .ts-card-actions {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 16px 14px;
         border-top: 1px solid var(--border);
     }
+    .ts-card-flower {
+        font-size: 15px; opacity: 0.45;
+        user-select: none; line-height: 1;
+    }
+    .ts-card-action-btn {
+        display: flex; align-items: center; gap: 6px;
+        padding: 7px 14px;
+        background: rgba(200,114,104,0.07);
+        border: 1.5px solid rgba(200,114,104,0.22);
+        border-radius: 20px; cursor: pointer;
+        font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 500;
+        color: var(--accent-rose);
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+    .ts-card-action-btn:hover {
+        background: rgba(200,114,104,0.14);
+        border-color: var(--accent-rose);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(200,114,104,0.2);
+    }
+    .ts-card-action-btn i { font-size: 12px; }
 
-    .ts-card-heart {
-        display: flex; align-items: center; gap: 5px;
-        color: var(--text-muted); font-size: 12px;
+    /* ── POST POPUP (Facebook-style) ── */
+    .ts-post-overlay {
+        position: fixed; inset: 0; z-index: 11000;
+        background: rgba(0,0,0,0.72); backdrop-filter: blur(6px);
+        display: flex; align-items: center; justify-content: center;
+        padding: 16px;
+        opacity: 0; transition: opacity 0.22s;
+        pointer-events: none;
+    }
+    .ts-post-overlay.ts-post-open {
+        opacity: 1; pointer-events: all;
+    }
+    .ts-post-modal {
+        background: var(--bg-card);
+        border-radius: 20px;
+        width: 100%; max-width: 860px;
+        height: 90vh; max-height: 740px;
+        display: flex; flex-direction: column;
+        overflow: hidden;
+        transform: scale(0.94) translateY(12px);
+        transition: transform 0.28s cubic-bezier(0.34,1.2,0.64,1);
+        box-shadow: 0 32px 80px rgba(0,0,0,0.35);
+    }
+    .ts-post-overlay.ts-post-open .ts-post-modal {
+        transform: scale(1) translateY(0);
     }
 
-    .ts-card-heart i { color: rgba(200,114,104,0.4); font-size: 13px; }
+    /* modal header */
+    .ts-post-modal-header {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+    }
+    .ts-post-modal-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 18px; font-weight: 600; color: var(--text-primary);
+    }
+    .ts-post-modal-close {
+        width: 34px; height: 34px; border-radius: 50%;
+        background: var(--bg-secondary, rgba(0,0,0,0.07));
+        border: none; cursor: pointer; font-size: 16px;
+        color: var(--text-muted); display: flex; align-items: center; justify-content: center;
+        transition: all 0.18s;
+    }
+    .ts-post-modal-close:hover { background: rgba(200,114,104,0.15); color: var(--accent-rose); transform: rotate(90deg); }
+
+    /* modal body — two columns on desktop */
+    .ts-post-modal-body {
+        display: flex; flex: 1; min-height: 0;
+    }
+
+    /* left: post */
+    .ts-post-left {
+        width: 42%; border-right: 1px solid var(--border);
+        display: flex; flex-direction: column;
+        overflow-y: auto; padding: 20px;
+        flex-shrink: 0;
+    }
+    .ts-post-left-header { display: flex; align-items: center; gap: 11px; margin-bottom: 16px; }
+    .ts-post-left-avatar {
+        width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+        background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+        display: flex; align-items: center; justify-content: center;
+        font-size: 17px; color: white; font-weight: 600;
+        box-shadow: 0 3px 10px rgba(200,114,104,0.3);
+    }
+    .ts-post-left-nick { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .ts-post-left-time { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .ts-post-left-content {
+        font-size: 15.5px; color: var(--text-primary);
+        line-height: 1.88; font-weight: 400;
+        white-space: pre-wrap; word-break: break-word;
+        flex: 1;
+        padding: 18px 20px;
+        background: linear-gradient(135deg, rgba(200,114,104,0.06), rgba(139,124,168,0.05));
+        border-radius: 16px;
+        border-left: 3px solid rgba(200,114,104,0.35);
+        margin-top: 4px;
+    }
+    [data-theme="dark"] .ts-post-left-content {
+        background: linear-gradient(135deg, rgba(200,114,104,0.1), rgba(139,124,168,0.08));
+        border-left-color: rgba(200,114,104,0.5);
+    }
+    .ts-post-left-quote {
+        font-size: 64px; color: var(--accent-rose); opacity: 0.07;
+        font-family: Georgia, serif; line-height: 1;
+        margin-bottom: -10px; user-select: none;
+    }
+
+    /* comments section label */
+    .ts-comments-label {
+        display: flex; align-items: center; gap: 8px;
+        padding: 14px 18px 0;
+        font-size: 12px; font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase; letter-spacing: 0.06em;
+        flex-shrink: 0;
+    }
+    .ts-comments-label::after {
+        content: ''; flex: 1; height: 1px;
+        background: var(--border);
+    }
+
+    /* right: comments */
+    .ts-post-right {
+        flex: 1; min-width: 0;
+        display: flex; flex-direction: column;
+    }
+    .ts-post-comments-scroll {
+        flex: 1; overflow-y: auto; padding: 16px 18px;
+        display: flex; flex-direction: column; gap: 14px;
+    }
+    .ts-post-comments-scroll::-webkit-scrollbar { width: 4px; }
+    .ts-post-comments-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    /* comment item */
+    .ts-ci {
+        display: flex; gap: 9px; align-items: flex-start;
+    }
+    .ts-ci.ts-ci-new { animation: tsCommentIn 0.32s cubic-bezier(0.34,1.2,0.64,1) both; }
+    .ts-ci-avatar {
+        width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+        background: linear-gradient(135deg, var(--accent-lavender), var(--accent-rose));
+        display: flex; align-items: center; justify-content: center;
+        font-size: 12px; color: white; font-weight: 700;
+    }
+    .ts-ci-bubble {
+        background: var(--bg-secondary, rgba(0,0,0,0.04));
+        border-radius: 14px; padding: 9px 13px;
+        flex: 1; min-width: 0;
+    }
+    [data-theme="dark"] .ts-ci-bubble { background: rgba(255,255,255,0.06); }
+    .ts-ci-nick { font-size: 12.5px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+    .ts-ci-time-tag { font-size: 10.5px; color: var(--text-muted); font-weight: 400; margin-left: 6px; }
+    .ts-ci-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.55; word-break: break-word; }
+
+    .ts-no-comments {
+        text-align: center; padding: 30px 20px;
+        color: var(--text-muted); font-size: 13px; font-style: italic;
+    }
+    .ts-cmt-loading { text-align: center; padding: 20px; color: var(--text-muted); font-size: 13px; }
+
+    /* comment input bar */
+    .ts-post-input-bar {
+        border-top: 1px solid var(--border);
+        padding: 12px 16px;
+        display: flex; flex-direction: column; gap: 8px;
+        flex-shrink: 0;
+    }
+    .ts-post-input-nick {
+        width: 100%; padding: 7px 12px; border-radius: 10px;
+        border: 1.5px solid var(--border); background: var(--bg-card);
+        font-family: 'DM Sans', sans-serif; font-size: 12.5px;
+        color: var(--text-primary); outline: none; box-sizing: border-box;
+        transition: border-color 0.2s;
+    }
+    .ts-post-input-nick:focus { border-color: var(--accent-rose); }
+    .ts-post-input-row { display: flex; gap: 8px; align-items: flex-end; }
+    .ts-post-input-text {
+        flex: 1; padding: 10px 14px; border-radius: 22px;
+        border: 1.5px solid var(--border); background: var(--bg-secondary, rgba(0,0,0,0.04));
+        font-family: 'DM Sans', sans-serif; font-size: 13.5px;
+        color: var(--text-primary); outline: none; resize: none;
+        transition: border-color 0.2s; line-height: 1.45;
+        min-height: 42px; max-height: 100px; box-sizing: border-box;
+    }
+    [data-theme="dark"] .ts-post-input-text { background: rgba(255,255,255,0.05); }
+    .ts-post-input-text:focus { border-color: var(--accent-rose); }
+    .ts-post-send-btn {
+        width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+        background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+        border: none; color: white; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 14px; transition: all 0.2s;
+        box-shadow: 0 4px 14px rgba(200,114,104,0.35);
+    }
+    .ts-post-send-btn:hover:not(:disabled) { transform: scale(1.08); }
+    .ts-post-send-btn:disabled { opacity: 0.55; cursor: default; }
+    .ts-post-input-warn {
+        font-size: 12px; padding: 6px 10px; border-radius: 8px;
+        border: 1px solid rgba(220,80,80,0.22);
+        background: rgba(220,80,80,0.07); color: #c0392b; display: none;
+    }
+    .ts-post-input-warn.ok {
+        border-color: rgba(80,180,120,0.25);
+        background: rgba(80,180,120,0.08); color: #27ae60;
+    }
+
+    /* ── MOBILE: single-column scroll ── */
+    @media (max-width: 680px) {
+        .ts-post-overlay {
+            padding: 0;
+            align-items: flex-end;
+        }
+        .ts-post-modal {
+            height: 92vh; max-height: none;
+            border-radius: 24px 24px 0 0;
+            /* modal itself is flex-column: header | scroll-body | input-bar */
+        }
+        /* body becomes the single scrollable area */
+        .ts-post-modal-body {
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        /* post section — shows fully, no fixed height */
+        .ts-post-left {
+            width: 100%;
+            border-right: none;
+            border-bottom: 1px solid var(--border);
+            overflow-y: visible;
+            flex-shrink: 0;
+        }
+        /* comments list — height determined by content, no inner scroll */
+        .ts-post-right {
+            flex: unset;
+        }
+        .ts-post-comments-scroll {
+            flex: unset;
+            overflow-y: visible;
+            padding-bottom: 8px;
+        }
+        /* input bar stays fixed at bottom of modal (outside scroll) */
+        .ts-post-input-bar {
+            position: sticky;
+            bottom: 0;
+            background: var(--bg-card);
+            z-index: 2;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+        }
+    }
+
+    @keyframes tsCommentIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
 
     /* LOADING */
     .ts-loading {
@@ -3097,6 +3394,277 @@
 
     .cn-history-item:hover .cn-history-tooltip { opacity: 1; }
 
+    /* ══════════════════════════════
+       GAMES MODAL POPUP
+    ══════════════════════════════ */
+    .games-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        padding: 20px;
+    }
+
+    .games-modal-overlay.active {
+        display: flex;
+        animation: gameModalFadeIn 0.3s ease-out;
+    }
+
+    @keyframes gameModalFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .games-modal {
+        background: var(--bg-card);
+        border: 1.5px solid var(--border);
+        border-radius: 28px;
+        padding: 40px;
+        max-width: 500px;
+        width: 100%;
+        max-height: 85vh;
+        overflow-y: auto;
+        animation: gameModalSlideIn 0.4s cubic-bezier(0.34,1.4,0.64,1);
+        position: relative;
+    }
+
+    @keyframes gameModalSlideIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    .games-modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--bg-primary);
+        border: 1.5px solid var(--border);
+        color: var(--text-primary);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        transition: all 0.3s;
+    }
+
+    .games-modal-close:hover {
+        background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+        color: white;
+        border-color: var(--accent-rose);
+    }
+
+    .games-modal-header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .games-modal-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 36px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+    }
+
+    .games-modal-desc {
+        font-size: 14px;
+        color: var(--text-secondary);
+    }
+
+    .games-modal-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .games-modal-item {
+        background: var(--bg-primary);
+        border: 1.5px solid var(--border);
+        border-radius: 16px;
+        padding: 18px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.34,1.4,0.64,1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .games-modal-item::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, transparent 60%, rgba(200,114,104,0.05));
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .games-modal-item:hover {
+        border-color: var(--accent-rose);
+        box-shadow: 0 8px 24px rgba(200, 114, 104, 0.15);
+        transform: translateX(4px);
+    }
+
+    .games-modal-item:hover::before {
+        opacity: 1;
+    }
+
+    .games-modal-item.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .games-modal-item.disabled:hover {
+        border-color: var(--border);
+        box-shadow: none;
+        transform: none;
+    }
+
+    .games-modal-icon {
+        font-size: 40px;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+
+    .games-modal-info {
+        flex: 1;
+    }
+
+    .games-modal-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 3px;
+    }
+
+    .games-modal-status {
+        font-size: 12px;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .games-modal-status.active {
+        color: var(--accent-rose);
+        font-weight: 500;
+    }
+
+    .games-modal-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(200, 114, 104, 0.12);
+        border: 1px solid rgba(200, 114, 104, 0.35);
+        color: var(--accent-rose);
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    .games-modal-play-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent-rose), var(--accent-lavender));
+        border: none;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        transition: all 0.3s cubic-bezier(0.34,1.4,0.64,1);
+        box-shadow: 0 4px 14px rgba(200, 114, 104, 0.35);
+        flex-shrink: 0;
+    }
+
+    .games-modal-play-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 22px rgba(200, 114, 104, 0.5);
+    }
+
+    .games-modal-play-btn:active {
+        transform: scale(0.95);
+    }
+
+    .games-modal-item.disabled .games-modal-play-btn {
+        display: none;
+    }
+
+    .games-modal-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent-rose);
+        animation: gamePulseDot 2s ease-in-out infinite;
+    }
+
+    @keyframes gamePulseDot {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.2); opacity: 0.6; }
+    }
+
+    /* Scrollbar styling */
+    .games-modal::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .games-modal::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .games-modal::-webkit-scrollbar-thumb {
+        background: var(--scrollbar);
+        border-radius: 3px;
+    }
+
+    .games-modal::-webkit-scrollbar-thumb:hover {
+        background: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        .games-modal {
+            padding: 24px;
+            border-radius: 20px;
+        }
+
+        .games-modal-title {
+            font-size: 28px;
+        }
+
+        .games-modal-item {
+            padding: 14px;
+        }
+
+        .games-modal-icon {
+            font-size: 32px;
+        }
+
+        .games-modal-name {
+            font-size: 14px;
+        }
+    }
+
     </style>
 </head>
 <body>
@@ -3761,6 +4329,7 @@
                         <div class="py-mood-history" id="pyMoodHistory"></div>
                     </div>
 
+
                     <!-- GAME 4: Mandala tô màu -->
                     <div class="py-game-card" id="mandalGame">
                         <div class="py-game-header">
@@ -3779,6 +4348,29 @@
                             <button class="py-game-btn-sm" onclick="pyMandalaClear()"><i class="fas fa-eraser"></i> Xóa màu</button>
                         </div>
                     </div>
+
+                    <!-- CARD: Nhiều trò chơi hơn -->
+                    <div class="py-game-card py-more-games-card" onclick="openGamesModal()">
+                        <div class="py-more-games-glow"></div>
+                        <div class="py-game-header">
+                            <span class="py-game-emoji">🎮</span>
+                            <div>
+                                <div class="py-game-title">Nhiều Trò Chơi Hơn</div>
+                                <div class="py-game-desc">Khám phá không gian giải trí riêng</div>
+                            </div>
+                        </div>
+                        <div class="py-more-games-list">
+                            <span>🟦 Puzzle</span>
+                            <span>🎲 Matching Memory</span>
+                            <span>🎨 Color Connect</span>
+                            <span>🎯 Sắp ra mắt...</span>
+                        </div>
+                        <div class="py-more-games-btn">
+                            Vào ngay <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    
                 </div>
             </section>
 
@@ -4181,6 +4773,54 @@
             </div>
         </div>
     </div>
+    </div>
+
+    <!-- POST POPUP MODAL -->
+    <div class="ts-post-overlay" id="tsPostOverlay" onclick="tsClosePostModal(event)">
+        <div class="ts-post-modal" id="tsPostModal">
+            <!-- header -->
+            <div class="ts-post-modal-header">
+                <span class="ts-post-modal-title">💬 Tâm sự</span>
+                <button class="ts-post-modal-close" onclick="tsClosePostModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <!-- body -->
+            <div class="ts-post-modal-body">
+                <!-- left: post content -->
+                <div class="ts-post-left" id="tsPostLeft">
+                    <div class="ts-post-left-quote">"</div>
+                    <div class="ts-post-left-header">
+                        <div class="ts-post-left-avatar" id="tsPostAvatar">?</div>
+                        <div>
+                            <div class="ts-post-left-nick" id="tsPostNick">Ẩn danh</div>
+                            <div class="ts-post-left-time" id="tsPostTime"></div>
+                        </div>
+                    </div>
+                    <div class="ts-post-left-content" id="tsPostContent"></div>
+                </div>
+                <!-- right: comments -->
+                <div class="ts-post-right">
+                    <div class="ts-comments-label"><i class="fas fa-comment-dots"></i> Bình luận</div>
+                    <div class="ts-post-comments-scroll" id="tsPostCommentsList">
+                        <div class="ts-cmt-loading">Đang tải bình luận…</div>
+                    </div>
+                    <!-- input bar -->
+                    <div class="ts-post-input-bar">
+                        <input type="text" class="ts-post-input-nick" id="tsPostInputNick"
+                            placeholder="Nickname (để trống = ẩn danh)" maxlength="30">
+                        <div class="ts-post-input-row">
+                            <textarea class="ts-post-input-text" id="tsPostInputText"
+                                placeholder="Viết bình luận…" maxlength="300"
+                                oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"
+                                onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();tsPostSendComment();}"></textarea>
+                            <button class="ts-post-send-btn" id="tsPostSendBtn" onclick="tsPostSendComment()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div class="ts-post-input-warn" id="tsPostInputWarn"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- ARTICLE MODAL -->
@@ -5263,6 +5903,8 @@
 
     let tsInited = false;
     let tsShares = [];
+    let tsCommentCounts = {};
+    let tsActiveShareId = null;
 
     function tsInitTab() {
         if (!tsInited) {
@@ -5277,7 +5919,6 @@
         const empty = document.getElementById('tsEmpty');
         const refreshBtn = document.querySelector('.ts-refresh-btn');
 
-        // Show loading
         wall.style.display = 'grid';
         loading.style.display = 'flex';
         empty.style.display = 'none';
@@ -5289,20 +5930,27 @@
         }
 
         try {
-            const res = await fetch(
-                `${TS_SUPABASE_URL}/rest/v1/${TS_TABLE}?approved=eq.true&order=created_at.desc`,
-                {
-                    headers: {
-                        'apikey': TS_SUPABASE_KEY,
-                        'Authorization': `Bearer ${TS_SUPABASE_KEY}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
+            // Tải tâm sự & số bình luận song song
+            const [sharesRes, countsRes] = await Promise.all([
+                fetch(`${TS_SUPABASE_URL}/rest/v1/${TS_TABLE}?approved=eq.true&order=created_at.desc`, {
+                    headers: { 'apikey': TS_SUPABASE_KEY, 'Authorization': `Bearer ${TS_SUPABASE_KEY}`, 'Content-Type': 'application/json' }
+                }),
+                fetch(`${TS_SUPABASE_URL}/rest/v1/${TS_COMMENTS_TABLE}?select=share_id`, {
+                    headers: { 'apikey': TS_SUPABASE_KEY, 'Authorization': `Bearer ${TS_SUPABASE_KEY}` }
+                })
+            ]);
 
-            if (!res.ok) throw new Error('Lỗi kết nối cơ sở dữ liệu');
+            if (!sharesRes.ok) throw new Error('Lỗi kết nối cơ sở dữ liệu');
 
-            tsShares = await res.json();
+            tsShares = await sharesRes.json();
+
+            // Tính số bình luận mỗi post
+            tsCommentCounts = {};
+            if (countsRes.ok) {
+                const rows = await countsRes.json();
+                rows.forEach(r => { tsCommentCounts[r.share_id] = (tsCommentCounts[r.share_id] || 0) + 1; });
+            }
+
             loading.style.display = 'none';
 
             if (!tsShares || tsShares.length === 0) {
@@ -5333,16 +5981,22 @@
             const card = document.createElement('div');
             card.className = 'ts-card';
             card.style.animationDelay = (i * 0.07) + 's';
+            card.dataset.shareId = share.id;
 
             const nickname = share.nickname ? share.nickname.trim() : 'Ẩn danh';
-            const initial = [...nickname][0].toUpperCase();
+            const initial  = [...nickname][0].toUpperCase();
+            const timeStr  = share.created_at ? tsFormatTime(share.created_at) : 'Vừa xong';
+            const rawContent = share.content || '';
+            const clamped  = rawContent.length > 220;
+            const displayContent = clamped
+                ? tsEscapeHTML(rawContent.slice(0, 220)) + '…'
+                : tsEscapeHTML(rawContent);
+            const commentCount = tsCommentCounts[share.id] || 0;
+            const countLabel   = commentCount > 0 ? `${commentCount} bình luận` : 'Bình luận';
             const avatarFlower = flowerEmojis[i % flowerEmojis.length];
-            const timeStr = share.created_at ? tsFormatTime(share.created_at) : 'Vừa xong';
-            const content = tsEscapeHTML(share.content || '');
 
             card.innerHTML = `
                 <div class="ts-card-glow"></div>
-                <div class="ts-card-quote">"</div>
                 <div class="ts-card-header">
                     <div class="ts-card-avatar">${initial}</div>
                     <div>
@@ -5350,15 +6004,31 @@
                         <div class="ts-card-time">${timeStr}</div>
                     </div>
                 </div>
-                <div class="ts-card-content">${content}</div>
-                <div class="ts-card-footer">
-                    <div class="ts-card-heart"> ${avatarFlower}</div>
+                <div class="ts-card-body">
+                    <div class="ts-card-content${clamped ? ' ts-clamped' : ''}">${displayContent}</div>
+                    ${clamped ? `<span class="ts-card-read-more">Xem thêm</span>` : ''}
+                </div>
+                <div class="ts-card-actions">
+                    <span class="ts-card-flower">${avatarFlower}</span>
+                    ${commentCount > 0
+                        ? `<button class="ts-card-action-btn" onclick="tsOpenPostModal(${share.id})"><i class="fas fa-comment-dots"></i> ${commentCount} bình luận</button>`
+                        : `<button class="ts-card-action-btn" onclick="tsOpenPostModal(${share.id})"><i class="far fa-comment"></i> Bình luận</button>`
+                    }
                 </div>
             `;
+
+            // Click vào body/content cũng mở popup
+            card.querySelector('.ts-card-body').addEventListener('click', () => tsOpenPostModal(share.id));
+            if (card.querySelector('.ts-card-read-more')) {
+                card.querySelector('.ts-card-read-more').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    tsOpenPostModal(share.id);
+                });
+            }
+
             wall.appendChild(card);
         });
     }
-
     function tsFormatTime(isoString) {
         try {
             const date = new Date(isoString);
@@ -5474,9 +6144,209 @@
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             tsCloseShareModal();
+            tsClosePostModal();
             ktCloseArticleBtn();
         }
     });
+
+    /* ═══════════════════════════════════════════
+       POST POPUP — FACEBOOK-STYLE COMMENT MODAL
+    ═══════════════════════════════════════════ */
+    const TS_COMMENTS_TABLE = 'Comments';
+
+    /**
+     * Mở popup chi tiết post + bình luận.
+     */
+    async function tsOpenPostModal(shareId) {
+        const share = tsShares.find(s => s.id === shareId);
+        if (!share) return;
+
+        tsActiveShareId = shareId;
+
+        // Điền nội dung post vào panel trái
+        const nickname = share.nickname ? share.nickname.trim() : 'Ẩn danh';
+        document.getElementById('tsPostAvatar').textContent = [...nickname][0].toUpperCase();
+        document.getElementById('tsPostNick').textContent   = nickname;
+        document.getElementById('tsPostTime').textContent   = share.created_at ? tsFormatTime(share.created_at) : 'Vừa xong';
+        document.getElementById('tsPostContent').innerHTML  = tsEscapeHTML(share.content || '');
+
+        // Reset input
+        document.getElementById('tsPostInputNick').value = '';
+        document.getElementById('tsPostInputText').value  = '';
+        document.getElementById('tsPostInputText').style.height = 'auto';
+        document.getElementById('tsPostInputWarn').style.display = 'none';
+
+        // Reset comment list
+        document.getElementById('tsPostCommentsList').innerHTML =
+            '<div class="ts-cmt-loading"><i class="fas fa-circle-notch fa-spin"></i> Đang tải bình luận…</div>';
+
+        // Mở overlay
+        const overlay = document.getElementById('tsPostOverlay');
+        overlay.classList.add('ts-post-open');
+        document.body.style.overflow = 'hidden';
+
+        // Tải bình luận
+        await tsLoadPopupComments(shareId);
+
+        // Focus ô nhập
+        setTimeout(() => document.getElementById('tsPostInputText').focus(), 350);
+    }
+
+    function tsClosePostModal(e) {
+        if (e && e.target !== document.getElementById('tsPostOverlay')) return;
+        const overlay = document.getElementById('tsPostOverlay');
+        overlay.classList.remove('ts-post-open');
+        document.body.style.overflow = '';
+        tsActiveShareId = null;
+    }
+
+    /**
+     * Tải bình luận vào popup.
+     */
+    async function tsLoadPopupComments(shareId) {
+        const list = document.getElementById('tsPostCommentsList');
+        try {
+            const res = await fetch(
+                `${TS_SUPABASE_URL}/rest/v1/${TS_COMMENTS_TABLE}?share_id=eq.${shareId}&order=created_at.asc`,
+                { headers: { 'apikey': TS_SUPABASE_KEY, 'Authorization': `Bearer ${TS_SUPABASE_KEY}` } }
+            );
+            if (!res.ok) throw new Error();
+            const comments = await res.json();
+
+            list.innerHTML = '';
+            if (!comments || comments.length === 0) {
+                list.innerHTML = '<div class="ts-no-comments">Hãy là người đầu tiên bình luận 🌸</div>';
+            } else {
+                comments.forEach(c => list.appendChild(tsBuildCommentEl(c.nickname, c.content, c.created_at, false)));
+            }
+
+            // Cuộn xuống cuối — mobile scroll body, desktop scroll list
+            setTimeout(() => {
+                const body = document.querySelector('.ts-post-modal-body');
+                const list = document.getElementById('tsPostCommentsList');
+                if (window.innerWidth <= 680 && body) body.scrollTop = body.scrollHeight;
+                else if (list) list.scrollTop = list.scrollHeight;
+            }, 80);
+
+        } catch {
+            list.innerHTML = '<div class="ts-cmt-loading" style="color:var(--text-muted)">Không thể tải bình luận lúc này.</div>';
+        }
+    }
+
+    /**
+     * Tạo một element bình luận.
+     */
+    function tsBuildCommentEl(nickname, content, createdAt, isNew) {
+        const div = document.createElement('div');
+        div.className = 'ts-ci' + (isNew ? ' ts-ci-new' : '');
+        const nick    = (nickname && nickname.trim()) ? nickname.trim() : 'Ẩn danh';
+        const initial = [...nick][0].toUpperCase();
+        const time    = createdAt ? tsFormatTime(createdAt) : 'Vừa xong';
+        div.innerHTML = `
+            <div class="ts-ci-avatar">${tsEscapeHTML(initial)}</div>
+            <div class="ts-ci-bubble">
+                <div class="ts-ci-nick">${tsEscapeHTML(nick)}<span class="ts-ci-time-tag">${time}</span></div>
+                <div class="ts-ci-text">${tsEscapeHTML(content || '')}</div>
+            </div>
+        `;
+        return div;
+    }
+
+    /**
+     * Gửi bình luận từ popup.
+     */
+    async function tsPostSendComment() {
+        const shareId  = tsActiveShareId;
+        if (!shareId) return;
+
+        const nickEl   = document.getElementById('tsPostInputNick');
+        const textEl   = document.getElementById('tsPostInputText');
+        const warnEl   = document.getElementById('tsPostInputWarn');
+        const sendBtn  = document.getElementById('tsPostSendBtn');
+        const list     = document.getElementById('tsPostCommentsList');
+
+        const nickname = nickEl.value.trim() || 'Ẩn danh';
+        const content  = textEl.value.trim();
+
+        function showWarn(msg, ok = false) {
+            warnEl.textContent = msg;
+            warnEl.className = 'ts-post-input-warn' + (ok ? ' ok' : '');
+            warnEl.style.display = 'block';
+            setTimeout(() => { warnEl.style.display = 'none'; }, ok ? 2200 : 3500);
+        }
+
+        if (!content) { showWarn('🌸 Hãy viết bình luận trước nhé!'); textEl.focus(); return; }
+        if (content.length > 300) { showWarn('Tối đa 300 ký tự thôi nhé 🌿'); return; }
+
+        if (typeof cmCheckProfanity === 'function') {
+            if (cmCheckProfanity(content))              { showWarn('⚠️ Bình luận chứa từ ngữ không phù hợp.'); return; }
+            if (nickEl.value.trim() && cmCheckProfanity(nickEl.value.trim())) { showWarn('⚠️ Nickname không phù hợp.'); return; }
+        }
+
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
+
+        try {
+            const res = await fetch(
+                `${TS_SUPABASE_URL}/rest/v1/${TS_COMMENTS_TABLE}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'apikey': TS_SUPABASE_KEY,
+                        'Authorization': `Bearer ${TS_SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify({ share_id: shareId, nickname, content })
+                }
+            );
+            if (!res.ok) throw new Error();
+
+            // Notify Telegram
+            fetch('/api/notify-comment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    commenter: nickname, comment: content, share_id: shareId,
+                    share_preview: (tsShares.find(s => s.id === shareId)?.content || '').slice(0, 80)
+                })
+            }).catch(() => {});
+
+            // Reset
+            textEl.value = '';
+            nickEl.value = '';
+            textEl.style.height = 'auto';
+
+            // Xoá "chưa có bình luận"
+            list.querySelector('.ts-no-comments')?.remove();
+
+            // Thêm ngay bình luận mới
+            const el = tsBuildCommentEl(nickname, content, new Date().toISOString(), true);
+            list.appendChild(el);
+            setTimeout(() => {
+                const body = document.querySelector('.ts-post-modal-body');
+                if (window.innerWidth <= 680 && body) body.scrollTop = body.scrollHeight;
+                else list.scrollTop = list.scrollHeight;
+            }, 60);
+
+            // Cập nhật counter trên card ngoài wall
+            tsCommentCounts[shareId] = (tsCommentCounts[shareId] || 0) + 1;
+            const count = tsCommentCounts[shareId];
+            const card = document.querySelector(`.ts-card[data-share-id="${shareId}"]`);
+            if (card) {
+                const actionBtn = card.querySelector('.ts-card-action-btn');
+                if (actionBtn) actionBtn.innerHTML = `<i class="fas fa-comment-dots"></i> ${count} bình luận`;
+            }
+
+            showWarn('✓ Đã đăng bình luận!', true);
+
+        } catch {
+            showWarn('Không thể gửi lúc này. Thử lại sau nhé 🌿');
+        } finally {
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        }
+    }
 
     /* ═══════════════════════════════════════════
        KIẾN THỨC — DATA & LOGIC
@@ -6469,6 +7339,94 @@
     function cnCloseLetterOnBg(e) {
         if (e.target === document.getElementById('cnLetterReadOverlay')) cnCloseLetter();
     }
+    </script>
+
+    <!-- Games Modal Popup -->
+    <div class="games-modal-overlay" id="gamesModalOverlay">
+        <div class="games-modal">
+            <button class="games-modal-close" onclick="closeGamesModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="games-modal-header">
+                <div class="games-modal-title">🎮 Trò Chơi</div>
+                <div class="games-modal-desc">Chọn một trò chơi để bắt đầu chơi</div>
+            </div>
+            <div class="games-modal-list" id="gamesModalList">
+                <!-- Games will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Games data
+        const GAMES_DATA = [
+            {
+                id: 'blockblast',
+                name: 'Puzzle',
+                icon: '🟦',
+                status: 'active',
+                url: 'Puzzle.html'
+            },
+            {
+                id: 'memory',
+                name: 'Matching Memory',
+                icon: '🎲',
+                status: 'active',
+                url: 'MatchingMemory.html'
+            },
+            {
+                id: 'colorconnect',
+                name: 'Color Connect',
+                icon: '🎨',
+                status: 'active',
+                url: 'ColorConnect.html'
+            }
+        ];
+
+        function openGamesModal() {
+            const overlay = document.getElementById('gamesModalOverlay');
+            const list = document.getElementById('gamesModalList');
+            
+            list.innerHTML = GAMES_DATA.map(game => `
+                <div class="games-modal-item ${game.status === 'coming' ? 'disabled' : ''}" 
+                     onclick="${game.status === 'active' ? `playGame('${game.id}')` : ''}">
+                    <div class="games-modal-icon">${game.icon}</div>
+                    <div class="games-modal-info">
+                        <div class="games-modal-name">${game.name}</div>
+                        <div class="games-modal-status ${game.status === 'active' ? 'active' : ''}">
+                            ${game.status === 'active' 
+                                ? '<span class="games-modal-dot"></span>Sẵn sàng chơi' 
+                                : '<span class="games-modal-badge">🔒 Sắp ra mắt</span>'}
+                        </div>
+                    </div>
+                    ${game.status === 'active' ? '<button class="games-modal-play-btn"><i class="fas fa-play"></i></button>' : ''}
+                </div>
+            `).join('');
+            
+            overlay.classList.add('active');
+        }
+
+        function closeGamesModal() {
+            const overlay = document.getElementById('gamesModalOverlay');
+            overlay.classList.remove('active');
+        }
+
+        function playGame(gameId) {
+            const game = GAMES_DATA.find(g => g.id === gameId);
+            if (game && game.url) {
+                window.open(game.url, '_blank');
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('gamesModalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeGamesModal();
+        });
+
+        // Close with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeGamesModal();
+        });
     </script>
 
 </body>

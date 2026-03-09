@@ -166,6 +166,17 @@ def notify_confession():
     return jsonify({"ok": True})
 
 
+@app.route('/api/notify-comment', methods=['POST'])
+def notify_comment():
+    """
+    POST /api/notify-comment
+    Được gọi từ frontend sau khi user gửi bình luận lên Supabase thành công.
+    Gửi thông báo tới Telegram cho admin biết.
+    """
+    send_telegram("💬 Đã có user bình luận vào một tâm sự")
+    return jsonify({"ok": True})
+
+
 # ─────────────────────────────────────────────
 # MATCHING LOGIC HELPERS
 # ─────────────────────────────────────────────

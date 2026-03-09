@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html>
+   <head>
+      <script src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202502250101/show_ads_impl_fy2021.js"></script><script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5221630201042895" crossorigin="anonymous" data-checked-head="true"></script>
+      <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-CC4ZKKC8EF"></script>
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+         gtag('config', 'G-CC4ZKKC8EF');
+         let displayMode = 'browser';
+         let isPwa = false;
+         const mqStandAlone = '(display-mode: fullscreen)';
+         if (navigator.standalone || window.matchMedia(mqStandAlone).matches) {
+           displayMode = 'fullscreen';
+           isPwa = true
+         }
+         gtag('event', 'pwa_check', {'pwa': isPwa});
+      </script>
+      <meta charset="utf-8">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <title>Puzzle</title>
+      <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/genizy/bl/TemplateData/favicon.ico">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/genizy/bl/TemplateData/style.css">
+      <link rel="manifest" href="https://cdn.jsdelivr.net/gh/genizy/bl/manifest.webmanifest">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+      
+      <style>
+         /* Back Button Styling */
+         .back-button-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+         }
+
+         .back-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #c87268, #8b7ca8);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s cubic-bezier(0.34,1.4,0.64,1);
+            box-shadow: 0 4px 14px rgba(200, 114, 104, 0.35);
+            flex-shrink: 0;
+         }
+
+         .back-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 22px rgba(200, 114, 104, 0.5);
+         }
+
+         .back-button:active {
+            transform: scale(0.95);
+         }
+
+         /* Back Label */
+         .back-label {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            background: linear-gradient(135deg, rgba(200, 114, 104, 0.9), rgba(139, 124, 168, 0.9));
+            padding: 8px 16px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+            box-shadow: 0 4px 14px rgba(200, 114, 104, 0.35);
+         }
+
+         .back-button-container:hover .back-label {
+            opacity: 1;
+         }
+
+         /* Responsive */
+         @media (max-width: 768px) {
+            .back-button-container {
+               top: 12px;
+               left: 12px;
+            }
+            .back-button {
+               width: 45px;
+               height: 45px;
+               font-size: 16px;
+            }
+            .back-label {
+               font-size: 12px;
+               padding: 6px 12px;
+            }
+         }
+
+         @media (max-width: 480px) {
+            .back-label {
+               display: none;
+            }
+         }
+      </style>
+   </head>
+   
+   <body>
+      <!-- Back Button -->
+      <div class="back-button-container">
+         <button class="back-button" onclick="goBackToHome()" title="Quay lại trang chủ">
+            <i class="fas fa-arrow-left"></i>
+         </button>
+         <div class="back-label">Quay lại</div>
+      </div>
+
+      <div id="unity-container">
+         <canvas id="unity-canvas" width="1117" height="911" tabindex="-1" style="cursor: default;"></canvas>
+         <div id="unity-loading-bar" style="display: none;">
+            <div id="unity-logo"></div>
+            <div id="unity-progress-bar-empty">
+               <div id="unity-progress-bar-full" style="width: 100%;"></div>
+            </div>
+         </div>
+         <div id="unity-warning"> </div>
+      </div>
+      <script>
+         // Go back to home
+         function goBackToHome() {
+            window.close();
+            // Fallback nếu tab không thể tự đóng
+            window.location.href = 'index.html';
+         }
+
+         window.addEventListener("load", function () {
+           if ("serviceWorker" in navigator) {
+             navigator.serviceWorker.register("https://cdn.jsdelivr.net/gh/genizy/bl/ServiceWorker.js");
+           }
+         });
+         var container = document.querySelector("#unity-container");
+         var canvas = document.querySelector("#unity-canvas");
+         var loadingBar = document.querySelector("#unity-loading-bar");
+         var progressBarFull = document.querySelector("#unity-progress-bar-full");
+         var warningBanner = document.querySelector("#unity-warning");
+         function unityShowBanner(msg, type) {
+           function updateBannerVisibility() {
+             warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+           }
+           var div = document.createElement('div');
+           div.innerHTML = msg;
+           warningBanner.appendChild(div);
+           if (type == 'error') div.style = 'background: red; padding: 10px;';
+           else {
+             if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+             setTimeout(function() {
+               warningBanner.removeChild(div);
+               updateBannerVisibility();
+             }, 5000);
+           }
+           updateBannerVisibility();
+         }
+         
+         var buildUrl = "https://cdn.jsdelivr.net/gh/genizy/bl/Build";
+         var loaderUrl = buildUrl + "/BlockBlast1.1-8.loader.js";
+         var config = {
+           dataUrl: buildUrl + "/BlockBlast1.1-8.data.unityweb",
+           frameworkUrl: buildUrl + "/BlockBlast1.1-8.framework.js.unityweb",
+           codeUrl: buildUrl + "/BlockBlast1.1-8.wasm.unityweb",
+           streamingAssetsUrl: "StreamingAssets",
+           companyName: "reun",
+           productName: "Block Blast Puzzle",
+           productVersion: "1.1",
+           showBanner: unityShowBanner,
+         };
+         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+           var meta = document.createElement('meta');
+           meta.name = 'viewport';
+           meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+           document.getElementsByTagName('head')[0].appendChild(meta);
+         }
+         loadingBar.style.display = "block";
+         var script = document.createElement("script");
+         script.src = loaderUrl;
+         script.onload = () => {
+           createUnityInstance(canvas, config, (progress) => {
+             progressBarFull.style.width = 100 * progress + "%";
+           }).then((unityInstance) => {
+             loadingBar.style.display = "none";
+           }).catch((message) => {
+             alert(message);
+           });
+         };
+         document.body.appendChild(script);
+      </script>
+   </body>
+</html>
