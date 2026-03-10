@@ -35,56 +35,91 @@ const FREE_CHAT_TOPICS = ['chat', 'general'];
 // CONTENT MODERATION — Kiểm duyệt từ khóa
 // ─────────────────────────────────────────────
 
-// Danh sách từ khóa không phù hợp (tiếng Việt & biến thể phổ biến)
-const PROFANITY_LIST = [
-    // Chửi thề / tục tĩu cơ bản
-    'đụ', 'đù', 'du ma', 'đú má', 'địt', 'dit', 'địt mẹ', 'dit me', 'đéo', 'deo',
-    'cặc', 'cac', 'buồi', 'buoi', 'lồn', 'lon', 'lol', 'con lol', 'đĩ', 'di', 'đĩ chó',
-    'vãi', 'vai cac', 'vãi cặc', 'vãi lồn', 'vl', 'vcl', 'clm', 'cml',
-    'mẹ mày', 'me may', 'má mày', 'thằng chó', 'con chó', 'đồ chó', 'chó chết',
-    'đồ khốn', 'đm', 'đmm', 'đmcs', 'dm', 'dmm',
-    'fuck', 'fck', 'f*ck', 'f**k', 'shit', 'sh1t', 'bitch', 'b1tch', 'bastard',
-    'asshole', 'dickhead', 'motherfucker', 'wtf',
-    // Xúc phạm / kỳ thị
-    'ngu', 'óc chó', 'óc trâu', 'đần', 'mày ngu', 'thằng ngu', 'con ngu',
-    'đồ điên', 'thằng điên', 'con điên', 'thần kinh', 'tâm thần', 'mất dạy',
-    'vô học', 'đồ khùng', 'khùng điên', 'khốn nạn', 'đồ hèn', 'tên hèn',
-    'súc vật', 'suc vat', 'thú vật', 'thu vat',
-    // Quấy rối / gợi dục
-    'show hàng', 'lộ hàng', 'nude', 'nudes', 'gửi ảnh', 'khiêu dâm', 'sex', 'sexx',
-    'quan hệ', 'làm tình', 'lm tinh', 'đụ nhau', 'bú cặc', 'liếm lồn',
-    // Số hoá / biến thể lách lọc
-    'c4c', 'bu0i', 'l0n', 'd1t', 'd!t', 'đ!t', 'fuk', 'phak',
-    'Iồn', 'nqu', '7 học', '7hoc','sucvat', 'sv', 'súc', 'suc', 'https', '.com', '//', 'www' 
-];
+// ─────────────────────────────────────────────
+// CONTENT MODERATION — Frontend
+// Pipeline ĐỒNG NHẤT với backend: deep normalize → canonical match
+// Không còn false positive (lonely/discount) và không bỏ sót (l0n/c4c/l.o.n)
+// ─────────────────────────────────────────────
 
-// Chuẩn hoá chữ hoa/thường và bỏ dấu cơ bản để so sánh linh hoạt
-function cmNormalize(str) {
-    return str
-        .toLowerCase()
-        .replace(/[*@#!$%^&]/g, '')          // bỏ ký tự thay thế
-        .replace(/\s+/g, ' ')                 // chuẩn hoá khoảng trắng
-        .trim();
+const _LEET = {'0':'o','1':'i','3':'e','4':'a','5':'s','6':'g','7':'t','8':'b','9':'g',
+               '@':'a','$':'s','!':'i','|':'i','+':'t','(':'c',')':'c'};
+
+// Pre-check link/URL
+const _LINK_RE = /(?:https?:\/\/|www\.|\.(?:com|net|org|io|vn|me|app)\b)/i;
+
+function _applyLeet(str) {
+    return str.split('').map(c => _LEET[c] || c).join('');
 }
 
-/**
- * Kiểm tra xem text có chứa từ khóa không phù hợp không.
- * Trả về từ vi phạm đầu tiên tìm thấy, hoặc null nếu sạch.
- */
+function _stripVietAccents(str) {
+    str = str.replace(/[đĐ]/g, 'd');
+    return str.normalize('NFD').replace(/\p{Mn}/gu, '');
+}
+
+function _collapseSeparators(str) {
+    // l.o.n → lon, c-a-c → cac, du.ma → duma
+    str = str.replace(/(?<=[a-z])[.\-_,](?=[a-z])/g, '');
+    // f u c k → fuck (nếu mọi token ≤2 ký tự)
+    const tokens = str.split(' ');
+    if (tokens.length >= 3 && tokens.filter(t => t).every(t => t.length <= 2)) {
+        str = tokens.join('');
+    }
+    return str;
+}
+
+function _collapseRepeats(str) {
+    // fuuuck → fuck, looon → lon
+    return str.replace(/(.)\1{2,}/g, '$1');
+}
+
+function cmDeepNormalize(text) {
+    text = text.toLowerCase();
+    text = _applyLeet(text);
+    text = _stripVietAccents(text);
+    text = _collapseSeparators(text);
+    text = _collapseRepeats(text);
+    text = text.replace(/[^a-z0-9 ]/g, ' ');
+    text = text.replace(/ +/g, ' ').trim();
+    return text;
+}
+
+// Canonical list — đồng nhất với backend PROFANITY_CANONICAL
+const PROFANITY_CANONICAL = [
+    'du','dit','deo','cac','buoi','lon','di',
+    'du ma','duma','dit me','vai cac','vai lon',
+    'con lol','me may','ma may',
+    'thang cho','con cho','do cho','cho chet',
+    'do khon','khon nan',
+    'dm','dmm','dmcs','vcl','vl','clm','cml',
+    'fuck','fck','fuk','fuq',
+    'shit','bitch','bastard','asshole','dickhead','motherfucker','wtf',
+    'nude','nudes','khieu dam',
+    'lam tinh','du nhau','bu cac','liem lon','sex',
+    'oc cho','oc trau',
+    'may ngu','thang ngu','con ngu',
+    'do dien','thang dien','con dien',
+    'mat day','vo hoc','do khung','do hen',
+    'suc vat','than kinh','tam than',
+];
+
+const STRICT_STANDALONE = new Set([
+    'lon','di','du','dm','vl','sex','dit','deo','wtf',
+]);
+
 function cmCheckProfanity(text) {
-    const normalized = cmNormalize(text);
-    for (const word of PROFANITY_LIST) {
-        // Kiểm tra theo biên từ nhưng linh hoạt với tiếng Việt (không dùng \b vì Unicode)
+    // Pre-check link
+    if (_LINK_RE.test(text)) return 'link/spam';
+
+    const normalized = cmDeepNormalize(text);
+    for (const word of PROFANITY_CANONICAL) {
         const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const regex = new RegExp('(?:^|\\s|[^a-zA-ZÀ-ỹ])' + escaped + '(?:$|\\s|[^a-zA-ZÀ-ỹ])|^' + escaped + '$|\\s' + escaped + '\\s', 'i');
-        // Kiểm tra chứa chuỗi (substring) vì tiếng Việt ghép từ linh hoạt
-        if (normalized.includes(word)) {
-            return word;
-        }
+        const pattern = STRICT_STANDALONE.has(word)
+            ? new RegExp('(?:^|(?<= ))' + escaped + '(?= |$)')
+            : new RegExp('(?<![a-z\\d])' + escaped + '(?![a-z\\d])');
+        if (pattern.test(normalized)) return word;
     }
     return null;
 }
-
 /**
  * Hiển thị cảnh báo kiểm duyệt ngay bên dưới ô nhập liệu.
  * @param {string} inputId - ID của thẻ input/textarea
@@ -627,6 +662,15 @@ function initSocket(callback) {
         scrollDown();
     });
 
+    // ── Backend chặn tin nhắn không phù hợp (peer chat) ──
+    socket.on('message_blocked', (data) => {
+        cmShowWarning('peerChatInput', 'cmPeerWarning');
+        // Xoá tin nhắn đã add vào UI (rollback)
+        const area = document.getElementById('messagesArea');
+        const lastMsg = area.querySelector('.msg.user.peer-msg:last-child');
+        if (lastMsg) lastMsg.remove();
+    });
+
     socket.on('left_chat', () => {
         isInPeerChat = false;
         peerRoom = null;
@@ -803,6 +847,21 @@ async function sendMessage() {
         const data = await response.json();
         removeTyping();
 
+        // ── Backend chặn nội dung không phù hợp (safety net) ──
+        if (!response.ok && data.error === 'inappropriate_content') {
+            freeChatHistory.pop();
+            // Rollback bubble user đã hiện lên
+            const area = document.getElementById('messagesArea');
+            const lastBubble = area?.querySelector('.msg.user:last-child');
+            if (lastBubble) lastBubble.remove();
+            // Trả text về input để user có thể sửa
+            input.value = text;
+            autoResizeTextarea(input);
+            cmShowWarning('chatInput', 'cmChatWarning');
+            sendBtn.disabled = false;
+            return;
+        }
+
         const reply = data.reply || 'Mình gặp chút sự cố, bạn thử lại nhé 🌸';
         freeChatHistory.push({ role: 'assistant', content: reply });
         addBotMessage(reply);
@@ -897,6 +956,14 @@ function resetChat() {
 // SELECT CONVERSATION NODE (structured)
 // ─────────────────────────────────────────────
 function selectConversation(conv) {
+    // ── Kiểm duyệt nội dung nút bấm (userShare + botResponse) ──
+    const textToCheck = (conv.userShare || '') + ' ' + (conv.botResponse || '');
+    if (cmCheckProfanity(textToCheck)) {
+        cmShowWarning('chatInput', 'cmChatWarning');
+        return;
+    }
+    cmHideWarning('cmChatWarning');
+
     conversationStack.push({ type: 'node', node: conv });
     addUserMessage(conv.userShare);
     showTyping();
@@ -931,7 +998,11 @@ function renderOptions(options) {
     countEl.textContent = total + ' lựa chọn';
 
     if (options && options.length > 0) {
-        options.forEach((opt, i) => {
+        // Lọc bỏ option có nội dung không phù hợp trước khi render nút
+        const safeOptions = options.filter(opt =>
+            !cmCheckProfanity((opt.userShare || '') + ' ' + (opt.botResponse || ''))
+        );
+        safeOptions.forEach((opt, i) => {
             const btn = document.createElement('button');
             btn.className = 'opt-btn';
             btn.textContent = opt.userShare;

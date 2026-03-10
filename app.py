@@ -40,6 +40,130 @@ else:
     print("⚠️  GEMINI_API_KEY chưa được cấu hình. Phần AI chat sẽ dùng fallback.")
 
 
+# ─────────────────────────────────────────────
+# CONTENT MODERATION — Backend (source of truth)
+# Pipeline: deep normalize → canonical → match
+# Bắt được: không dấu, số/ký tự lách lọc, viết cách,
+#           dấu phân cách (. - ,), lặp ký tự, link spam
+# ─────────────────────────────────────────────
+import re
+import unicodedata
+
+# ── Leet / số → chữ cái gốc ──────────────────────────────────────────────
+_LEET_MAP = str.maketrans({
+    '0': 'o', '1': 'i', '3': 'e', '4': 'a', '5': 's',
+    '6': 'g', '7': 't', '8': 'b', '9': 'g',
+    '@': 'a', '$': 's', '!': 'i', '|': 'i',
+    '+': 't', '(': 'c', ')': 'c',
+})
+
+# ── Pre-check: pattern link/URL (check trước khi normalize) ──────────────
+_LINK_PATTERN = re.compile(
+    r'(?:https?://|www\.|\.(?:com|net|org|io|vn|me|app)\b)',
+    re.IGNORECASE
+)
+
+def _strip_viet_accents(text: str) -> str:
+    """Bỏ dấu tiếng Việt: đ→d, ấ→a, ồ→o, v.v."""
+    text = text.replace('đ', 'd').replace('Đ', 'd')
+    nfd = unicodedata.normalize('NFD', text)
+    return ''.join(c for c in nfd if unicodedata.category(c) != 'Mn')
+
+def _collapse_separators(text: str) -> str:
+    """
+    Bỏ ký tự phân cách giữa chữ cái — bắt các kiểu lách lọc:
+      l.o.n  → lon      c-a-c → cac      du.ma → duma
+      f u c k → fuck  (nếu mỗi token ≤2 ký tự thì gộp hết)
+    """
+    # Dấu . - _ , giữa 2 chữ → bỏ
+    text = re.sub(r'(?<=[a-z])[.\-_,](?=[a-z])', '', text)
+    # Khoảng trắng giữa từng ký tự đơn → gộp
+    tokens = text.split(' ')
+    if len(tokens) >= 3 and all(len(t) <= 2 for t in tokens if t):
+        text = ''.join(tokens)
+    return text
+
+def _collapse_repeats(text: str) -> str:
+    """fuuuck → fuck,  lồồồn (sau bỏ dấu: looon) → lon"""
+    return re.sub(r'(.)\1{2,}', r'\1', text)
+
+def _deep_normalize(text: str) -> str:
+    """
+    Pipeline chuẩn hoá 6 bước — output chỉ gồm [a-z0-9 ]:
+      1. lowercase
+      2. leet/số → chữ
+      3. bỏ dấu tiếng Việt
+      4. collapse separator giữa ký tự đơn
+      5. collapse ký tự lặp
+      6. bỏ ký tự không phải chữ/số/space → chuẩn hoá khoảng trắng
+    """
+    text = text.lower()
+    text = text.translate(_LEET_MAP)
+    text = _strip_viet_accents(text)
+    text = _collapse_separators(text)
+    text = _collapse_repeats(text)
+    text = re.sub(r'[^a-z0-9 ]', ' ', text)
+    text = re.sub(r' +', ' ', text).strip()
+    return text
+
+# ── Danh sách từ cấm — CANONICAL (không dấu, không leet) ─────────────────
+# Vì _deep_normalize đã gom mọi biến thể về 1 dạng, list ÍT nhưng bắt NHIỀU hơn
+PROFANITY_CANONICAL = [
+    # Bộ phận / chửi thề
+    'du',   'dit',  'deo',  'cac',  'buoi', 'lon',  'di', 'lol',
+    # Ghép từ
+    'du ma', 'duma',    'dit me',   'vai cac',  'vai lon',
+    'con lol','me may',  'ma may',
+    'thang cho','con cho','do cho',  'cho chet',
+    'do khon', 'khon nan',
+    # Viết tắt
+    'dm', 'dmm', 'dmcs', 'vcl', 'vl', 'clm', 'cml',
+    # Tiếng Anh
+    'fuck', 'fck', 'fuk', 'fuq',
+    'shit', 'bitch', 'bastard',
+    'asshole', 'dickhead', 'motherfucker', 'wtf',
+    # Gợi dục / quấy rối
+    'nude', 'nudes', 'khieu dam',
+    'lam tinh', 'du nhau', 'bu cac', 'liem lon', 'sex',
+    # Xúc phạm
+    'oc cho',   'oc trau',
+    'may ngu',  'thang ngu', 'con ngu',
+    'do dien',  'thang dien','con dien',
+    'mat day',  'vo hoc',    'do khung', 'do hen',
+    'suc vat',  'than kinh', 'tam than',
+]
+
+# Từ CỰC NGẮN — chỉ block khi đứng HOÀN TOÀN một mình (token độc lập)
+STRICT_STANDALONE = {
+    'lon', 'di', 'du', 'dm', 'vl', 'sex', 'dit', 'deo', 'wtf',
+}
+
+def check_profanity(text: str):
+    """
+    Kiểm tra text có chứa nội dung không phù hợp không.
+    Trả về (True, từ_vi_phạm) hoặc (False, None).
+
+    - Bước 1: Pre-check link/URL pattern (trước normalize)
+    - Bước 2: Deep-normalize rồi match với PROFANITY_CANONICAL
+    """
+    # Bước 1: Link / spam
+    if _LINK_PATTERN.search(text):
+        return True, 'link/spam'
+
+    # Bước 2: Deep normalize + match
+    normalized = _deep_normalize(text)
+    for word in PROFANITY_CANONICAL:
+        escaped = re.escape(word)
+        if word in STRICT_STANDALONE:
+            pattern = r'(?:^|(?<= ))' + escaped + r'(?= |$)'
+        else:
+            pattern = r'(?<![a-z\d])' + escaped + r'(?![a-z\d])'
+        if re.search(pattern, normalized):
+            return True, word
+
+    return False, None
+
+
 GLORYCARE_SYSTEM_PROMPT = """Bạn là GloryCare, một trợ lý AI hỗ trợ tâm lý ấm áp, đồng cảm dành cho học sinh Việt Nam.
 
 Nguyên tắc:
@@ -92,6 +216,18 @@ def ai_chat():
     messages = data.get('messages', [])
     if not messages:
         return jsonify({"error": "No messages provided"}), 400
+
+    # ── Kiểm duyệt nội dung (chặn cả request API trực tiếp) ──
+    last_user_msg = next(
+        (m['content'] for m in reversed(messages) if m.get('role') == 'user'), None
+    )
+    if last_user_msg:
+        flagged, word = check_profanity(last_user_msg)
+        if flagged:
+            return jsonify({
+                "error": "inappropriate_content",
+                "message": "Tin nhắn chứa nội dung không phù hợp. Vui lòng giữ cuộc trò chuyện lành mạnh 🌸"
+            }), 400
 
     # Fallback khi không có API key
     if not gemini_client:
@@ -447,6 +583,16 @@ def on_message(data):
 
     if not content and msg_type == 'text':
         return
+
+    # ── Kiểm duyệt nội dung (backend chặn peer chat) ──
+    if msg_type == 'text':
+        flagged, word = check_profanity(content)
+        if flagged:
+            emit('message_blocked', {
+                'reason': 'inappropriate_content',
+                'message': 'Tin nhắn chứa nội dung không phù hợp. Vui lòng giữ cuộc trò chuyện lành mạnh 🌸'
+            }, room=sid)
+            return
 
     # Broadcast cho cả phòng (trừ người gửi)
     emit('receive_message', {
