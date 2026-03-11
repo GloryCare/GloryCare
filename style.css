@@ -285,10 +285,10 @@
         .welcome-screen {
             width: 100%;
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
             padding: 40px;
-            background: transparent;
+            background: transparent; /* ← đổi từ var(--bg-primary) thành transparent */
             overflow-y: auto;
             backdrop-filter: blur(2px); 
         }
@@ -296,7 +296,6 @@
         .welcome-inner {
             max-width: 700px;
             width: 100%;
-            margin: auto;
             animation: fadeUp 0.8s ease-out;
         }
 
@@ -382,6 +381,7 @@
         .topic-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
+            border-top: none; /* top band xử lý thay border-top */
             border-radius: 18px;
             padding: 26px 20px;
             cursor: pointer;
@@ -392,24 +392,78 @@
             backdrop-filter: blur(10px);
         }
 
+        /* Dải màu cố định phía trên mỗi card */
         .topic-card::before {
             content: '';
             position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--card-accent-a, rgba(200,114,104,0.06)), var(--card-accent-b, rgba(139,124,168,0.06)));
-            opacity: 0;
-            transition: opacity 0.3s;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: var(--card-band, linear-gradient(90deg, var(--accent-rose), var(--accent-lavender)));
+            border-radius: 18px 18px 0 0;
+            opacity: 1;
+            transition: height 0.3s ease, opacity 0.3s;
         }
 
-        .topic-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: var(--border-accent); }
-        .topic-card:hover::before { opacity: 1; }
+        /* Nền tint nhẹ toàn card */
+        .topic-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, var(--card-tint-a, rgba(200,114,104,0.04)) 0%, transparent 60%);
+            pointer-events: none;
+        }
 
-        .topic-card:nth-child(1) { --card-accent-a: rgba(200,114,104,0.1); --card-accent-b: rgba(232,180,144,0.08); }
-        .topic-card:nth-child(2) { --card-accent-a: rgba(122,158,138,0.1); --card-accent-b: rgba(139,124,168,0.08); }
-        .topic-card:nth-child(3) { --card-accent-a: rgba(139,124,168,0.1); --card-accent-b: rgba(200,114,104,0.08); }
-        .topic-card:nth-child(4) { --card-accent-a: rgba(232,180,144,0.1); --card-accent-b: rgba(122,158,138,0.08); }
-        .topic-card:nth-child(5) { --card-accent-a: rgba(200,114,104,0.1); --card-accent-b: rgba(122,158,138,0.08); }
-        .topic-card:nth-child(6) { --card-accent-a: rgba(139,124,168,0.1); --card-accent-b: rgba(232,180,144,0.08); }
+        .topic-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+        .topic-card:hover::before { height: 5px; opacity: 1; }
+        .topic-card:hover { border-color: var(--card-border-hover, var(--border-accent)); }
+
+        /* Lo lắng & Căng thẳng — hồng san hô */
+        .topic-card:nth-child(1) {
+            --card-band: linear-gradient(90deg, #c87268, #e8a090);
+            --card-tint-a: rgba(200,114,104,0.06);
+            --card-border-hover: rgba(200,114,104,0.35);
+        }
+        .topic-card:nth-child(1) .topic-icon { background: rgba(200,114,104,0.12); color: #c87268; }
+
+        /* Mất ngủ — xanh tím nhạt */
+        .topic-card:nth-child(2) {
+            --card-band: linear-gradient(90deg, #7b74b8, #a89fd8);
+            --card-tint-a: rgba(123,116,184,0.06);
+            --card-border-hover: rgba(123,116,184,0.35);
+        }
+        .topic-card:nth-child(2) .topic-icon { background: rgba(123,116,184,0.12); color: #7b74b8; }
+
+        /* Mối quan hệ — vàng hổ phách */
+        .topic-card:nth-child(3) {
+            --card-band: linear-gradient(90deg, #c9943a, #e8b96a);
+            --card-tint-a: rgba(201,148,58,0.06);
+            --card-border-hover: rgba(201,148,58,0.35);
+        }
+        .topic-card:nth-child(3) .topic-icon { background: rgba(201,148,58,0.12); color: #c9943a; }
+
+        /* Học tập — xanh lá sage */
+        .topic-card:nth-child(4) {
+            --card-band: linear-gradient(90deg, #4d9070, #6db894);
+            --card-tint-a: rgba(77,144,112,0.06);
+            --card-border-hover: rgba(77,144,112,0.35);
+        }
+        .topic-card:nth-child(4) .topic-icon { background: rgba(77,144,112,0.12); color: #4d9070; }
+
+        /* Trò chuyện AI — xanh dương nhạt */
+        .topic-card:nth-child(5) {
+            --card-band: linear-gradient(90deg, #4a90b8, #72b8d8);
+            --card-tint-a: rgba(74,144,184,0.06);
+            --card-border-hover: rgba(74,144,184,0.35);
+        }
+        .topic-card:nth-child(5) .topic-icon { background: rgba(74,144,184,0.12); color: #4a90b8; }
+
+        /* Kết nối bạn bè — tím lavender */
+        .topic-card:nth-child(6) {
+            --card-band: linear-gradient(90deg, #8b7ca8, #b09ecb);
+            --card-tint-a: rgba(139,124,168,0.06);
+            --card-border-hover: rgba(139,124,168,0.35);
+        }
+        .topic-card:nth-child(6) .topic-icon { background: rgba(139,124,168,0.12); color: #8b7ca8; }
 
         .topic-icon {
             width: 48px; height: 48px;
@@ -418,13 +472,6 @@
             font-size: 21px;
             margin: 0 auto 14px;
         }
-
-        .topic-card:nth-child(1) .topic-icon { background: rgba(200,114,104,0.12); color: var(--accent-rose); }
-        .topic-card:nth-child(2) .topic-icon { background: rgba(122,158,138,0.12); color: var(--accent-sage); }
-        .topic-card:nth-child(3) .topic-icon { background: rgba(139,124,168,0.12); color: var(--accent-lavender); }
-        .topic-card:nth-child(4) .topic-icon { background: rgba(232,180,144,0.12); color: var(--accent-peach); }
-        .topic-card:nth-child(5) .topic-icon { background: rgba(200,114,104,0.12); color: var(--accent-rose); }
-        .topic-card:nth-child(6) .topic-icon { background: rgba(139,124,168,0.12); color: var(--accent-lavender); }
 
         .topic-name {
             font-family: 'Cormorant Garamond', serif;
@@ -1346,28 +1393,4 @@
                 padding: 12px 10px;
             }
         }
-        /* ══════════════════════════════════════════════════
-           SHORT SCREEN FIX (chiều cao thấp / landscape)
-        ══════════════════════════════════════════════════ */
-        @media (max-height: 700px) {
-            .welcome-hero { margin-bottom: 20px; }
-            .welcome-ornament { font-size: 48px; margin-top: 0; margin-bottom: 12px; }
-            .welcome-title { font-size: 32px; }
-            .welcome-subtitle { font-size: 14px; }
-            .welcome-divider { margin: 18px 0; }
-        }
-        @media (max-height: 580px) {
-            .welcome-ornament { font-size: 36px; margin-bottom: 8px; }
-            .welcome-hero { margin-bottom: 14px; }
-            .welcome-title { font-size: 26px; margin-bottom: 8px; }
-            .welcome-subtitle { font-size: 13px; line-height: 1.6; }
-            .welcome-divider { margin: 14px 0; }
-        }
-        @media (max-height: 420px) {
-            .welcome-ornament { display: none; }
-            .welcome-hero { margin-bottom: 10px; }
-            .welcome-title { font-size: 22px; margin-bottom: 6px; }
-            .welcome-subtitle { font-size: 12.5px; }
-            .welcome-divider { margin: 10px 0; }
-            .topics-label { font-size: 10.5px; margin-bottom: 10px; }
-        }
+        
